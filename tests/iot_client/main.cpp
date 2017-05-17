@@ -9,10 +9,23 @@ using std::cout;
 using std::endl;
 using iot::String;
 
-const char CONFIG[] = "config";
+const char AUTH_SERVER_URL[] = "authServerUrl";
+const char IDENTITY_FILE[] = "identityFile";
+const char MQTT_BROCKER_ADDR[] = "mqttTlsBrokerAddr";
+const char MQTT_COMMAND_TIMEOUT[] = "mqttCommandTimeout";
+const char SUBSCRIBE_TO_TOPIC[] = "subscribeToTopic";
+const char PUBLISH_TO_TOPIC[] = "publishToTopic";
+const char PUBLISH_MESSAGE[] = "publishMessage";
+
 static Flags::Option options[] =
 {
-    { CONFIG, "JSON Config file name", "tests/iot_client/iot_client.json" },
+    { AUTH_SERVER_URL, "M-Pin Full authentication server URL", "http://127.0.0.1:8080" },
+    { IDENTITY_FILE, "M-Pin Full identity JSON file", "tests/iot_client/identity.json" },
+    { MQTT_BROCKER_ADDR, "Address of the MQTT TLS brocker", "127.0.0.1:8443" },
+    { MQTT_COMMAND_TIMEOUT, "MQTT command timeout in milliseconds", "10000" },
+    { SUBSCRIBE_TO_TOPIC, "MQTT topic name to subscribe and continuously listen to, if specified", "" },
+    { PUBLISH_TO_TOPIC, "MQTT topic name to publish a message to, if specified", "" },
+    { PUBLISH_MESSAGE, "Message to publish. If empty, read from stdin until the first new line", "" },
     { "help or h", "Prints usage info", "" },
 };
 static size_t optionsCount = sizeof(options) / sizeof(options[0]);
@@ -22,43 +35,44 @@ class Config : public iot::Config
 public:
     std::string subscribeTopic;
     std::string publishTopic;
+    std::string publishMessage;
 
-    bool Load(const std::string& fileName)
+    bool Load(const Flags& flags)
     {
-        std::ifstream file(fileName.c_str(), std::fstream::in);
+        authServerUrl = flags.Get(AUTH_SERVER_URL);
+        mqttTlsBrokerAddr = flags.Get(MQTT_BROCKER_ADDR);
+        mqttCommandTimeoutMillisec = atoi(flags.Get(MQTT_COMMAND_TIMEOUT).c_str());
+        subscribeTopic = flags.Get(SUBSCRIBE_TO_TOPIC);
+        publishTopic = flags.Get(PUBLISH_TO_TOPIC);
+        publishMessage = flags.Get(PUBLISH_MESSAGE);
+
+        if (subscribeTopic.empty() && publishTopic.empty())
+        {
+            cout << fmt::sprintf("At least one of the %s or %s options must be specified", SUBSCRIBE_TO_TOPIC, PUBLISH_TO_TOPIC) << endl;
+            return false;
+        }
+
+        std::string identityFileName = flags.Get(IDENTITY_FILE);
+        std::ifstream file(identityFileName.c_str(), std::fstream::in);
         if (!file.is_open())
         {
-            cout << fmt::sprintf("Failed to open %s config file", fileName) << endl;
+            cout << fmt::sprintf("Failed to open %s identity file", identityFileName) << endl;
             return false;
         }
 
         try
         {
-            Load(json::Parse(file));
+            identity = LoadIdentity(json::Parse(file));
             return true;
         }
         catch (json::Exception& e)
         {
-            cout << fmt::sprintf("Failed to parse config file: %s", e.what()) << endl;
+            cout << fmt::sprintf("Failed to parse %s identity file: %s", identityFileName, e.what()) << endl;
             return false;
         }
     }
 
 private:
-    void Load(const json::Object& json)
-    {
-        authServerUrl = (const json::String&) json["authServerUrl"];
-        mqttTlsBrokerAddr = (const json::String&) json["mqttTlsBrokerAddr"];
-        subscribeTopic = (const json::String&) json["subscribeTopic"];
-        publishTopic = (const json::String&) json["publishTopic"];
-        identity = LoadIdentity(json["identity"]);
-
-        if (json.Find("mqttCommandTimeoutMillisec") != json.End())
-        {
-            mqttCommandTimeoutMillisec = (const json::Number&) json["mqttCommandTimeoutMillisec"];
-        }
-    }
-
     iot::Identity LoadIdentity(const json::Object& json)
     {
         iot::Identity id((const json::String&) json["mpinID"], (const json::String&) json["clientSecret"]);
@@ -118,45 +132,54 @@ int main(int argc, char *argv[])
     }
 
     Config conf;
-    if (!conf.Load(flags.Get(CONFIG)))
+    if (!conf.Load(flags))
     {
         flags.PrintUsage();
         return -1;
     }
-    String userId = conf.identity.GetUserId();
+
+    if (!conf.publishTopic.empty())
+    {
+        if (conf.publishMessage.empty())
+        {
+            cout << "Enter message to publish:" << endl;
+            std::getline(std::cin, conf.publishMessage);
+        }
+    }
 
     EventListener eventListener(conf);
     iot::Client client;
-
     client.Configure(conf);
     client.StartSession();
 
-    bool subscribed = false;
-    int counter = 0;
-    while (++counter)
+    if (!conf.publishMessage.empty())
     {
-        if (!subscribed)
+        while (!client.Publish(conf.publishTopic, conf.publishMessage))
         {
-            if (client.Subscribe(conf.subscribeTopic))
-            {
-                subscribed = true;
-                cout << "Subscribed to topic " << conf.subscribeTopic << endl;
-            }
+            client.RunMessageLoop(1000);
         }
+        client.RunMessageLoop(100);
+        cout << " * Published message '" << conf.publishMessage << "' to " << conf.publishTopic << endl;
+    }
 
-        if (subscribed)
+    if (!conf.subscribeTopic.empty())
+    {
+        bool subscribed = false;
+        while (true)
         {
-            std::string message = fmt::sprintf("Test message from %s %d", userId, counter);
-            if (client.Publish(conf.publishTopic, message))
+            if (!subscribed)
             {
-                cout << " * Published message '" << message << "' to " << conf.publishTopic << endl;
+                if (client.Subscribe(conf.subscribeTopic))
+                {
+                    subscribed = true;
+                    cout << "Subscribed to topic " << conf.subscribeTopic << endl;
+                }
             }
-        }
 
-        client.RunMessageLoop(1000);
+            client.RunMessageLoop(1000);
+        }
     }
 
     client.EndSession();
-
     return 0;
 }

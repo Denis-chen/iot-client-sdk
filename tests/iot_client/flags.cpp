@@ -98,7 +98,12 @@ void Flags::PrintUsage() const
     {
         const char* defVal = (i->defaultValue != NULL && *(i->defaultValue) != '\0') ? i->defaultValue : "<none>";
         std::string name = std::string("-") + i->name + ":";
-        cout << "    " << Align(name, maxNameLen) << i->description << ". Default value: " << defVal << endl;
+        cout << "    " << Align(name, maxNameLen) << i->description;
+        if (i->defaultValue != NULL && *(i->defaultValue) != '\0')
+        {
+            cout << ". Default: " << i->defaultValue;
+        }
+        cout << endl;
     }
     cout << endl;
 }
