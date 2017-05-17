@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{f5671831-24a9-4111-9edd-c5104f35a4ac}</ProjectGuid>
+    <Keyword>Linux</Keyword>
+    <RootNamespace>client-sdk</RootNamespace>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <ApplicationType>Linux</ApplicationType>
+    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
+    <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
+    <LinuxProjectType>{2238F9CD-F817-4ECC-BD14-2524D2669B35}</LinuxProjectType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <ItemGroup>
+    <ClCompile Include="..\lib\fmt-3.0.1\fmt\format.cc" />
+    <ClCompile Include="..\lib\fmt-3.0.1\fmt\ostream.cc" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\aes.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\aesni.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\arc4.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\asn1parse.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\asn1write.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\base64.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\bignum.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\blowfish.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\camellia.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ccm.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\certs.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\cipher.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\cipher_wrap.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\cmac.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ctr_drbg.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\debug.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\des.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\dhm.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecdh.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecdsa.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecjpake.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecp.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecp_curves.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\entropy.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\entropy_poll.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\error.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\gcm.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\havege.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\hmac_drbg.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md2.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md4.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md5.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md_wrap.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\memory_buffer_alloc.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\net_sockets.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\oid.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\padlock.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pem.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pk.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkcs11.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkcs12.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkcs5.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkparse.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkwrite.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pk_wrap.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\platform.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ripemd160.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\rsa.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\sha1.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\sha256.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\sha512.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_cache.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_ciphersuites.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_cli.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_cookie.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_srv.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_ticket.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_tls.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\threading.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\timing.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\version.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\version_features.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509write_crt.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509write_csr.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_create.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_crl.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_crt.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_csr.c" />
+    <ClCompile Include="..\lib\mbedtls-2.4.2\library\xtea.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\aes.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\big.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\ecdh.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\ecp.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\ecp2.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\ff.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\fp.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\fp12.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\fp2.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\fp4.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\gcm.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\hash.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\mpin.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\oct.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\pair.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\rand.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\randapi.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\rom.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\rsa.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\utils.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\version.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\wcc.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\x509.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\linux\linux.cpp" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectClient.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectServer.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTDeserializePublish.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTFormat.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSerializePublish.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeClient.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeServer.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeClient.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeServer.c" />
+    <ClCompile Include="..\src\client.cpp" />
+    <ClCompile Include="..\src\crypto.cpp" />
+    <ClCompile Include="..\src\exception.cpp" />
+    <ClCompile Include="..\src\http.cpp" />
+    <ClCompile Include="..\src\mpin_full.cpp" />
+    <ClCompile Include="..\src\mqtt_tls_client.cpp" />
+    <ClCompile Include="..\src\tls.cpp" />
+    <ClCompile Include="..\src\utils.cpp" />
+    <ClCompile Include="..\tests\iot_client\flags.cpp" />
+    <ClCompile Include="..\tests\iot_client\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\iot\client.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\json.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\json\elements.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\json\reader.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\json\visitor.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\json\writer.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\utf8.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\utf8\checked.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\utf8\core.h" />
+    <ClInclude Include="..\lib\cajun-2.0.2\utf8\unchecked.h" />
+    <ClInclude Include="..\lib\fmt-3.0.1\fmt\format.h" />
+    <ClInclude Include="..\lib\fmt-3.0.1\fmt\ostream.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\aes.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\aesni.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\arc4.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\asn1.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\asn1write.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\base64.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\bignum.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\blowfish.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\bn_mul.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\camellia.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ccm.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\certs.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\check_config.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\cipher.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\cipher_internal.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\cmac.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\compat-1.3.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\config.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ctr_drbg.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\debug.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\des.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\dhm.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecdh.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecdsa.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecjpake.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecp.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\entropy.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\entropy_poll.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\error.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\gcm.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\havege.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\hmac_drbg.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md2.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md4.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md5.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md_internal.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\memory_buffer_alloc.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\net.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\net_sockets.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\oid.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\padlock.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pem.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pk.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pkcs11.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pkcs12.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pkcs5.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pk_internal.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\platform.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\platform_time.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ripemd160.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\rsa.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\sha1.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\sha256.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\sha512.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_cache.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_ciphersuites.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_cookie.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_internal.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_ticket.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\threading.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\timing.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\version.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509_crl.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509_crt.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509_csr.h" />
+    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\xtea.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\amcl.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\arch.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\config.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\ecdh.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\mpin.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\randapi.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\rsa.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\utils.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\version.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\wcc.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\x509.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\FP.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\MQTTClient.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\MQTTLogging.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnect.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTFormat.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPublish.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribe.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribe.h" />
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\StackTrace.h" />
+    <ClInclude Include="..\src\crypto.h" />
+    <ClInclude Include="..\src\exception.h" />
+    <ClInclude Include="..\src\http.h" />
+    <ClInclude Include="..\src\mpin_full.h" />
+    <ClInclude Include="..\src\mqtt_tls_client.h" />
+    <ClInclude Include="..\src\tls.h" />
+    <ClInclude Include="..\src\utils.h" />
+    <ClInclude Include="..\tests\iot_client\flags.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\lib\cajun-2.0.2\json\elements.inl" />
+    <None Include="..\lib\cajun-2.0.2\json\reader.inl" />
+    <None Include="..\lib\cajun-2.0.2\json\writer.inl" />
+    <None Include="..\Makefile" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
