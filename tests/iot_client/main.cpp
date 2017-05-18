@@ -9,118 +9,146 @@ using std::cout;
 using std::endl;
 using iot::String;
 
-const char AUTH_SERVER_URL[] = "authServerUrl";
-const char IDENTITY_FILE[] = "identityFile";
-const char MQTT_BROCKER_ADDR[] = "mqttTlsBrokerAddr";
-const char MQTT_COMMAND_TIMEOUT[] = "mqttCommandTimeout";
-const char SUBSCRIBE_TO_TOPIC[] = "subscribeToTopic";
-const char PUBLISH_TO_TOPIC[] = "publishToTopic";
-const char PUBLISH_MESSAGE[] = "publishMessage";
-
-static Flags::Option options[] =
+namespace
 {
-    { AUTH_SERVER_URL, "M-Pin Full authentication server URL", "http://127.0.0.1:8080" },
-    { IDENTITY_FILE, "M-Pin Full identity JSON file", "tests/iot_client/identity.json" },
-    { MQTT_BROCKER_ADDR, "Address of the MQTT TLS brocker", "127.0.0.1:8443" },
-    { MQTT_COMMAND_TIMEOUT, "MQTT command timeout in milliseconds", "10000" },
-    { SUBSCRIBE_TO_TOPIC, "MQTT topic name to subscribe and continuously listen to, if specified", "" },
-    { PUBLISH_TO_TOPIC, "MQTT topic name to publish a message to, if specified", "" },
-    { PUBLISH_MESSAGE, "Message to publish. If empty, read from stdin until the first new line", "" },
-    { "help or h", "Prints usage info", "" },
-};
-static size_t optionsCount = sizeof(options) / sizeof(options[0]);
-
-class Config : public iot::Config
-{
-public:
-    std::string subscribeTopic;
-    std::string publishTopic;
-    std::string publishMessage;
-
-    bool Load(const Flags& flags)
+    std::string& TrimRight(std::string& s, const std::string& chars)
     {
-        authServerUrl = flags.Get(AUTH_SERVER_URL);
-        mqttTlsBrokerAddr = flags.Get(MQTT_BROCKER_ADDR);
-        mqttCommandTimeoutMillisec = atoi(flags.Get(MQTT_COMMAND_TIMEOUT).c_str());
-        subscribeTopic = flags.Get(SUBSCRIBE_TO_TOPIC);
-        publishTopic = flags.Get(PUBLISH_TO_TOPIC);
-        publishMessage = flags.Get(PUBLISH_MESSAGE);
-
-        if (subscribeTopic.empty() && publishTopic.empty())
+        size_t pos = s.length();
+        while (pos > 0)
         {
-            cout << fmt::sprintf("At least one of the %s or %s options must be specified", SUBSCRIBE_TO_TOPIC, PUBLISH_TO_TOPIC) << endl;
-            return false;
+            char c = s[pos - 1];
+            for (std::string::const_iterator i = chars.begin(); i != chars.end(); ++i)
+            {
+                if (*i == c)
+                {
+                    --pos;
+                    continue;
+                }
+            }
+            break;
         }
 
-        std::string identityFileName = flags.Get(IDENTITY_FILE);
-        std::ifstream file(identityFileName.c_str(), std::fstream::in);
-        if (!file.is_open())
+        if (pos < s.length())
         {
-            cout << fmt::sprintf("Failed to open %s identity file", identityFileName) << endl;
-            return false;
+            s.erase(pos);
         }
 
-        try
+        return s;
+    }
+
+    const char AUTH_SERVER_URL[] = "authServerUrl";
+    const char IDENTITY_FILE[] = "identityFile";
+    const char MQTT_BROCKER_ADDR[] = "mqttTlsBrokerAddr";
+    const char MQTT_COMMAND_TIMEOUT[] = "mqttCommandTimeout";
+    const char SUBSCRIBE_TO_TOPIC[] = "subscribeToTopic";
+    const char PUBLISH_TO_TOPIC[] = "publishToTopic";
+    const char PUBLISH_MESSAGE[] = "publishMessage";
+
+    Flags::Option options[] =
+    {
+        { AUTH_SERVER_URL, "M-Pin Full authentication server URL", "http://127.0.0.1:8080" },
+        { IDENTITY_FILE, "M-Pin Full identity JSON file", "tests/iot_client/identity.json" },
+        { MQTT_BROCKER_ADDR, "Address of the MQTT TLS brocker", "127.0.0.1:8443" },
+        { MQTT_COMMAND_TIMEOUT, "MQTT command timeout in milliseconds", "10000" },
+        { SUBSCRIBE_TO_TOPIC, "MQTT topic name to subscribe and continuously listen to, if specified", "" },
+        { PUBLISH_TO_TOPIC, "MQTT topic name to publish a message to, if specified", "" },
+        { PUBLISH_MESSAGE, "Message to publish. If empty, read from stdin until the first new line", "" },
+        { "help or h", "Prints usage info", "" },
+    };
+    size_t optionsCount = sizeof(options) / sizeof(options[0]);
+
+    class Config : public iot::Config
+    {
+    public:
+        std::string subscribeTopic;
+        std::string publishTopic;
+        std::string publishMessage;
+
+        bool Load(const Flags& flags)
         {
-            identity = LoadIdentity(json::Parse(file));
-            return true;
+            authServerUrl = flags.Get(AUTH_SERVER_URL);
+            mqttTlsBrokerAddr = flags.Get(MQTT_BROCKER_ADDR);
+            mqttCommandTimeoutMillisec = atoi(flags.Get(MQTT_COMMAND_TIMEOUT).c_str());
+            subscribeTopic = flags.Get(SUBSCRIBE_TO_TOPIC);
+            publishTopic = flags.Get(PUBLISH_TO_TOPIC);
+            publishMessage = flags.Get(PUBLISH_MESSAGE);
+
+            if (subscribeTopic.empty() && publishTopic.empty())
+            {
+                cout << fmt::sprintf("At least one of the %s or %s options must be specified", SUBSCRIBE_TO_TOPIC, PUBLISH_TO_TOPIC) << endl;
+                return false;
+            }
+
+            std::string identityFileName = flags.Get(IDENTITY_FILE);
+            std::ifstream file(identityFileName.c_str(), std::fstream::in);
+            if (!file.is_open())
+            {
+                cout << fmt::sprintf("Failed to open %s identity file", identityFileName) << endl;
+                return false;
+            }
+
+            try
+            {
+                identity = LoadIdentity(json::Parse(file));
+                return true;
+            }
+            catch (json::Exception& e)
+            {
+                cout << fmt::sprintf("Failed to parse %s identity file: %s", identityFileName, e.what()) << endl;
+                return false;
+            }
         }
-        catch (json::Exception& e)
+
+    private:
+        iot::Identity LoadIdentity(const json::Object& json)
         {
-            cout << fmt::sprintf("Failed to parse %s identity file: %s", identityFileName, e.what()) << endl;
-            return false;
+            iot::Identity id((const json::String&) json["mpinID"], (const json::String&) json["clientSecret"]);
+            const json::Array& dtaList = json["dta"];
+            for (json::Array::const_iterator i = dtaList.Begin(); i != dtaList.End(); ++i)
+            {
+                id.dtaList.push_back((const json::String&) *i);
+            }
+            return id;
         }
-    }
+    };
 
-private:
-    iot::Identity LoadIdentity(const json::Object& json)
+    class EventListener : public iot::EventListener
     {
-        iot::Identity id((const json::String&) json["mpinID"], (const json::String&) json["clientSecret"]);
-        const json::Array& dtaList = json["dta"];
-        for (json::Array::const_iterator i = dtaList.Begin(); i != dtaList.End(); ++i)
+    public:
+        EventListener(Config& conf) : m_conf(conf)
         {
-            id.dtaList.push_back((const json::String&) *i);
+            conf.SetEventListener(*this);
         }
-        return id;
-    }
-};
 
-class EventListener : public iot::EventListener
-{
-public:
-    EventListener(Config& conf) : m_conf(conf)
-    {
-        conf.SetEventListener(*this);
-    }
+        virtual void OnAuthenticated()
+        {
+            cout << "Authenticated to " << m_conf.authServerUrl << endl;
+        }
 
-    virtual void OnAuthenticated()
-    {
-        cout << "Authenticated to " << m_conf.authServerUrl << endl;
-    }
+        virtual void OnConnected()
+        {
+            cout << "Connected to " << m_conf.mqttTlsBrokerAddr << endl;
+        }
 
-    virtual void OnConnected()
-    {
-        cout << "Connected to " << m_conf.mqttTlsBrokerAddr << endl;
-    }
+        virtual void OnConnectionLost(const String& error)
+        {
+            cout << "Connection lost: " << error << endl << " * Reconnecting..." << endl;
+        }
 
-    virtual void OnConnectionLost(const String& error)
-    {
-        cout << "Connection lost: " << error << endl << " * Reconnecting..." << endl;
-    }
+        virtual void OnError(const String& error)
+        {
+            cout << "ERROR: " << error << endl;
+        }
 
-    virtual void OnError(const String& error)
-    {
-        cout << "ERROR: " << error << endl;
-    }
+        virtual void OnMessageArrived(const String& topic, const String& payload)
+        {
+            cout << " - Incomming message (from " << topic << "): '" << payload << "'" << endl;
+        }
 
-    virtual void OnMessageArrived(const String& topic, const String& payload)
-    {
-        cout << " - Incomming message (from " << topic << "): '" << payload << "'" << endl;
-    }
-
-private:
-    Config& m_conf;
-};
+    private:
+        Config& m_conf;
+    };
+}
 
 int main(int argc, char *argv[])
 {
@@ -144,6 +172,7 @@ int main(int argc, char *argv[])
         {
             cout << "Enter message to publish:" << endl;
             std::getline(std::cin, conf.publishMessage);
+            //TrimRight(conf.publishMessage, "\r\n");
         }
     }
 

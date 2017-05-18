@@ -143,14 +143,17 @@ namespace iot
 
     bool MqttTlsClient::RunMessageLoop(unsigned long timeoutMillisec)
     {
-        int res = m_client.yield(timeoutMillisec);
-        if (res < 0)
-        {
-            if (!m_connection.IsLastIoTimedOut())
-            {
-                return OnError(fmt::sprintf("MQTT message loop failed with code %d", res));
-            }
-        }
+        //int res = m_client.yield(timeoutMillisec);
+        //if (res < 0)
+        //{
+        //    if (!m_connection.IsLastIoTimedOut())
+        //    {
+        //        return OnError(fmt::sprintf("MQTT message loop failed with code %d", res));
+        //    }
+        //}
+
+        // TODO: Investigate the reason for false error printing here
+        m_client.yield(timeoutMillisec);
 
         return true;
     }
