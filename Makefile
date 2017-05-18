@@ -133,9 +133,9 @@ $(OUTPUT_FILE): $(OBJ)
 tests: iot_client
 
 # Rules for building iot_client test
-iot_client: $(OUTPUT_DIR)/iot_client.exe
+iot_client: $(OUTPUT_DIR)/iot_client
 
-$(OUTPUT_DIR)/iot_client.exe: $(OUTPUT_FILE) $(ROOT_DIR)/tests/iot_client/main.cpp $(ROOT_DIR)/tests/iot_client/flags.cpp
+$(OUTPUT_DIR)/iot_client: $(OUTPUT_FILE) $(ROOT_DIR)/tests/iot_client/main.cpp $(ROOT_DIR)/tests/iot_client/flags.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(ROOT_DIR)/tests/iot_client/*.cpp -L$(OUTPUT_DIR) $(LDFLAGS) -l$(OUTPUT_LIB_NAME) $(LDLIBS)
 
 # Generate rules for each object file that depends on the corresponding .c file
