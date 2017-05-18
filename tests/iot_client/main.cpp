@@ -11,31 +11,6 @@ using iot::String;
 
 namespace
 {
-    std::string& TrimRight(std::string& s, const std::string& chars)
-    {
-        size_t pos = s.length();
-        while (pos > 0)
-        {
-            char c = s[pos - 1];
-            for (std::string::const_iterator i = chars.begin(); i != chars.end(); ++i)
-            {
-                if (*i == c)
-                {
-                    --pos;
-                    continue;
-                }
-            }
-            break;
-        }
-
-        if (pos < s.length())
-        {
-            s.erase(pos);
-        }
-
-        return s;
-    }
-
     const char AUTH_SERVER_URL[] = "authServerUrl";
     const char IDENTITY_FILE[] = "identityFile";
     const char MQTT_BROCKER_ADDR[] = "mqttTlsBrokerAddr";
@@ -172,7 +147,6 @@ int main(int argc, char *argv[])
         {
             cout << "Enter message to publish:" << endl;
             std::getline(std::cin, conf.publishMessage);
-            //TrimRight(conf.publishMessage, "\r\n");
         }
     }
 

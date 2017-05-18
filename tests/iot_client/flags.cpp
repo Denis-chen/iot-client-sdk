@@ -5,6 +5,30 @@
 using std::cout;
 using std::endl;
 
+namespace
+{
+    const char whiteSpaces[] = " \t\r\n";
+
+    std::string TrimRight(const std::string& s, const char *chars = whiteSpaces)
+    {
+        std::string res = s;
+        res.erase(s.find_last_not_of(chars) + 1);
+        return res;
+    }
+
+    std::string TrimLeft(const std::string& s, const char *chars = whiteSpaces)
+    {
+        std::string res = s;
+        res.erase(0, s.find_first_not_of(chars));
+        return res;
+    }
+
+    std::string Trim(const std::string& s, const char *chars = whiteSpaces)
+    {
+        return TrimLeft(TrimRight(s, chars), chars);
+    }
+}
+
 Flags::Flags(int argc, char * argv[], const Options & options) : m_options(options)
 {
     ParseArgs(argc, argv);
@@ -48,7 +72,7 @@ void Flags::ParseArg(const char * arg)
     }
     std::string str = arg;
     size_t pos = str.find_first_of("=");
-    m_args[str.substr(0, pos)] = (pos != std::string::npos) ? str.substr(pos + 1) : "";
+    m_args[Trim(str.substr(0, pos))] = (pos != std::string::npos) ? Trim(str.substr(pos + 1)) : "";
 }
 
 void Flags::SetProgramName(const std::string & programName)
