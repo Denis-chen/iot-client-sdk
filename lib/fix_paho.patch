@@ -1,6 +1,6 @@
 diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTClient.h paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h
 --- paho.mqtt.embedded-c-master/MQTTClient/src/MQTTClient.h	2016-09-12 21:15:18.000000000 +0300
-+++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h	2017-05-17 12:10:23.239980800 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h	2017-05-19 17:14:25.210572600 +0300
 @@ -100,7 +100,7 @@
  
  public:
@@ -103,6 +103,27 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTCl
                      rc = 0;
                      break;
                  }
+@@ -928,10 +948,16 @@
+     if (len > 0)
+         rc = sendPacket(len, timer);            // send the disconnect packet
+ 
+-	if (cleansession)
+-		cleanSession();
+-	else
+-	    isconnected = false;
++    if (cleansession)
++    {
++        cleanSession();
++    }
++    else
++    {
++        isconnected = false;
++        ping_outstanding = false;
++    }
++
+     return rc;
+ }
+ 
 diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTFormat.c paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTFormat.c
 --- paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTFormat.c	2016-09-12 21:15:18.000000000 +0300
 +++ paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTFormat.c	2017-05-16 17:09:38.310817600 +0300

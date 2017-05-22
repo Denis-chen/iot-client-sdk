@@ -246,6 +246,7 @@ namespace iot
 
             try
             {
+                m_lastError.clear();
                 AuthResult authResult = MPinFull(m_conf.authServerUrl).Authenticate(m_conf.identity);
                 m_client.SetPsk(authResult.sharedSecret, authResult.clientId);
                 GetEventListener().OnAuthenticated();
@@ -253,24 +254,23 @@ namespace iot
             }
             catch (Exception& e)
             {
-                m_lastError = fmt::sprintf("M-Pin full authentication failed: %s", e.what());
+                m_lastError = fmt::sprintf("Authentication failed: %s", e.what());
                 return false;
             }
         }
 
         bool InitialConnect()
         {
-            if (Authenticate() && m_client.Connect(true))
+            if (Authenticate() && m_client.Connect())
             {
-                m_client.Disconnect();
-                return m_client.Connect(false);
+                return true;
             }
             return false;
         }
 
         bool Reconnect()
         {
-            if (Authenticate() && m_client.Connect(false))
+            if (Authenticate() && m_client.Reconnect())
             {
                 if (!m_client.IsSessionPresent())
                 {

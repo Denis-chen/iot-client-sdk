@@ -37,6 +37,21 @@ namespace iot
         m_client.setCommandTimeout(timeoutMillisec);
     }
 
+    bool MqttTlsClient::Connect()
+    {
+        if (!Connect(true))
+        {
+            return false;
+        }
+        Disconnect();
+        return Connect(false);
+    }
+
+    bool MqttTlsClient::Reconnect()
+    {
+        return Connect(false);
+    }
+
     bool MqttTlsClient::Connect(bool cleanSession)
     {
         if (IsConnected())
@@ -46,9 +61,21 @@ namespace iot
 
         if (m_connection.Connect() != 0)
         {
-            return OnError(fmt::sprintf("Failed to connect to %s. Reason: %s", m_connection.GetAddress(), m_connection.GetLastError()));
+            return OnError(fmt::sprintf("Failed to connect to %s", m_connection.GetAddress()));
         }
 
+        if (!MqttConnect(cleanSession))
+        {
+            m_connection.Close();
+            return false;
+        }
+
+        m_lastError.clear();
+        return true;
+    }
+
+    bool MqttTlsClient::MqttConnect(bool cleanSession)
+    {
         MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
         data.MQTTVersion = 3;
         data.clientID.lenstring.len = m_clientId.length();
@@ -56,11 +83,8 @@ namespace iot
         data.cleansession = cleanSession;
         if (m_client.connect(data, m_sessionPresent) != 0)
         {
-            m_connection.Close();
             return OnError("Failed to connect MQTT client");
         }
-
-        m_lastError.clear();
         return true;
     }
 
@@ -143,18 +167,24 @@ namespace iot
 
     bool MqttTlsClient::RunMessageLoop(unsigned long timeoutMillisec)
     {
-        //int res = m_client.yield(timeoutMillisec);
-        //if (res < 0)
-        //{
-        //    if (!m_connection.IsLastIoTimedOut())
-        //    {
-        //        return OnError(fmt::sprintf("MQTT message loop failed with code %d", res));
-        //    }
-        //}
-
-        // TODO: Investigate the reason for false error printing here
-        m_client.yield(timeoutMillisec);
-
+        int res = m_client.yield(timeoutMillisec);
+        if (res < 0)
+        {
+            // TODO: Check why sometimes the connection is OK, no timeout occured, but still yeld returns FAILURE
+            //if (!m_connection.IsTimedOut())
+            if (!m_connection.IsConnected())
+            {
+                return OnError(fmt::sprintf("MQTT message loop failed with code %d", res));
+            }
+            else
+            {
+                // TODO: Currently MQTT::Client::yield must be fixed to enable this check
+                if (res == MQTT::BUFFER_OVERFLOW)
+                {
+                    return OnError(fmt::sprintf("MQTT message loop failed with code %d", res), "Buffer overflow");
+                }
+            }
+        }
         return true;
     }
 
@@ -170,7 +200,21 @@ namespace iot
 
     bool MqttTlsClient::OnError(const std::string& error)
     {
-        m_lastError = error;
+        std::string reason;
+        if (m_connection.IsConnected())
+        {
+            reason = "MQTT::Client specific error";
+        }
+        else
+        {
+            reason = fmt::sprintf("%s", m_connection.GetLastError());
+        }
+        return OnError(error, reason);
+    }
+
+    bool MqttTlsClient::OnError(const std::string & error, const std::string & reason)
+    {
+        m_lastError = fmt::sprintf("%s. Reason: %s", error, reason);
         m_sessionPresent = false;
         return false;
     }

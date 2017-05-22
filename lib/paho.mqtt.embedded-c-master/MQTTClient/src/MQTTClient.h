@@ -948,10 +948,16 @@ int MQTT::Client<Network, Timer, MAX_MQTT_PACKET_SIZE, b>::disconnect()
     if (len > 0)
         rc = sendPacket(len, timer);            // send the disconnect packet
 
-	if (cleansession)
-		cleanSession();
-	else
-	    isconnected = false;
+    if (cleansession)
+    {
+        cleanSession();
+    }
+    else
+    {
+        isconnected = false;
+        ping_outstanding = false;
+    }
+
     return rc;
 }
 

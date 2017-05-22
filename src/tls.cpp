@@ -22,11 +22,22 @@ namespace iot
             mbedtls_strerror(_code, buf, sizeof(buf));
             error = buf;
         }
+        else
+        {
+            error = "EOF received (connection closed)";
+        }
+    }
+
+    TlsConnection::Status::Status(const std::string & _error, const std::string & func)
+    {
+        code = -1;
+        failedFunc = func;
+        error = _error;
     }
 
     std::ostream& operator<<(std::ostream& out, const TlsConnection::Status& s)
     {
-        if (s.code == 0)
+        if (s.code == 0 && s.failedFunc.empty() && s.error.empty())
         {
             out << "OK";
         }
@@ -44,7 +55,7 @@ namespace iot
         error.clear();
     }
 
-    TlsConnection::TlsConnection() : m_connected(false), m_lastIoTimedOut(false)
+    TlsConnection::TlsConnection() : m_connected(false), m_timedOut(false)
     {
         mbedtls_entropy_init(&m_entropy);
         mbedtls_ctr_drbg_init(&m_rng);
@@ -88,6 +99,12 @@ namespace iot
     {
         m_lastError = Status(code, func);
         return code;
+    }
+
+    int TlsConnection::OnError(const std::string & error, const std::string & func)
+    {
+        m_lastError = Status(error, func);
+        return m_lastError.code;
     }
 
     const TlsConnection::Status & TlsConnection::GetLastError() const
@@ -138,7 +155,7 @@ namespace iot
         }
 
         m_connected = true;
-        m_lastIoTimedOut = false;
+        m_timedOut = false;
         m_lastError.Clear();
         return 0;
     }
@@ -162,9 +179,9 @@ namespace iot
         return m_connected;
     }
 
-    bool TlsConnection::IsLastIoTimedOut() const
+    bool TlsConnection::IsTimedOut() const
     {
-        return m_lastIoTimedOut;
+        return m_timedOut;
     }
 
     std::string TlsConnection::GetCiphersuite() const
@@ -179,7 +196,12 @@ namespace iot
 
     int TlsConnection::read(unsigned char * buffer, int len, int timeoutMillisec)
     {
-        m_lastIoTimedOut = false;
+        if (!m_connected)
+        {
+            return OnError("Network disconnected", "TlsConnection::read");
+        }
+
+        m_timedOut = false;
 
         mbedtls_ssl_conf_read_timeout(&m_conf, timeoutMillisec);
 
@@ -191,7 +213,7 @@ namespace iot
             {
                 if (ret == MBEDTLS_ERR_SSL_TIMEOUT)
                 {
-                    m_lastIoTimedOut = true;
+                    m_timedOut = true;
                 }
                 else
                 {
@@ -211,12 +233,15 @@ namespace iot
 
     int TlsConnection::write(const unsigned char * buffer, int len, int timeoutMillisec)
     {
+        if (!m_connected)
+        {
+            return OnError("Network disconnected", "TlsConnection::write");
+        }
+
         if (len <= 0)
         {
             return 0;
         }
-
-        m_lastIoTimedOut = false;
 
         timeval tv = { timeoutMillisec / 1000, (timeoutMillisec % 1000) * 1000 };
         setsockopt(m_socket.fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(struct timeval));
@@ -224,15 +249,9 @@ namespace iot
         int ret = mbedtls_ssl_write(&m_ssl, buffer, len);
         if (ret <= 0)
         {
-            if (errno == EAGAIN || errno == EWOULDBLOCK)
-            {
-                m_lastIoTimedOut = true;
-            }
-            else
-            {
-                OnError(ret, "mbedtls_ssl_write");
-                Close();
-            }
+            OnError(ret, "mbedtls_ssl_write");
+            Close();
+            return ret;
         }
 
         tv.tv_sec = 0;

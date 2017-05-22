@@ -157,11 +157,13 @@ int main(int argc, char *argv[])
 
     if (!conf.publishMessage.empty())
     {
-        while (!client.Publish(conf.publishTopic, conf.publishMessage))
+        bool published = false;
+        while (!published)
         {
-            client.RunMessageLoop(1000);
+            published = client.Publish(conf.publishTopic, conf.publishMessage);
+            client.RunMessageLoop(published ? 100 : 1000);
         }
-        client.RunMessageLoop(100);
+
         cout << " * Published message '" << conf.publishMessage << "' to " << conf.publishTopic << endl;
     }
 

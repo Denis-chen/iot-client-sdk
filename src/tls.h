@@ -18,6 +18,7 @@ namespace iot
         public:
             Status();
             Status(int _code, const std::string& func);
+            Status(const std::string& _error, const std::string& func);
             void Clear();
             int code;
             std::string error;
@@ -36,13 +37,14 @@ namespace iot
         int Connect();
         void Close();
         bool IsConnected() const;
-        bool IsLastIoTimedOut() const;
+        bool IsTimedOut() const;
         std::string GetCiphersuite() const;
         int read(unsigned char* buffer, int len, int timeoutMillisec);
         int write(const unsigned char* buffer, int len, int timeoutMillisec);
 
     private:
         int OnError(int code, const std::string& func);
+        int OnError(const std::string& error, const std::string& func);
 
         mbedtls_entropy_context m_entropy;
         mbedtls_ctr_drbg_context m_rng;
@@ -56,7 +58,7 @@ namespace iot
         Addr m_addr;
 
         bool m_connected;
-        bool m_lastIoTimedOut;
+        bool m_timedOut;
         Status m_lastError;
     };
 }
