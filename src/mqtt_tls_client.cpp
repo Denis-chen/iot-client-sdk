@@ -4,7 +4,8 @@
 
 namespace iot
 {
-    MqttTlsClient::MqttTlsClient() : m_client(m_connection), m_sessionPresent(false) {}
+    MqttTlsClient::MqttTlsClient()
+        : m_client(m_connection), m_qos(MQTT::QOS2), m_usePersistentSession(true), m_sessionPresent(false) {}
 
     void MqttTlsClient::SetId(const std::string & clientId)
     {
@@ -37,18 +38,39 @@ namespace iot
         m_client.setCommandTimeout(timeoutMillisec);
     }
 
+    void MqttTlsClient::SetQoS(MQTT::QoS qos)
+    {
+        m_qos = qos;
+    }
+
+    void MqttTlsClient::UsePersistentSession(bool usePersistentSession)
+    {
+        m_usePersistentSession = usePersistentSession;
+    }
+
     bool MqttTlsClient::Connect()
     {
         if (!Connect(true))
         {
             return false;
         }
+
+        if (!m_usePersistentSession)
+        {
+            return true;
+        }
+
         Disconnect();
         return Connect(false);
     }
 
     bool MqttTlsClient::Reconnect()
     {
+        if (!m_usePersistentSession)
+        {
+            return Connect(true);
+        }
+
         return Connect(false);
     }
 
@@ -77,7 +99,7 @@ namespace iot
     bool MqttTlsClient::MqttConnect(bool cleanSession)
     {
         MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
-        data.MQTTVersion = 3;
+        data.MQTTVersion = 4;
         data.clientID.lenstring.len = m_clientId.length();
         data.clientID.lenstring.data = const_cast<char *>(m_clientId.c_str());
         data.cleansession = cleanSession;
@@ -130,7 +152,7 @@ namespace iot
 
     bool MqttTlsClient::Subscribe(const std::string & topic)
     {
-        if (m_client.subscribe(topic.c_str(), MQTT::QOS2, Handler()) != 0)
+        if (m_client.subscribe(topic.c_str(), m_qos, Handler()) != 0)
         {
             return OnError(fmt::sprintf("Failed to subscribe MQTT client to %s topic", topic));
         }
@@ -151,7 +173,7 @@ namespace iot
     bool MqttTlsClient::Publish(const std::string & topic, const std::string & message)
     {
         MQTT::Message m;
-        m.qos = MQTT::QOS2;
+        m.qos = m_qos;
         m.retained = false;
         m.dup = false;
         m.payload = const_cast<char *>(message.c_str());

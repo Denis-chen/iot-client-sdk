@@ -43,6 +43,8 @@ namespace iot
         String authServerUrl;
         String mqttTlsBrokerAddr;
         unsigned long mqttCommandTimeoutMillisec;
+        bool useMqttQoS2;
+        bool useMqttPersistentSession;
         Identity identity;
 
     private:

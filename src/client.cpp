@@ -23,7 +23,8 @@ namespace iot
         return (const json::String&) json::ConstElement(json::Parse(mpinId))["userID"];
     }
 
-    Config::Config() : mqttCommandTimeoutMillisec(0)
+    Config::Config()
+        : mqttCommandTimeoutMillisec(0), useMqttQoS2(true), useMqttPersistentSession(true)
     {
         ResetEventListener();
     }
@@ -86,6 +87,9 @@ namespace iot
                 {
                     m_client.SetCommandTimeout(m_conf.mqttCommandTimeoutMillisec);
                 }
+                m_client.SetQoS(m_conf.useMqttQoS2 ? MQTT::QOS2 : MQTT::QOS1);
+                m_client.UsePersistentSession(m_conf.useMqttPersistentSession);
+
                 m_state = INITIAL;
                 CheckSate();
             }

@@ -46,6 +46,11 @@ std::string Flags::Get(const std::string & name) const
     return arg != m_args.end() ? arg->second : "";
 }
 
+bool Flags::GetBoolean(const std::string & name) const
+{
+    return Get(name) == "true";
+}
+
 bool Flags::Exist(const std::string & name) const
 {
     return m_args.find(name) != m_args.end();

@@ -15,6 +15,9 @@ namespace
     const char IDENTITY_FILE[] = "identityFile";
     const char MQTT_BROCKER_ADDR[] = "mqttTlsBrokerAddr";
     const char MQTT_COMMAND_TIMEOUT[] = "mqttCommandTimeout";
+    const char USE_MQTT_QOS2[] = "useMqttQoS2";
+    const char USE_MQTT_PERSISTENT_SESSION[] = "useMqttPersistentSession";
+    const char AWS_IOT_COMPLIANCE[] = "awsIoTCompliance";
     const char SUBSCRIBE_TO_TOPIC[] = "subscribeToTopic";
     const char PUBLISH_TO_TOPIC[] = "publishToTopic";
     const char PUBLISH_MESSAGE[] = "publishMessage";
@@ -25,6 +28,9 @@ namespace
         { IDENTITY_FILE, "M-Pin Full identity JSON file", "tests/iot_client/identity.json" },
         { MQTT_BROCKER_ADDR, "Address of the MQTT TLS brocker", "127.0.0.1:8443" },
         { MQTT_COMMAND_TIMEOUT, "MQTT command timeout in milliseconds", "10000" },
+        { USE_MQTT_QOS2, "If true, MQTT publish/subscribe will be made with QoS2, else with QoS1", "true" },
+        { USE_MQTT_PERSISTENT_SESSION, "If true, persistent MQTT session will be requested when connecting", "true" },
+        { AWS_IOT_COMPLIANCE, "Equivalent to useMqttQoS2=false and useMqttPersistentSession=false if true", "false" },
         { SUBSCRIBE_TO_TOPIC, "MQTT topic name to subscribe and continuously listen to, if specified", "" },
         { PUBLISH_TO_TOPIC, "MQTT topic name to publish a message to, if specified", "" },
         { PUBLISH_MESSAGE, "Message to publish. If empty, read from stdin until the first new line", "" },
@@ -42,8 +48,18 @@ namespace
         bool Load(const Flags& flags)
         {
             authServerUrl = flags.Get(AUTH_SERVER_URL);
+
             mqttTlsBrokerAddr = flags.Get(MQTT_BROCKER_ADDR);
             mqttCommandTimeoutMillisec = atoi(flags.Get(MQTT_COMMAND_TIMEOUT).c_str());
+            useMqttQoS2 = flags.GetBoolean(USE_MQTT_QOS2);
+            useMqttPersistentSession = flags.GetBoolean(USE_MQTT_PERSISTENT_SESSION);
+            if (flags.GetBoolean(AWS_IOT_COMPLIANCE))
+            {
+                cout << "Forcing AWS IoT compliance" << endl;
+                useMqttQoS2 = false;
+                useMqttPersistentSession = false;
+            }
+
             subscribeTopic = flags.Get(SUBSCRIBE_TO_TOPIC);
             publishTopic = flags.Get(PUBLISH_TO_TOPIC);
             publishMessage = flags.Get(PUBLISH_MESSAGE);

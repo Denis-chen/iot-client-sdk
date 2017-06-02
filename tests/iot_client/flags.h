@@ -21,6 +21,7 @@ public:
     Flags(int argc, char *argv[], const Options& options);
     const StringMap& GetAll() const;
     std::string Get(const std::string& name) const;
+    bool GetBoolean(const std::string& name) const;
     bool Exist(const std::string& name) const;
     void PrintUsage() const;
 

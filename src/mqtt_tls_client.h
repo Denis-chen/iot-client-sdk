@@ -24,6 +24,8 @@ namespace iot
         void SetPsk(const std::string& psk, const std::string& pskId);
         void SetMessageHandler(const Handler & handler);
         void SetCommandTimeout(unsigned long timeoutMillisec);
+        void SetQoS(MQTT::QoS qos);
+        void UsePersistentSession(bool usePersistentSession);
         bool Connect();
         bool Reconnect();
         void Disconnect();
@@ -45,6 +47,8 @@ namespace iot
         TlsConnection m_connection;
         MqttClient m_client;
         std::string m_clientId;
+        MQTT::QoS m_qos;
+        bool m_usePersistentSession;
         std::string m_lastError;
         bool m_sessionPresent;
     };
