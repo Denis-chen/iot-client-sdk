@@ -27,6 +27,7 @@ namespace iot
     {
     public:
         CryptoError(const std::string & function, int errorCode);
+        CryptoError(const std::string & error);
     };
 
     class JsonError : public Exception

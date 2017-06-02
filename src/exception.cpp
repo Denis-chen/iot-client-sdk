@@ -14,6 +14,9 @@ namespace iot
     CryptoError::CryptoError(const std::string & function, int errorCode)
         : Exception(fmt::sprintf("Crypto error: %s() returned %d", function, errorCode)) {}
 
+    CryptoError::CryptoError(const std::string & error)
+        : Exception(fmt::sprintf("Crypto error: %s", error)) {}
+
     JsonError::JsonError(const std::string & error)
         : Exception(fmt::sprintf("JSON parse error: %s", error)) {}
 }

@@ -247,7 +247,7 @@ namespace iot
             try
             {
                 m_lastError.clear();
-                AuthResult authResult = MPinFull(m_conf.authServerUrl).Authenticate(m_conf.identity);
+                AuthResult authResult = m_authenticator.Authenticate(m_conf.authServerUrl, m_conf.identity);
                 m_client.SetPsk(authResult.sharedSecret, authResult.clientId);
                 GetEventListener().OnAuthenticated();
                 return true;
@@ -300,9 +300,10 @@ namespace iot
         }
 
         Config m_conf;
+        MPinFull m_authenticator;
+        bool m_authenticated;
         MqttTlsClient m_client;
         enum State { NO_SESSION, INITIAL, CONNECTED, DISCONNECTED } m_state;
-        bool m_authenticated;
         std::set<String> m_subscriptions;
         String m_lastError;
     };

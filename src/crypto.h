@@ -52,7 +52,6 @@ namespace iot
         Crypto();
         ~Crypto();
         std::string HashId(const std::string& id);
-
         Pass1Data Client1(const std::string& mpinId, const std::string& clientSecret);
         std::string Client2(const std::string& x, const std::string& y, const std::string& sec);
         std::string GetG1Multiple(const std::string& hashId, std::string& rOut);
@@ -61,7 +60,10 @@ namespace iot
         std::string ClientKey(const Pass1Data& pass1, const Pass2Data& pass2, const AuthData& auth);
 
     private:
+        void CreateRngOnce();
+
         csprng m_rng;
+        bool m_rngCreated;
     };
 }
 

@@ -57,6 +57,7 @@ namespace iot
         std::string m_persData;
         Addr m_addr;
 
+        bool m_rngSeeded;
         bool m_connected;
         bool m_timedOut;
         Status m_lastError;

@@ -55,7 +55,7 @@ namespace iot
         error.clear();
     }
 
-    TlsConnection::TlsConnection() : m_connected(false), m_timedOut(false)
+    TlsConnection::TlsConnection() : m_connected(false), m_rngSeeded(false), m_timedOut(false)
     {
         mbedtls_entropy_init(&m_entropy);
         mbedtls_ctr_drbg_init(&m_rng);
@@ -119,10 +119,16 @@ namespace iot
             return 0;
         }
 
-        int ret = mbedtls_ctr_drbg_seed(&m_rng, mbedtls_entropy_func, &m_entropy, ToUnsignedChar(m_persData), m_persData.length());
-        if (ret)
+        int ret = 0;
+
+        if (!m_rngSeeded)
         {
-            return OnError(ret, "mbedtls_ctr_drbg_seed");
+            ret = mbedtls_ctr_drbg_seed(&m_rng, mbedtls_entropy_func, &m_entropy, ToUnsignedChar(m_persData), m_persData.length());
+            if (ret)
+            {
+                return OnError(ret, "mbedtls_ctr_drbg_seed");
+            }
+            m_rngSeeded = true;
         }
 
         mbedtls_ssl_conf_psk(&m_conf, ToUnsignedChar(m_psk), m_psk.length(), ToUnsignedChar(m_pskId), m_pskId.length());

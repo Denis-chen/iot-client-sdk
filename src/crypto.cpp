@@ -1,6 +1,7 @@
 #include "crypto.h"
 #include "exception.h"
 #include <fmt/format.h>
+#include <string.h>
 
 namespace iot
 {
@@ -45,11 +46,22 @@ namespace iot
 
         void GenerateRandomSeed(char *buf, size_t len)
         {
+            if (len == 0)
+            {
+                return;
+            }
+
+            size_t rc = 0;
             FILE *fp = fopen("/dev/urandom", "rb");
             if (fp != NULL)
             {
-                size_t rc = fread(buf, 1, len, fp);
+                rc = fread(buf, 1, len, fp);
                 fclose(fp);
+            }
+
+            if (rc != len)
+            {
+                throw CryptoError("GenerateRandomSeed() failed");
             }
         }
     }
@@ -61,17 +73,29 @@ namespace iot
 
     PrecomputeData::PrecomputeData(const std::string & _g1, const std::string & _g2) : g1(_g1), g2(_g2) {}
 
-    Crypto::Crypto()
+    Crypto::Crypto() : m_rngCreated(false)
     {
-        Octet seed(16);
-        seed.len = seed.max;
-        GenerateRandomSeed(seed.val, seed.len);
-        CREATE_CSPRNG(&m_rng, &seed);
+        memset(&m_rng, 0, sizeof(m_rng));
     }
 
     Crypto::~Crypto()
     {
-        KILL_CSPRNG(&m_rng);
+        if (m_rngCreated)
+        {
+            KILL_CSPRNG(&m_rng);
+        }
+    }
+
+    void Crypto::CreateRngOnce()
+    {
+        if (!m_rngCreated)
+        {
+            Octet seed(32);
+            seed.len = seed.max;
+            GenerateRandomSeed(seed.val, seed.len);
+            CREATE_CSPRNG(&m_rng, &seed);
+            m_rngCreated = true;
+        }
     }
 
     std::string Crypto::HashId(const std::string & id)
@@ -86,6 +110,8 @@ namespace iot
 
     Pass1Data Crypto::Client1(const std::string & mpinId, const std::string & clientSecret)
     {
+        CreateRngOnce();
+
         Octet oMpinId(mpinId);
         Octet oClientSecret(clientSecret);
         Octet x(PGS);
@@ -120,6 +146,8 @@ namespace iot
 
     std::string Crypto::GetG1Multiple(const std::string & hashId, std::string& rOut)
     {
+        CreateRngOnce();
+
         Octet x(PGS);
         Octet g(hashId);
         Octet w(G1S);

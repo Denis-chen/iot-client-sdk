@@ -2,6 +2,7 @@
 #define _IOT_MPIN_FULL_H_
 
 #include <iot/client.h>
+#include "crypto.h"
 
 namespace iot
 {
@@ -15,13 +16,12 @@ namespace iot
     class MPinFull
     {
     public:
-        MPinFull(const std::string& server);
-        AuthResult Authenticate(const Identity& id);
+        AuthResult Authenticate(const std::string& server, const Identity& id);
 
     private:
-        AuthResult DoAuth(const Identity& id);
+        AuthResult DoAuth(const std::string& server, const Identity& id);
 
-        std::string m_server;
+        Crypto m_crypto;
     };
 }
 
