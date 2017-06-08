@@ -93,7 +93,7 @@ namespace
     private:
         iot::Identity LoadIdentity(const json::Object& json)
         {
-            iot::Identity id((const json::String&) json["mpinID"], (const json::String&) json["clientSecret"]);
+            iot::Identity id((const json::String&) json["mpin_id"], (const json::String&) json["client_secret"]);
             const json::Array& dtaList = json["dta"];
             for (json::Array::const_iterator i = dtaList.Begin(); i != dtaList.End(); ++i)
             {
