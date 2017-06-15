@@ -33,112 +33,6 @@
 
 // #define DEBUG
 
-
-/* Map octet string to point on curve */
-static void mapit(octet *h,ECP *P)
-{
-    BIG q,x,c;
-    BIG_fromBytes(x,h->val);
-    BIG_rcopy(q,Modulus);
-    BIG_mod(x,q);
-
-    while (!ECP_setx(P,x,0))
-        BIG_inc(x,1);
-
-    BIG_rcopy(c,CURVE_Cof);
-    ECP_mul(P,c);
-}
-
-/* Map to hash value to point on G2 */
-static void mapit2(octet *h,ECP2 *Q)
-{
-    BIG q,one,Fx,Fy,x,hv;
-    FP2 X;
-#if CHOICE < BLS_CURVES
-    ECP2 T,K;
-#else
-    ECP2 xQ, x2Q, x3Q, Aux1, Aux2;
-#endif
-
-    BIG_fromBytes(hv,h->val);
-    BIG_rcopy(q,Modulus);
-    BIG_one(one);
-    BIG_mod(hv,q);
-
-    for (;;)
-    {
-        FP2_from_BIGs(&X,one,hv);
-        if (ECP2_setx(Q,&X)) break;
-        BIG_inc(hv,1);
-    }
-
-    BIG_rcopy(Fx,CURVE_Fra);
-    BIG_rcopy(Fy,CURVE_Frb);
-    FP2_from_BIGs(&X,Fx,Fy);
-    BIG_rcopy(x,CURVE_Bnx);
-
-#if CHOICE < BLS_CURVES
-
-    /* Fast Hashing to G2 - Fuentes-Castaneda, Knapp and Rodriguez-Henriquez */
-    /* Q -> xQ + F(3xQ) + F(F(xQ)) + F(F(F(Q))). */
-    ECP2_copy(&T,Q);
-    ECP2_mul(&T,x);
-    ECP2_neg(&T);   // our x is negative
-    ECP2_copy(&K,&T);
-    ECP2_dbl(&K);
-    ECP2_add(&K,&T);
-    ECP2_affine(&K);
-
-    ECP2_frob(&K,&X);
-    ECP2_frob(Q,&X);
-    ECP2_frob(Q,&X);
-    ECP2_frob(Q,&X);
-    ECP2_add(Q,&T);
-    ECP2_add(Q,&K);
-    ECP2_frob(&T,&X);
-    ECP2_frob(&T,&X);
-    ECP2_add(Q,&T);
-    ECP2_affine(Q);
-
-#else
-
-    /* Hashing to G2 - Scott, Benger, Charlemagne, Perez, Kachisa */
-    /* Q -> 4Q+F(Q)-F(F(Q)) -xQ-F(xQ)+2F(F(xQ)) -x2Q-F(x2Q)-F(F(x2Q)) +x3Q+F(x3Q) */
-
-    ECP2_copy(&xQ,Q);
-    ECP2_copy(&Aux1,Q);
-    ECP2_mul(&xQ,x);      // compute xQ
-    ECP2_copy(&x2Q,&xQ);
-    ECP2_mul(&x2Q,x);     // compute x2Q=x*xQ
-    ECP2_copy(&x3Q,&x2Q);
-    ECP2_mul(&x3Q,x);     // compute x3Q
-
-    ECP2_sub(&x3Q,&x2Q);
-    ECP2_sub(&x3Q,&xQ);
-    ECP2_copy(&Aux2,&x3Q);
-    ECP2_dbl(&Aux1);
-    ECP2_dbl(&Aux1);
-    ECP2_add(&x3Q,&Aux1);  // [x3 -x2 -x +4]Q
-
-    ECP2_copy(&Aux1,Q);
-    ECP2_add(&Aux2,&Aux1);
-    ECP2_frob(&Aux2,&X);   // F([x3 -x2 -x +1]Q)
-
-    ECP2_neg(Q);
-    ECP2_dbl(&xQ);
-    ECP2_add(Q,&xQ);
-    ECP2_sub(Q,&x2Q);
-    ECP2_frob(Q,&X);
-    ECP2_frob(Q,&X);  // F(F([-x2 +2x -1]Q))
-
-    ECP2_add(Q,&Aux2);
-    ECP2_add(Q,&x3Q);
-
-    ECP2_affine(Q);
-
-#endif
-}
-
 /* Hash number (optional) and octet to octet */
 static void hashit(int sha,int n,octet *x,octet *w)
 {
@@ -275,12 +169,12 @@ int WCC_GET_G1_MULTIPLE(int sha, int hashDone, octet *S,octet *ID,octet *VG1)
 
     if (hashDone)
     {
-        mapit(ID,&P);
+        ECP_mapit(ID,&P);
     }
     else
     {
         hashit(sha,0,ID,&H);
-        mapit(&H,&P);
+        ECP_mapit(&H,&P);
     }
 
     BIG_fromBytes(s,S->val);
@@ -302,11 +196,11 @@ int WCC_GET_G1_TPMULT(int sha, int date, octet *S,octet *ID,octet *VG1)
 
     // H1(ID)
     hashit(sha,0,ID,&H1);
-    mapit(&H1,&P);
+    ECP_mapit(&H1,&P);
 
     // H1(date|sha256(ID))
     hashit(sha,date,&H1,&H2);
-    mapit(&H2,&Q);
+    ECP_mapit(&H2,&Q);
 
     // P = P + Q
     ECP_add(&P,&Q);
@@ -331,11 +225,11 @@ int WCC_GET_G2_TPMULT(int sha, int date, octet *S,octet *ID,octet *VG2)
 
     // H1(ID)
     hashit(sha,0,ID,&H1);
-    mapit2(&H1,&P);
+    ECP2_mapit(&H1,&P);
 
     // H1(date|sha256(ID))
     hashit(sha,date,&H1,&H2);
-    mapit2(&H2,&Q);
+    ECP2_mapit(&H2,&Q);
 
     // P = P + Q
     ECP2_add(&P,&Q);
@@ -358,12 +252,12 @@ int WCC_GET_G2_MULTIPLE(int sha, int hashDone, octet *S,octet *ID,octet *VG2)
 
     if (hashDone)
     {
-        mapit2(ID,&P);
+        ECP2_mapit(ID,&P);
     }
     else
     {
         hashit(sha,0,ID,&H);
-        mapit2(&H,&P);
+        ECP2_mapit(&H,&P);
     }
 
     BIG_fromBytes(s,S->val);
@@ -382,7 +276,7 @@ int WCC_GET_G2_PERMIT(int sha, int date,octet *S,octet *HID,octet *TPG2)
     octet H= {0,sizeof(h),h};
 
     hashit(sha,date,HID,&H);
-    mapit2(&H,&P);
+    ECP2_mapit(&H,&P);
     BIG_fromBytes(s,S->val);
     PAIR_G2mul(&P,s);
 
@@ -438,7 +332,7 @@ int WCC_SENDER_KEY(int sha, int date, octet *xOct, octet *piaOct, octet *pibOct,
     }
 
     hashit(sha,0,IdBOct,&HV1);
-    mapit2(&HV1,&BG2);
+    ECP2_mapit(&HV1,&BG2);
 
     if (!ECP_fromOctet(&sAG1,AKeyG1Oct))
     {
@@ -466,7 +360,7 @@ int WCC_SENDER_KEY(int sha, int date, octet *xOct, octet *piaOct, octet *pibOct,
 
         // H2(date|sha256(IdB))
         hashit(sha,date,&HV1,&HV2);
-        mapit2(&HV2,&dateBG2);
+        ECP2_mapit(&HV2,&dateBG2);
 
         // sAG1 = sAG1 + ATPG1
         ECP_add(&sAG1, &ATPG1);
@@ -559,7 +453,7 @@ int WCC_RECEIVER_KEY(int sha, int date, octet *yOct, octet *wOct,  octet *piaOct
         return WCC_INVALID_POINT;
 
     hashit(sha,0,IdAOct,&HV1);
-    mapit(&HV1,&AG1);
+    ECP_mapit(&HV1,&AG1);
 
     if (!ECP2_fromOctet(&sBG2,BKeyG2Oct))
         return WCC_INVALID_POINT;
@@ -572,7 +466,7 @@ int WCC_RECEIVER_KEY(int sha, int date, octet *yOct, octet *wOct,  octet *piaOct
 
         // H1(date|sha256(AID))
         hashit(sha,date,&HV1,&HV2);
-        mapit(&HV2,&dateAG1);
+        ECP_mapit(&HV2,&dateAG1);
 
         // sBG2 = sBG2 + TPG2
         ECP2_add(&sBG2, &BTPG2);
@@ -681,8 +575,8 @@ int WCC_RANDOM_GENERATE(csprng *RNG,octet* S)
     return 0;
 }
 
-/* Calculate time permit in G2 */
-int WCC_GET_G1_PERMIT(int sha, int date,octet *S,octet *HID,octet *TPG1)
+/* Calculate time permit in G1 */
+int WCC_GET_G1_PERMIT(int sha, int date, octet *S, octet *HID, octet *TPG1)
 {
     BIG s;
     ECP P;
@@ -690,7 +584,7 @@ int WCC_GET_G1_PERMIT(int sha, int date,octet *S,octet *HID,octet *TPG1)
     octet H= {0,sizeof(h),h};
 
     hashit(sha,date,HID,&H);
-    mapit(&H,&P);
+    ECP_mapit(&H,&P);
     BIG_fromBytes(s,S->val);
     PAIR_G1mul(&P,s);
 
@@ -699,7 +593,7 @@ int WCC_GET_G1_PERMIT(int sha, int date,octet *S,octet *HID,octet *TPG1)
 }
 
 /* Add two members from the group G1 */
-int WCC_RECOMBINE_G1(octet *R1,octet *R2,octet *R)
+int WCC_RECOMBINE_G1(octet *R1, octet *R2, octet *R)
 {
     ECP P,T;
     int res=0;

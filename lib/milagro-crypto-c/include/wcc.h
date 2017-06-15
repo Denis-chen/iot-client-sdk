@@ -32,14 +32,6 @@
 
 #include "amcl.h"
 
-/* Field size is assumed to be greater than or equal to group size */
-
-#define PGS MODBYTES          /**< WCC Group Size */
-#define PFS MODBYTES          /**< WCC Field Size */
-#define PAS 16                /**< AES-GCM Symmetric Key Size */
-#define PIV 12                /**< AES-GCM Initialization Vector Size */
-#define PTAG 16               /**< AES-GCM MAC Size */
-
 #define WCC_OK 0              /**< Function completed without error */
 #define WCC_INVALID_POINT -51 /**< Point is NOT on the curve */
 

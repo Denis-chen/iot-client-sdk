@@ -1116,6 +1116,24 @@ void ECP_mul2(ECP *P,ECP *Q,BIG e,BIG f)
 
 #endif
 
+#if CHOICE >= BN_CURVES
+
+/* map octet string to point on curve */
+void ECP_mapit(octet *h, ECP *P)
+{
+    BIG q,x,c;
+    BIG_fromBytes(x,h->val);
+    BIG_rcopy(q,Modulus);
+    BIG_mod(x,q);
+
+    while (!ECP_setx(P,x,0))
+        BIG_inc(x,1);
+
+    BIG_rcopy(c,CURVE_Cof);
+    ECP_mul(P,c);
+}
+
+#endif
 
 #ifdef HAS_MAIN
 

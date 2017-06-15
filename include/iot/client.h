@@ -14,11 +14,14 @@ namespace iot
     public:
         Identity();
         Identity(const String& mpinIdHex, const String& clientSecretHex);
+        void SetSokKeys(const String& sendKeyHex, const String& recvKeyHex);
         String GetUserId() const;
 
         String mpinId;
         String clientSecret;
         StringVector dtaList;
+        String sokSendKey;
+        String sokRecvKey;
     };
 
     class EventListener
@@ -30,6 +33,7 @@ namespace iot
         virtual void OnConnectionLost(const String& error) = 0;
         virtual void OnError(const String& error) = 0;
         virtual void OnMessageArrived(const String& topic, const String& payload) = 0;
+        virtual void OnPrivateMessageArrived(const String& userIdFrom, const String& payload) = 0;
     };
 
     class Config
@@ -65,6 +69,8 @@ namespace iot
         bool Subscribe(const String& topic);
         bool Unsubscribe(const String& topic);
         bool Publish(const String& topic, const String& payload);
+        bool ListenForPrivateMessages();
+        bool SendPrivateMessage(const String& userIdTo, const String& payload, bool encrypt = true);
         bool RunMessageLoop(unsigned long timeout);
 
     private:

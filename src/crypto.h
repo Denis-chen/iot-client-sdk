@@ -4,6 +4,7 @@
 extern "C"
 {
 #include <mpin.h>
+#include <sok.h>
 #include <randapi.h>
 }
 #include <string>
@@ -46,6 +47,17 @@ namespace iot
         PrecomputeData precomp;
     };
 
+    class SokData
+    {
+    public:
+        SokData();
+        SokData(const std::string& _iv, const std::string& c, const std::string& t);
+
+        std::string iv;
+        std::string ciphertext;
+        std::string tag;
+    };
+
     class Crypto
     {
     public:
@@ -58,6 +70,8 @@ namespace iot
         std::string HashAll(const std::string& hashId, const Pass1Data& pass1, const Pass2Data& pass2, const std::string& t);
         PrecomputeData Precompute(const std::string& token, const std::string& hashId);
         std::string ClientKey(const Pass1Data& pass1, const Pass2Data& pass2, const AuthData& auth);
+        SokData SokEncrypt(const std::string& message, const std::string& sokSendKey, const std::string& userIdFrom, const std::string& userIdTo);
+        std::string SokDecrypt(const SokData& data, const std::string& sokRecvKey, const std::string& userIdFrom);
 
     private:
         void CreateRngOnce();

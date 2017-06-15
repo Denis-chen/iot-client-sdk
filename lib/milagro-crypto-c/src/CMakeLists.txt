@@ -53,6 +53,12 @@ if(BUILD_WCC)
   target_link_libraries (amcl_wcc amcl_pairing) 
 endif(BUILD_WCC)
 
+if(BUILD_SOK)
+  message(STATUS "Build libamcl_sok")
+  add_library(amcl_sok ${LIB_TYPE} sok.c)
+  target_link_libraries (amcl_sok amcl_pairing) 
+endif(BUILD_SOK)
+
 message(STATUS "Build libamcl_ecc")
 add_library(amcl_ecc ${LIB_TYPE} ecdh.c)
 target_link_libraries (amcl_ecc amcl_curve) 
@@ -96,12 +102,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_x509.dll" "${PROJECT_BINARY_DIR}/test/")
     endif(BUILD_X509)
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
       add_custom_command(
                   TARGET amcl_pairing
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_pairing.dll" "${PROJECT_BINARY_DIR}/test/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -116,6 +122,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.dll" "${PROJECT_BINARY_DIR}/test/")
     endif(BUILD_WCC)
+
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.dll" "${PROJECT_BINARY_DIR}/test/")
+    endif(BUILD_SOK)
 
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
@@ -136,12 +149,12 @@ if (BUILD_PYTHON AND BUILD_SHARED_LIBS)
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.so" "${PROJECT_BINARY_DIR}/wrappers/python/")
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
       add_custom_command(
                   TARGET amcl_pairing
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_pairing.so" "${PROJECT_BINARY_DIR}/wrappers/python/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -155,7 +168,14 @@ if (BUILD_PYTHON AND BUILD_SHARED_LIBS)
                   TARGET amcl_wcc
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.so" "${PROJECT_BINARY_DIR}/wrappers/python/")
-    endif(BUILD_WCC)  
+    endif(BUILD_WCC)
+
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.so" "${PROJECT_BINARY_DIR}/wrappers/python/")
+    endif(BUILD_SOK)  
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
@@ -171,12 +191,12 @@ if (BUILD_PYTHON AND BUILD_SHARED_LIBS)
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.dll" "${PROJECT_BINARY_DIR}/wrappers/python/")
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
       add_custom_command(
                   TARGET amcl_pairing
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_pairing.dll" "${PROJECT_BINARY_DIR}/wrappers/python/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -191,6 +211,13 @@ if (BUILD_PYTHON AND BUILD_SHARED_LIBS)
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.dll" "${PROJECT_BINARY_DIR}/wrappers/python/")
     endif(BUILD_WCC)
+
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.dll" "${PROJECT_BINARY_DIR}/wrappers/python/")
+    endif(BUILD_SOK)
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
@@ -207,12 +234,12 @@ if (BUILD_PYTHON AND BUILD_SHARED_LIBS)
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.dylib" "${PROJECT_BINARY_DIR}/wrappers/python/")
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
       add_custom_command(
                   TARGET amcl_curve
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.dylib" "${PROJECT_BINARY_DIR}/wrappers/python/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -226,7 +253,14 @@ if (BUILD_PYTHON AND BUILD_SHARED_LIBS)
                   TARGET amcl_wcc
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.dylib" "${PROJECT_BINARY_DIR}/wrappers/python/")
-    endif(BUILD_WCC)  
+    endif(BUILD_WCC)
+
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.dylib" "${PROJECT_BINARY_DIR}/wrappers/python/")
+    endif(BUILD_SOK)  
 
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -262,12 +296,12 @@ if (BUILD_GO AND BUILD_SHARED_LIBS)
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.so" "${PROJECT_BINARY_DIR}/wrappers/go/")
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
       add_custom_command(
                   TARGET amcl_pairing
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_pairing.so" "${PROJECT_BINARY_DIR}/wrappers/go/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -281,7 +315,14 @@ if (BUILD_GO AND BUILD_SHARED_LIBS)
                   TARGET amcl_wcc
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.so" "${PROJECT_BINARY_DIR}/wrappers/go/")
-    endif(BUILD_WCC)  
+    endif(BUILD_WCC)
+
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.so" "${PROJECT_BINARY_DIR}/wrappers/go/")
+    endif(BUILD_SOK)  
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
@@ -307,12 +348,12 @@ if (BUILD_GO AND BUILD_SHARED_LIBS)
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.dll" "${PROJECT_BINARY_DIR}/wrappers/go/")
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
       add_custom_command(
                   TARGET amcl_pairing
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_pairing.dll" "${PROJECT_BINARY_DIR}/wrappers/go/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -327,6 +368,13 @@ if (BUILD_GO AND BUILD_SHARED_LIBS)
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.dll" "${PROJECT_BINARY_DIR}/wrappers/go/")
     endif(BUILD_WCC)
+
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.dll" "${PROJECT_BINARY_DIR}/wrappers/go/")
+    endif(BUILD_SOK)
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
@@ -353,12 +401,12 @@ if (BUILD_GO AND BUILD_SHARED_LIBS)
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.dylib" "${PROJECT_BINARY_DIR}/wrappers/go/")
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
         add_custom_command(
                     TARGET amcl_pairing
                     POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_pairing.dylib" "${PROJECT_BINARY_DIR}/wrappers/go/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -372,8 +420,14 @@ if (BUILD_GO AND BUILD_SHARED_LIBS)
                   TARGET amcl_wcc
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.dylib" "${PROJECT_BINARY_DIR}/wrappers/go/")
-    endif(BUILD_WCC)  
+    endif(BUILD_WCC)
 
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.dylib" "${PROJECT_BINARY_DIR}/wrappers/go/")
+    endif(BUILD_SOK)  
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -406,12 +460,12 @@ if (BUILD_GO AND NOT BUILD_SHARED_LIBS)
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_curve.a" "${PROJECT_BINARY_DIR}/wrappers/go/")
 
-    if(BUILD_MPIN OR BUILD_WCC)
+    if(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
       add_custom_command(
                   TARGET amcl_pairing
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_pairing.a" "${PROJECT_BINARY_DIR}/wrappers/go/")
-    endif(BUILD_MPIN OR BUILD_WCC)
+    endif(BUILD_MPIN OR BUILD_WCC OR BUILD_SOK)
 
     if(BUILD_MPIN)
       add_custom_command(
@@ -425,7 +479,14 @@ if (BUILD_GO AND NOT BUILD_SHARED_LIBS)
                   TARGET amcl_wcc
                   POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_wcc.a" "${PROJECT_BINARY_DIR}/wrappers/go/")
-    endif(BUILD_WCC)  
+    endif(BUILD_WCC)
+
+    if(BUILD_SOK)
+      add_custom_command(
+                  TARGET amcl_sok
+                  POST_BUILD
+                  COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/libamcl_sok.a" "${PROJECT_BINARY_DIR}/wrappers/go/")
+    endif(BUILD_SOK) 
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
@@ -450,6 +511,10 @@ endif(BUILD_MPIN)
 if(BUILD_WCC)
   set(INSTALL_LIBS ${INSTALL_LIBS} amcl_wcc amcl_pairing )
 endif(BUILD_WCC)
+
+if(BUILD_SOK)
+  set(INSTALL_LIBS ${INSTALL_LIBS} amcl_sok amcl_pairing )
+endif(BUILD_SOK)
 
 install (TARGETS ${INSTALL_LIBS} DESTINATION lib PERMISSIONS
         OWNER_WRITE OWNER_READ OWNER_EXECUTE

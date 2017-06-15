@@ -652,6 +652,85 @@ void ECP2_mul4(ECP2 *P,ECP2 Q[4],BIG u[4])
     ECP2_affine(P);
 }
 
+/* Map to hash value to point on G2 */
+void ECP2_mapit(octet *h, ECP2 *Q)
+{
+    BIG q,one,Fx,Fy,x,hv;
+    FP2 X;
+#if CHOICE < BLS_CURVES
+    ECP2 T,K;
+#else
+    ECP2 xQ, x2Q;
+#endif
+
+    BIG_fromBytes(hv,h->val);
+    BIG_rcopy(q,Modulus);
+    BIG_one(one);
+    BIG_mod(hv,q);
+
+    for (;;)
+    {
+        FP2_from_BIGs(&X,one,hv);
+        if (ECP2_setx(Q,&X)) break;
+        BIG_inc(hv,1);
+    }
+
+    BIG_rcopy(Fx,CURVE_Fra);
+    BIG_rcopy(Fy,CURVE_Frb);
+    FP2_from_BIGs(&X,Fx,Fy);
+    BIG_rcopy(x,CURVE_Bnx);
+
+#if CHOICE < BLS_CURVES
+
+    /* Faster Hashing to G2 - Fuentes-Castaneda, Knapp and Rodriguez-Henriquez */
+    /* Q -> xQ + F(3xQ) + F(F(xQ)) + F(F(F(Q))). */
+    ECP2_copy(&T,Q);
+    ECP2_mul(&T,x);
+    ECP2_neg(&T);   // our x is negative
+    ECP2_copy(&K,&T);
+    ECP2_dbl(&K);
+    ECP2_add(&K,&T);
+    ECP2_affine(&K);
+
+    ECP2_frob(&K,&X);
+    ECP2_frob(Q,&X);
+    ECP2_frob(Q,&X);
+    ECP2_frob(Q,&X);
+    ECP2_add(Q,&T);
+    ECP2_add(Q,&K);
+    ECP2_frob(&T,&X);
+    ECP2_frob(&T,&X);
+    ECP2_add(Q,&T);
+    ECP2_affine(Q);
+
+#else
+
+    /* Faster Hashing to G2 - Fuentes-Castaneda, Knapp and Rodriguez-Henriquez */
+    /* Q -> x2Q -xQ -Q +F(xQ -Q) +F(F(2Q)) */
+
+    ECP2_copy(&xQ,Q);
+    ECP2_mul(&xQ,x);
+    ECP2_copy(&x2Q,&xQ);
+    ECP2_mul(&x2Q,x);
+
+    ECP2_sub(&x2Q,&xQ);
+    ECP2_sub(&x2Q,Q);
+
+    ECP2_sub(&xQ,Q);
+    ECP2_frob(&xQ,&X);
+
+    ECP2_dbl(Q);
+    ECP2_frob(Q,&X);
+    ECP2_frob(Q,&X);
+
+    ECP2_add(Q,&x2Q);
+    ECP2_add(Q,&xQ);
+
+    ECP2_affine(Q);
+
+#endif
+}
+
 /*
 
 int main()
