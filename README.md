@@ -3,15 +3,15 @@
 The MIRACL IoT Client SDK is a library, which implements the MQTT protocol over secure TLS-PSK connection.
 It uses the M-Pin Full protocol to authenticate to an M-Pin Full server and to negotiate Shared Session Key
 on both client and server side. This key is used to establish a secure TLS-PSK connection to a TLS MQTT
-broker. 
+broker. The library also implements private (end-to-end) messaging with additional SOK encryption.
 
 ##API
 
 The interface of the client library is located in `include/iot/client.h`. It consists from the following
 types:
 
-- `Identity` - data to authenticate with to the M-Pin Full server. Contains `mpinId`, `clientSecret` and a
-list of hex-encoded `dta`-s.
+- `Identity` - data to authenticate with to the M-Pin Full server. Contains `mpinId`, `clientSecret`, list
+of hex-encoded `dta`-s, `sokSendKey` and `sokRecvKey`.
 - `EventListener` - defines a callback interface for receiving events from the library. Library user should
 inherit from this class to receive events. It has the following methods:
     - `void OnAuthenticated()` - invoked after successfull authentication.
@@ -20,12 +20,19 @@ inherit from this class to receive events. It has the following methods:
     - `void OnError(const String& error)` - invoked when error occurred.
     - `void OnMessageArrived(const String& topic, const String& payload)` - invoked when a message is published
 to a topic, that this client has subscribed for.
+    - `void OnPrivateMessageArrived(const String& userIdFrom, const String& payload)` - invoked when a private
+message is sent to this client (is published to its private messages topic).
 - `Config` - contains all the configuration properties of the library:
     - `authServerUrl` - M-Pin Full authentication server URL (`http://host:port/path`).
     - `identity` - `Identity` to authenticate with.
     - `mqttTlsBrokerAddr` - address of the TLS MQTT broker (`host:port`).
     - `mqttCommandTimeoutMillisec` - timeout for the MQTT commands (connect, publish, subscribe...).
+    - `useMqttQoS2` flag - if set, MQTT publish and subscribe will be made with QoS 2, else with QoS 1.
+    - `useMqttPersistentSession` flag - if set, persistent MQTT session will be requested when connecting.
     - `void SetEventListener(EventListener& listener)` - used to specify an `EventListener` callback.
+
+    In order to connect the client to AWS Message Broker, useMqttQoS2 and useMqttPersistentSession must be set to false.
+
 - `Client` - the main library class, which implements the MQTT commands. It has the following methods:
     - `void Configure(const Config& conf)` - sets all configuration properties at once.
     - `Config& GetConfig()` - returns a reference to the client configuration that can be used to set specific
@@ -53,6 +60,15 @@ through `EventListener::OnError` callback.
 will be reported through `EventListener::OnError` callback.
     - `bool Publish(const String& topic, const String& payload)` - publishes a message to an MQTT topic. The function
 will first try to (re)connect if not currently connected. Returns `true` if the publish is successful. Else, any
+errors will be reported through `EventListener::OnError` callback. Payload size is currently limited by the
+implementation (paho mqtt embedded library `MAX_MQTT_PACKET_SIZE = 1024`).
+    - `bool ListenForPrivateMessages()` - subscribes to a private message topic in order to receive private messages.
+The private messages topic name is formed as `<hex encoded MQTT client id>/pm`. If `sokRecvKey` is set in `Identity`,
+encrypted private messages can be received on this topic. Returns `true` if the subscribe command is successful.
+Else, any errors will be reported through `EventListener::OnError` callback.
+    - `bool SendPrivateMessage(const String& userIdTo, const String& payload, bool encrypt = true)` - publishes a
+message on userIdTo's private messages topic (`<hex encoded userIdTo>/pm`). If `encrypt` is true and `sokSendKey`
+is set in `Identity`, the message is sent encrypted. Returns `true` if the publish is successful. Else, any
 errors will be reported through `EventListener::OnError` callback. Payload size is currently limited by the
 implementation (paho mqtt embedded library `MAX_MQTT_PACKET_SIZE = 1024`).
     - `bool RunMessageLoop(unsigned long timeout)` - this function is supposed to be periodically invoked by the
