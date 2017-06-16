@@ -38,10 +38,14 @@ namespace iot
             }
 
         private:
+            Octet(const Octet& other);
+            Octet& operator=(const Octet& other);
+
             bool m_freeStorage;
         };
 
         const int G1S = 2 * PFS + 1;
+        const int G2S = 4 * PFS;
         const int GTS = 12 * PFS;
 
         void GenerateRandomSeed(char *buf, size_t len)
@@ -62,6 +66,15 @@ namespace iot
             if (rc != len)
             {
                 throw CryptoError("GenerateRandomSeed() failed");
+            }
+        }
+
+        void FillWithRandomData(Octet& dest, csprng& rng)
+        {
+            dest.len = dest.max;
+            for (int i = 0; i < dest.len; ++i)
+            {
+                dest.val[i] = RAND_byte(&rng);
             }
         }
     }
@@ -210,5 +223,75 @@ namespace iot
         }
 
         return key;
+    }
+
+    SokData::SokData() {}
+
+    SokData::SokData(const std::string & _iv, const std::string & c, const std::string & t) : iv(_iv), ciphertext(c), tag(t) {}
+
+    SokData Crypto::SokEncrypt(const std::string& message, const std::string & sokSendKey, const std::string& userIdFrom, const std::string & userIdTo)
+    {
+        CreateRngOnce();
+
+        if (sokSendKey.size() != G1S)
+        {
+            throw CryptoError(fmt::sprintf("Invalid sokSendKey size(%d) passed to SokEncrypt(). Must be %d",
+                static_cast<int>(sokSendKey.size()), static_cast<int>(G1S)));
+        }
+
+        Octet aKeyG1(sokSendKey);
+        Octet idTo(userIdTo);
+        Octet encryptionKey(PAS);
+
+        int res = SOK_PAIR1(HASH_TYPE_MPIN, 0, &aKeyG1, NULL, &idTo, &encryptionKey);
+        if (res)
+        {
+            throw CryptoError("SOK_PAIR1", res);
+        }
+
+        Octet iv(PIV);
+        FillWithRandomData(iv, m_rng);
+
+        Octet idFrom(userIdFrom);
+        Octet plaintext(message);
+        Octet ciphertext(message.size());
+        Octet tag(PTAG);
+
+        SOK_AES_GCM_ENCRYPT(&encryptionKey, &iv, &idFrom, &plaintext, &ciphertext, &tag);
+
+        return SokData(iv, ciphertext, tag);
+    }
+
+    std::string Crypto::SokDecrypt(const SokData & data, const std::string & sokRecvKey, const std::string& userIdFrom)
+    {
+        if (sokRecvKey.size() != G2S)
+        {
+            throw CryptoError(fmt::sprintf("Invalid sokRecvKey size(%d) passed to SokDecrypt(). Must be %d",
+                static_cast<int>(sokRecvKey.size()), static_cast<int>(G2S)));
+        }
+
+        Octet bKeyG2(sokRecvKey);
+        Octet idFrom(userIdFrom);
+        Octet decriptionKey(PAS);
+
+        int res = SOK_PAIR2(HASH_TYPE_MPIN, 0, &bKeyG2, NULL, &idFrom, &decriptionKey);
+        if (res)
+        {
+            throw CryptoError("SOK_PAIR2", res);
+        }
+
+        Octet iv(data.iv);
+        Octet ciphertext(data.ciphertext);
+        Octet plaintext(data.ciphertext.size());
+        Octet tag(PTAG);
+
+        SOK_AES_GCM_DECRYPT(&decriptionKey, &iv, &idFrom, &ciphertext, &plaintext, &tag);
+
+        if (data.tag != std::string(tag))
+        {
+            throw CryptoError("SokDecrypt() failed: tag mismatch");
+        }
+
+        return plaintext;
     }
 }

@@ -11,6 +11,22 @@ namespace iot
     namespace
     {
         const char DEFAULT_MQTT_TLS_PORT[] = "8443";
+
+        class DefaultEventListener : public EventListener
+        {
+        public:
+            virtual void OnAuthenticated() {}
+            virtual void OnConnected() {}
+            virtual void OnConnectionLost(const String& error) {}
+            virtual void OnError(const String& error) {}
+            virtual void OnMessageArrived(const String& topic, const String& payload) {}
+            virtual void OnPrivateMessageArrived(const String& userIdFrom, const String& payload) {}
+        } defaultEventListener;
+
+        String GetPrivateMessageTopic(const String& userId)
+        {
+            return HexEncode(userId) + "/pm";
+        }
     }
 
     Identity::Identity() {}
@@ -18,9 +34,22 @@ namespace iot
     Identity::Identity(const String & mpinIdHex, const String & clientSecretHex)
         : mpinId(HexDecode(mpinIdHex)), clientSecret(HexDecode(clientSecretHex)) {}
 
+    void Identity::SetSokKeys(const String & sendKeyHex, const String & recvKeyHex)
+    {
+        sokSendKey = HexDecode(sendKeyHex);
+        sokRecvKey = HexDecode(recvKeyHex);
+    }
+
     String Identity::GetUserId() const
     {
-        return (const json::String&) json::ConstElement(json::Parse(mpinId))["userID"];
+        try
+        {
+            return (const json::String&) json::ConstElement(json::Parse(mpinId))["userID"];
+        }
+        catch (json::Exception&)
+        {
+            return "";
+        }
     }
 
     Config::Config()
@@ -32,19 +61,6 @@ namespace iot
     void Config::SetEventListener(EventListener & listener)
     {
         m_eventListener = &listener;
-    }
-
-    namespace
-    {
-        class DefaultEventListener : public EventListener
-        {
-        public:
-            virtual void OnAuthenticated() {}
-            virtual void OnConnected() {}
-            virtual void OnConnectionLost(const String& error) {}
-            virtual void OnError(const String& error) {}
-            virtual void OnMessageArrived(const String& topic, const String& payload) {}
-        } defaultEventListener;
     }
 
     void Config::ResetEventListener()
@@ -60,7 +76,7 @@ namespace iot
     class Client::Impl
     {
     public:
-        Impl() : m_state(NO_SESSION), m_authenticated(false)
+        Impl() : m_authenticator(m_crypto), m_authenticated(false), m_state(NO_SESSION)
         {
             MqttTlsClient::Handler handler;
             handler.attach(this, &Impl::OnMessageArrived);
@@ -81,7 +97,10 @@ namespace iot
         {
             if (!IsSessionStarted())
             {
-                m_client.SetId(m_conf.identity.GetUserId());
+                m_userId = m_conf.identity.GetUserId();
+                m_privateMessagesTopic = GetPrivateMessageTopic(m_userId);
+
+                m_client.SetId(m_userId);
                 m_client.SetBrokerAddress(Addr(m_conf.mqttTlsBrokerAddr, DEFAULT_MQTT_TLS_PORT));
                 if (m_conf.mqttCommandTimeoutMillisec > 0)
                 {
@@ -91,7 +110,7 @@ namespace iot
                 m_client.UsePersistentSession(m_conf.useMqttPersistentSession);
 
                 m_state = INITIAL;
-                CheckSate();
+                CheckState();
             }
         }
 
@@ -117,7 +136,7 @@ namespace iot
 
         bool Subscribe(const String& topic)
         {
-            if (!CheckSate())
+            if (!CheckState())
             {
                 return false;
             }
@@ -134,7 +153,7 @@ namespace iot
 
         bool Unsubscribe(const String& topic)
         {
-            if (!CheckSate())
+            if (!CheckState())
             {
                 return false;
             }
@@ -151,7 +170,7 @@ namespace iot
 
         bool Publish(const String& topic, const String& payload)
         {
-            if (!CheckSate())
+            if (!CheckState())
             {
                 return false;
             }
@@ -165,10 +184,28 @@ namespace iot
             return true;
         }
 
+        bool ListenForPrivateMessages()
+        {
+            return Subscribe(m_privateMessagesTopic);
+        }
+
+        bool SendPrivateMessage(const String& userIdTo, const String& payload, bool encrypt)
+        {
+            try
+            {
+                return Publish(GetPrivateMessageTopic(userIdTo), SerializePrivateMessage(userIdTo, payload, encrypt));
+            }
+            catch (Exception& e)
+            {
+                GetEventListener().OnError(fmt::sprintf("Failed to serialize private message: %s", e.what()));
+                return false;
+            }
+        }
+
         bool RunMessageLoop(unsigned long timeout)
         {
             Countdown timer(timeout);
-            if (!CheckSate())
+            if (!CheckState())
             {
                 if (!timer.expired())
                 {
@@ -192,7 +229,23 @@ namespace iot
         {
             std::string topic(md.topicName.lenstring.data, md.topicName.lenstring.len);
             std::string payload((char *)md.message.payload, md.message.payloadlen);
-            GetEventListener().OnMessageArrived(topic, payload);
+            EventListener& el = GetEventListener();
+            if (topic == m_privateMessagesTopic)
+            {
+                try
+                {
+                    PrivateMessage pm(*this, payload);
+                    el.OnPrivateMessageArrived(pm.userIdFrom, pm.payload);
+                }
+                catch (Exception& e)
+                {
+                    el.OnError(fmt::sprintf("Failed to deserialize private message: %s. Received payload: %s", e.what(), payload));
+                }
+            }
+            else
+            {
+                el.OnMessageArrived(topic, payload);
+            }
         }
 
     private:
@@ -201,7 +254,7 @@ namespace iot
             return m_conf.GetEventListener();
         }
 
-        bool CheckSate()
+        bool CheckState()
         {
             switch (m_state)
             {
@@ -298,17 +351,77 @@ namespace iot
             return true;
         }
 
+        String SerializePrivateMessage(const String& userIdTo, const String& payload, bool encrypt)
+        {
+            json::Object json;
+            json["from"] = json::String(m_userId);
+            json["encrypted"] = json::Boolean(encrypt);
+            if (encrypt)
+            {
+                SokData sok = m_crypto.SokEncrypt(payload, m_conf.identity.sokSendKey, m_userId, userIdTo);
+                json["iv"] = json::String(HexEncode(sok.iv));
+                json["ciphertext"] = json::String(HexEncode(sok.ciphertext));
+                json["tag"] = json::String(HexEncode(sok.tag));
+            }
+            else
+            {
+                json["data"] = json::String(payload);
+            }
+            return json::ToString(json);
+        }
+
+        class PrivateMessage
+        {
+        public:
+            PrivateMessage(Impl& client, const String& serializedData)
+            {
+                try
+                {
+                    json::ConstElement json = json::Parse(serializedData);
+                    userIdFrom = (const json::String&) json["from"];
+                    bool encrypted = ((const json::Boolean&) json["encrypted"]).Value();
+                    if (encrypted)
+                    {
+                        SokData sok;
+                        sok.iv = HexDecode((const json::String&) json["iv"]);
+                        sok.ciphertext = HexDecode((const json::String&) json["ciphertext"]);
+                        sok.tag = HexDecode((const json::String&) json["tag"]);
+                        payload = client.m_crypto.SokDecrypt(sok, client.m_conf.identity.sokRecvKey, userIdFrom);
+
+                        if (sok.iv.empty() || sok.ciphertext.empty() || sok.tag.empty())
+                        {
+                            throw JsonError(fmt::sprintf("Invalid private message parameters in message %s", serializedData));
+                        }
+                    }
+                    else
+                    {
+                        payload = (const json::String&) json["data"];
+                    }
+                }
+                catch (json::Exception& e)
+                {
+                    throw JsonError(e.what());
+                }
+            }
+
+            String userIdFrom;
+            String payload;
+        };
+
         const String& GetLastError() const
         {
             return m_lastError.empty() ? m_client.GetLastError() : m_lastError;
         }
 
         Config m_conf;
+        Crypto m_crypto;
         MPinFull m_authenticator;
         bool m_authenticated;
         MqttTlsClient m_client;
         enum State { NO_SESSION, INITIAL, CONNECTED, DISCONNECTED } m_state;
         std::set<String> m_subscriptions;
+        String m_userId;
+        String m_privateMessagesTopic;
         String m_lastError;
     };
 
@@ -362,6 +475,16 @@ namespace iot
     bool Client::Publish(const String & topic, const String & payload)
     {
         return m_impl->Publish(topic, payload);
+    }
+
+    bool Client::ListenForPrivateMessages()
+    {
+        return m_impl->ListenForPrivateMessages();
+    }
+
+    bool Client::SendPrivateMessage(const String & userIdTo, const String & payload, bool encrypt)
+    {
+        return m_impl->SendPrivateMessage(userIdTo, payload, encrypt);
     }
 
     bool Client::RunMessageLoop(unsigned long timeout)

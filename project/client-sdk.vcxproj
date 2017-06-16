@@ -153,6 +153,7 @@
     <ClCompile Include="..\lib\milagro-crypto-c\src\randapi.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\rom.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\rsa.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\sok.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\utils.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\version.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\wcc.c" />
@@ -178,6 +179,7 @@
     <ClCompile Include="..\src\utils.cpp" />
     <ClCompile Include="..\tests\iot_client\flags.cpp" />
     <ClCompile Include="..\tests\iot_client\main.cpp" />
+    <ClCompile Include="..\tools\sok_keygen\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\iot\client.h" />
@@ -268,6 +270,7 @@
     <ClInclude Include="..\lib\milagro-crypto-c\include\mpin.h" />
     <ClInclude Include="..\lib\milagro-crypto-c\include\randapi.h" />
     <ClInclude Include="..\lib\milagro-crypto-c\include\rsa.h" />
+    <ClInclude Include="..\lib\milagro-crypto-c\include\sok.h" />
     <ClInclude Include="..\lib\milagro-crypto-c\include\utils.h" />
     <ClInclude Include="..\lib\milagro-crypto-c\include\version.h" />
     <ClInclude Include="..\lib\milagro-crypto-c\include\wcc.h" />
@@ -296,6 +299,7 @@
     <None Include="..\lib\cajun-2.0.2\json\reader.inl" />
     <None Include="..\lib\cajun-2.0.2\json\writer.inl" />
     <None Include="..\Makefile" />
+    <None Include="..\tools\sok_keygen\Makefile" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>

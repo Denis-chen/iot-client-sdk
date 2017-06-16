@@ -34,16 +34,9 @@ under the License.
 
 #include "amcl.h"
 
-/* Field size is assumed to be greater than or equal to group size */
-
-#define PGS MODBYTES  /**< MPIN Group Size */
-#define PFS MODBYTES  /**< MPIN Field Size */
-#define PAS 16        /**< MPIN Symmetric Key Size */
-
 #define MPIN_OK             0   /**< Function completed without error */
 #define MPIN_INVALID_POINT  -14	/**< Point is NOT on the curve */
 #define MPIN_BAD_PIN        -19 /**< Bad PIN number entered */
-
 
 /* Configure your PIN here */
 

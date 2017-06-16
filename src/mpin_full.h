@@ -16,12 +16,13 @@ namespace iot
     class MPinFull
     {
     public:
+        MPinFull(Crypto& crypto);
         AuthResult Authenticate(const std::string& server, const Identity& id);
 
     private:
         AuthResult DoAuth(const std::string& server, const Identity& id);
 
-        Crypto m_crypto;
+        Crypto& m_crypto;
     };
 }
 

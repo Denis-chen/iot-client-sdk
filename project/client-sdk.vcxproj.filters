@@ -58,6 +58,12 @@
     <Filter Include="tests\iot_client">
       <UniqueIdentifier>{c213e8cd-db07-4b2e-9717-021b1e503d97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{44eb5b7f-30fc-403a-8798-5240b21a9e2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\sok_keygen">
+      <UniqueIdentifier>{6684e9a6-b412-4208-87d2-8a611ed1892b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\fmt-3.0.1\fmt\format.cc">
@@ -411,6 +417,12 @@
     <ClCompile Include="..\tests\iot_client\main.cpp">
       <Filter>tests\iot_client</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\milagro-crypto-c\src\sok.c">
+      <Filter>lib\milagro-crypto-c\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\sok_keygen\main.cpp">
+      <Filter>tools\sok_keygen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\cajun-2.0.2\json\elements.h">
@@ -743,6 +755,9 @@
     <ClInclude Include="..\lib\cajun-2.0.2\json.h">
       <Filter>lib\cajun</Filter>
     </ClInclude>
+    <ClInclude Include="..\lib\milagro-crypto-c\include\sok.h">
+      <Filter>lib\milagro-crypto-c\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\lib\cajun-2.0.2\json\elements.inl">
@@ -755,5 +770,8 @@
       <Filter>lib\cajun\json</Filter>
     </None>
     <None Include="..\Makefile" />
+    <None Include="..\tools\sok_keygen\Makefile">
+      <Filter>tools\sok_keygen</Filter>
+    </None>
   </ItemGroup>
 </Project>

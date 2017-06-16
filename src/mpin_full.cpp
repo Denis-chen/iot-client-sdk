@@ -6,6 +6,8 @@
 
 namespace iot
 {
+    MPinFull::MPinFull(Crypto & crypto) : m_crypto(crypto) {}
+
     AuthResult MPinFull::Authenticate(const std::string& server, const Identity & id)
     {
         try
