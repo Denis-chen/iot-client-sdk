@@ -16,6 +16,10 @@ namespace iot
         Identity(const String& mpinIdHex, const String& clientSecretHex);
         void SetSokKeys(const String& sendKeyHex, const String& recvKeyHex);
         String GetUserId() const;
+        String GetMPinIdHex() const;
+        String GetClientSecretHex() const;
+        String GetSokSendKeyHex() const;
+        String GetSokRecvKeyHex() const;
 
         String mpinId;
         String clientSecret;
@@ -29,6 +33,7 @@ namespace iot
     public:
         virtual ~EventListener() {}
         virtual void OnAuthenticated() = 0;
+        virtual void OnIdentityChanged(const Identity& newIdentity) = 0;
         virtual void OnConnected() = 0;
         virtual void OnConnectionLost(const String& error) = 0;
         virtual void OnError(const String& error) = 0;

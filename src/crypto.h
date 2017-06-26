@@ -69,7 +69,8 @@ namespace iot
         std::string GetG1Multiple(const std::string& hashId, std::string& rOut);
         std::string HashAll(const std::string& hashId, const Pass1Data& pass1, const Pass2Data& pass2, const std::string& t);
         PrecomputeData Precompute(const std::string& token, const std::string& hashId);
-        std::string ClientKey(const Pass1Data& pass1, const Pass2Data& pass2, const AuthData& auth);
+        std::string SharedKey(const Pass1Data& pass1, const Pass2Data& pass2, const AuthData& auth);
+        std::string RecombineClientSecret(const std::string& share1, const std::string& share2);
         SokData SokEncrypt(const std::string& message, const std::string& sokSendKey, const std::string& userIdFrom, const std::string& userIdTo);
         std::string SokDecrypt(const SokData& data, const std::string& sokRecvKey, const std::string& userIdFrom);
 

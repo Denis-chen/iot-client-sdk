@@ -6,11 +6,17 @@
 
 namespace iot
 {
+    class HttpError;
+
     class AuthResult
     {
     public:
+        AuthResult();
+
         std::string clientId;
         std::string sharedSecret;
+        bool identityChanged;
+        Identity newIdentity;
     };
 
     class MPinFull
@@ -21,6 +27,7 @@ namespace iot
 
     private:
         AuthResult DoAuth(const std::string& server, const Identity& id);
+        Identity RenewExpiredIdentity(const HttpError& httpError, const Identity & expiredId);
 
         Crypto& m_crypto;
     };

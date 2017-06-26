@@ -53,6 +53,7 @@ namespace
         std::string publishMessage;
         bool listenForPms;
         std::string sendPmTo;
+        std::string identityFileName;
 
         Config() : iot::Config(), listenForPms(true) {}
 
@@ -60,7 +61,7 @@ namespace
         {
             authServerUrl = flags.Get(AUTH_SERVER_URL);
 
-            std::string identityFileName = flags.Get(IDENTITY_FILE);
+            identityFileName = flags.Get(IDENTITY_FILE);
             try
             {
                 identity = LoadIdentity(ParseJsonFile(identityFileName));
@@ -96,6 +97,42 @@ namespace
             }
 
             return true;
+        }
+
+        void UpdateIdentity(const iot::Identity& newIdentity)
+        {
+            identity = newIdentity;
+
+            if (identityFileName.empty())
+            {
+                cout << "Failed to update identity: Invalid filename" << endl;
+                return;
+            }
+
+            std::ofstream file(identityFileName.c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
+            if (!file.is_open())
+            {
+                cout << fmt::sprintf("Failed to update identity: Failed to open %s file", identityFileName) << endl;
+                return;
+            }
+
+            json::Object json;
+            json["device_id"] = json::String(identity.GetUserId());
+            json["mpin_id"] = json::String(identity.GetMPinIdHex());
+            json["client_secret"] = json::String(identity.GetClientSecretHex());
+            json["dta"] = json::ToArray(identity.dtaList.begin(), identity.dtaList.end());
+            if (!identity.sokSendKey.empty())
+            {
+                json["sokSendKey"] = json::String(identity.GetSokSendKeyHex());
+            }
+            if (!identity.sokRecvKey.empty())
+            {
+                json["sokRecvKey"] = json::String(identity.GetSokRecvKeyHex());
+            }
+
+            file << json;
+
+            cout << fmt::sprintf("New identity saved to %s file", identityFileName) << endl;
         }
 
     private:
@@ -143,6 +180,12 @@ namespace
         virtual void OnAuthenticated()
         {
             cout << "Authenticated to " << m_conf.authServerUrl << endl;
+        }
+
+        virtual void OnIdentityChanged(const iot::Identity& newIdentity)
+        {
+            cout << "Identity expired" << endl;
+            m_conf.UpdateIdentity(newIdentity);
         }
 
         virtual void OnConnected()

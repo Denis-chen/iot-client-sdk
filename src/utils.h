@@ -22,7 +22,8 @@ namespace iot
         std::string port;
     };
 
-    json::Object MakeRequest(const std::string& url, const json::Object& data);
+    json::Object MakePostRequest(const std::string& url, const json::Object& data);
+    json::Object MakeGetRequest(const std::string& url);
 }
 
 #endif // _IOT_UTILS_H_
