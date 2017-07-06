@@ -15,34 +15,6 @@ namespace iot
         const char* hexChars = "0123456789abcdef";
     }
 
-    json::Object MakeRequest(const std::string & url, const json::Object & data)
-    {
-        http::Request request(http::POST, url);
-        request.SetTimeout(10);
-        request.SetData(json::ToString(data));
-        request.SetHeader("Content-Type", "application/json");
-        request.SetHeader("Accept", "application/json");
-        request.SetHeader("Charsets", "utf-8");
-        if (!request.Execute())
-        {
-            throw NetworkError(url, request.GetLastError());
-        }
-
-        http::Response response = request.GetResponse();
-        if (response.status != http::OK)
-        {
-            throw HttpError(url, response.status);
-        }
-
-        json::Object responseJson;
-        if (response.data.length() > 0)
-        {
-            responseJson = json::Parse(response.data);
-        }
-
-        return responseJson;
-    }
-
     std::string HexEncode(const std::string & data)
     {
         std::string result;
@@ -111,6 +83,51 @@ namespace iot
         }
 
         return result;
+    }
+
+    namespace
+    {
+        json::Object MakeRequest(http::Method method, const std::string & url, const json::Object & data)
+        {
+            http::Request request(method, url);
+            request.SetTimeout(10);
+            if (method != http::GET)
+            {
+                request.SetData(json::ToString(data));
+                request.SetHeader("Content-Type", "application/json");
+                request.SetHeader("Accept", "application/json");
+                request.SetHeader("Charsets", "utf-8");
+            }
+
+            if (!request.Execute())
+            {
+                throw NetworkError(url, request.GetLastError());
+            }
+
+            const http::Response& response = request.GetResponse();
+            if (response.status != http::OK)
+            {
+                throw HttpError(method, url, response);
+            }
+
+            json::Object responseJson;
+            if (response.data.length() > 0)
+            {
+                responseJson = json::Parse(response.data);
+            }
+
+            return responseJson;
+        }
+    }
+
+    json::Object MakePostRequest(const std::string & url, const json::Object & data)
+    {
+        return MakeRequest(http::POST, url, data);
+    }
+
+    json::Object MakeGetRequest(const std::string & url)
+    {
+        return MakeRequest(http::GET, url, json::Object());
     }
 
     Addr::Addr() {}

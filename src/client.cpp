@@ -16,6 +16,7 @@ namespace iot
         {
         public:
             virtual void OnAuthenticated() {}
+            virtual void OnIdentityChanged(const Identity& newIdentity) {}
             virtual void OnConnected() {}
             virtual void OnConnectionLost(const String& error) {}
             virtual void OnError(const String& error) {}
@@ -46,10 +47,30 @@ namespace iot
         {
             return (const json::String&) json::ConstElement(json::Parse(mpinId))["userID"];
         }
-        catch (json::Exception&)
+        catch (const json::Exception&)
         {
             return "";
         }
+    }
+
+    String Identity::GetMPinIdHex() const
+    {
+        return HexEncode(mpinId);
+    }
+
+    String Identity::GetClientSecretHex() const
+    {
+        return HexEncode(clientSecret);
+    }
+
+    String Identity::GetSokSendKeyHex() const
+    {
+        return HexEncode(sokSendKey);
+    }
+
+    String Identity::GetSokRecvKeyHex() const
+    {
+        return HexEncode(sokRecvKey);
     }
 
     Config::Config()
@@ -195,7 +216,7 @@ namespace iot
             {
                 return Publish(GetPrivateMessageTopic(userIdTo), SerializePrivateMessage(userIdTo, payload, encrypt));
             }
-            catch (Exception& e)
+            catch (const Exception& e)
             {
                 GetEventListener().OnError(fmt::sprintf("Failed to serialize private message: %s", e.what()));
                 return false;
@@ -237,7 +258,7 @@ namespace iot
                     PrivateMessage pm(*this, payload);
                     el.OnPrivateMessageArrived(pm.userIdFrom, pm.payload);
                 }
-                catch (Exception& e)
+                catch (const Exception& e)
                 {
                     el.OnError(fmt::sprintf("Failed to deserialize private message: %s. Received payload: %s", e.what(), payload));
                 }
@@ -305,11 +326,17 @@ namespace iot
             {
                 m_lastError.clear();
                 AuthResult authResult = m_authenticator.Authenticate(m_conf.authServerUrl, m_conf.identity);
+                if (authResult.identityChanged)
+                {
+                    m_conf.identity = authResult.newIdentity;
+                    GetEventListener().OnIdentityChanged(authResult.newIdentity);
+                }
+
                 m_client.SetPsk(authResult.sharedSecret, authResult.clientId);
                 GetEventListener().OnAuthenticated();
                 return true;
             }
-            catch (Exception& e)
+            catch (const Exception& e)
             {
                 m_lastError = fmt::sprintf("Authentication failed: %s", e.what());
                 return false;
@@ -398,7 +425,7 @@ namespace iot
                         payload = (const json::String&) json["data"];
                     }
                 }
-                catch (json::Exception& e)
+                catch (const json::Exception& e)
                 {
                     throw JsonError(e.what());
                 }

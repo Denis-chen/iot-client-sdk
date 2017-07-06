@@ -6,15 +6,30 @@
 
 namespace iot
 {
+    AuthResult::AuthResult() : identityChanged(false) {}
+
     MPinFull::MPinFull(Crypto & crypto) : m_crypto(crypto) {}
 
     AuthResult MPinFull::Authenticate(const std::string& server, const Identity & id)
     {
         try
         {
-            return DoAuth(server, id);
+            try
+            {
+                return DoAuth(server, id);
+            }
+            catch (const HttpError& httpError)
+            {
+                Identity newId = RenewExpiredIdentity(httpError, id);
+
+                AuthResult res = DoAuth(server, newId);
+
+                res.newIdentity = newId;
+                res.identityChanged = true;
+                return res;
+            }
         }
-        catch (json::Exception& e)
+        catch (const json::Exception& e)
         {
             throw JsonError(e.what());
         }
@@ -35,7 +50,7 @@ namespace iot
         request["U"] = json::String(HexEncode(pass1.u));
         request["UT"] = json::String(HexEncode(pass1.ut));
 
-        response = MakeRequest(fmt::sprintf("%s/auth/pass1", server), request);
+        response = MakePostRequest(fmt::sprintf("%s/auth/pass1", server), request);
 
         Pass2Data pass2;
         pass2.y = HexDecode((const json::String&) response["y"]);
@@ -49,19 +64,55 @@ namespace iot
         request["V"] = json::String(HexEncode(pass2.v));
         request["Z"] = json::String(HexEncode(pass2.z));
 
-        response = MakeRequest(fmt::sprintf("%s/auth/pass2", server), request);
+        response = MakePostRequest(fmt::sprintf("%s/auth/pass2", server), request);
 
         request.Clear();
         request["mpinResponse"]["authOTT"] = response["authOTT"];
 
-        response = MakeRequest(fmt::sprintf("%s/auth/authenticate", server), request);
+        response = MakePostRequest(fmt::sprintf("%s/auth/authenticate", server), request);
 
         AuthData auth;
         auth.t = HexDecode((const json::String&) response["T"]);
         auth.hm = m_crypto.HashAll(res.clientId, pass1, pass2, auth.t);
         auth.precomp = m_crypto.Precompute(id.clientSecret, res.clientId);
 
-        res.sharedSecret = m_crypto.ClientKey(pass1, pass2, auth);
+        res.sharedSecret = m_crypto.SharedKey(pass1, pass2, auth);
         return res;
+    }
+
+    Identity MPinFull::RenewExpiredIdentity(const HttpError& httpError, const Identity & expiredId)
+    {
+        const http::Response& errorResponse = httpError.GetResponse();
+        if (errorResponse.status != 409 || errorResponse.data.empty())
+        {
+            throw httpError;
+        }
+
+        json::ConstElement response;
+        std::string mpinId;
+        std::string cs1;
+        std::string cs2Url;
+        try
+        {
+            response = json::Parse(errorResponse.data);
+            mpinId = HexDecode((const json::String&) response["mpin_id"]);
+            cs1 = HexDecode((const json::String&) response["clientSecretShare"]);
+            cs2Url = (const json::String&) response["cs2Url"];
+        }
+        catch (const json::Exception&)
+        {
+            throw httpError;
+        }
+
+        response = MakeGetRequest(cs2Url);
+        std::string cs2 = HexDecode((const json::String&) response["clientSecret"]);
+
+        std::string clientSecret = m_crypto.RecombineClientSecret(cs1, cs2);
+
+        Identity newId = expiredId;
+        newId.mpinId = mpinId;
+        newId.clientSecret = clientSecret;
+
+        return newId;
     }
 }

@@ -206,7 +206,7 @@ namespace iot
         return PrecomputeData(g1, g2);
     }
 
-    std::string Crypto::ClientKey(const Pass1Data & pass1, const Pass2Data & pass2, const AuthData & auth)
+    std::string Crypto::SharedKey(const Pass1Data & pass1, const Pass2Data & pass2, const AuthData & auth)
     {
         Octet g1(auth.precomp.g1);
         Octet g2(auth.precomp.g2);
@@ -223,6 +223,21 @@ namespace iot
         }
 
         return key;
+    }
+
+    std::string Crypto::RecombineClientSecret(const std::string & share1, const std::string & share2)
+    {
+        Octet cs1(share1);
+        Octet cs2(share2);
+        Octet clientSecret(G1S);
+
+        int res = MPIN_RECOMBINE_G1(&cs1, &cs2, &clientSecret);
+        if (res)
+        {
+            throw CryptoError("MPIN_RECOMBINE_G1", res);
+        }
+
+        return clientSecret;
     }
 
     SokData::SokData() {}
