@@ -41,10 +41,24 @@ namespace json
     public:
         ConstElement() {}
         ConstElement(const UnknownElement& element) : m_element(element) {}
+        ConstElement(const json::Object& object) : m_element(object) {}
+        ConstElement(const json::Array& arr) : m_element(arr) {}
 
         ConstElement& operator=(const UnknownElement& element)
         {
             m_element = element;
+            return *this;
+        }
+
+        ConstElement& operator=(const json::Object& object)
+        {
+            m_element = object;
+            return *this;
+        }
+
+        ConstElement& operator=(const json::Array& arr)
+        {
+            m_element = arr;
             return *this;
         }
 
@@ -59,6 +73,16 @@ namespace json
         }
 
         operator const UnknownElement& () const
+        {
+            return m_element;
+        }
+
+        operator const json::Object& () const
+        {
+            return m_element;
+        }
+
+        operator const json::Array& () const
         {
             return m_element;
         }
