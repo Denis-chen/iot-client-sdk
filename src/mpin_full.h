@@ -4,6 +4,11 @@
 #include <iot/client.h>
 #include "crypto.h"
 
+namespace json
+{
+    class Object;
+}
+
 namespace iot
 {
     class HttpError;
@@ -27,7 +32,7 @@ namespace iot
 
     private:
         AuthResult DoAuth(const std::string& server, const Identity& id);
-        Identity RenewExpiredIdentity(const HttpError& httpError, const Identity & expiredId);
+        Identity RenewExpiredIdentity(const json::Object& renewSecret, const Identity & expiredId);
 
         Crypto& m_crypto;
     };

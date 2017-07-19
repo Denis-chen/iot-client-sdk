@@ -14,20 +14,7 @@ namespace iot
     {
         try
         {
-            try
-            {
-                return DoAuth(server, id);
-            }
-            catch (const HttpError& httpError)
-            {
-                Identity newId = RenewExpiredIdentity(httpError, id);
-
-                AuthResult res = DoAuth(server, newId);
-
-                res.newIdentity = newId;
-                res.identityChanged = true;
-                return res;
-            }
+            return DoAuth(server, id);
         }
         catch (const json::Exception& e)
         {
@@ -77,42 +64,39 @@ namespace iot
         auth.precomp = m_crypto.Precompute(id.clientSecret, res.clientId);
 
         res.sharedSecret = m_crypto.SharedKey(pass1, pass2, auth);
+
+        const json::Object& responseObject = response;
+        json::Object::const_iterator renewSecret = responseObject.Find("renewSecret");
+        if (renewSecret != responseObject.End())
+        {
+            res.newIdentity = RenewExpiredIdentity(renewSecret->element, id);
+            res.identityChanged = true;
+        }
+
         return res;
     }
 
-    Identity MPinFull::RenewExpiredIdentity(const HttpError& httpError, const Identity & expiredId)
+    Identity MPinFull::RenewExpiredIdentity(const json::Object & renewSecret, const Identity & expiredId)
     {
-        const http::Response& errorResponse = httpError.GetResponse();
-        if (errorResponse.status != 409 || errorResponse.data.empty())
+        Identity newId;
+        newId.mpinId = HexDecode((const json::String&) renewSecret["mpin_id"]);
+
+        const json::Array& dtaList = renewSecret["dta"];
+        for (json::Array::const_iterator i = dtaList.Begin(); i != dtaList.End(); ++i)
         {
-            throw httpError;
+            newId.dtaList.push_back((const json::String&) *i);
         }
 
-        json::ConstElement response;
-        std::string mpinId;
-        std::string cs1;
-        std::string cs2Url;
-        try
-        {
-            response = json::Parse(errorResponse.data);
-            mpinId = HexDecode((const json::String&) response["mpin_id"]);
-            cs1 = HexDecode((const json::String&) response["clientSecretShare"]);
-            cs2Url = (const json::String&) response["cs2Url"];
-        }
-        catch (const json::Exception&)
-        {
-            throw httpError;
-        }
+        std::string cs1 = HexDecode((const json::String&) renewSecret["clientSecretShare"]);
+        std::string cs2Url = (const json::String&) renewSecret["cs2url"];
 
-        response = MakeGetRequest(cs2Url);
+        json::ConstElement response = MakeGetRequest(cs2Url);
         std::string cs2 = HexDecode((const json::String&) response["clientSecret"]);
 
-        std::string clientSecret = m_crypto.RecombineClientSecret(cs1, cs2);
+        newId.clientSecret = m_crypto.RecombineClientSecret(cs1, cs2);
 
-        Identity newId = expiredId;
-        newId.mpinId = mpinId;
-        newId.clientSecret = clientSecret;
-
+        newId.sokSendKey = expiredId.sokSendKey;
+        newId.sokRecvKey = expiredId.sokRecvKey;
         return newId;
     }
 }
