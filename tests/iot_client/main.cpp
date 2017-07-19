@@ -24,9 +24,6 @@ namespace
     const char LISTEN_FOR_PMS[] = "listenForPms";
     const char SEND_PM_TO[] = "sendPmTo";
 
-    const String sendPmToDesc =
-        fmt::sprintf("User id to send -%s as a private message to (if specified)", PUBLISH_MESSAGE);
-
     Flags::Option options[] =
     {
         { AUTH_SERVER_URL, "M-Pin Full authentication server URL", "http://127.0.0.1:8080" },
@@ -39,7 +36,7 @@ namespace
         { SUBSCRIBE_TO_TOPIC, "MQTT topic name to subscribe and continuously listen to, if specified", "" },
         { PUBLISH_TO_TOPIC, "MQTT topic name to publish a message to, if specified", "" },
         { PUBLISH_MESSAGE, "Message to publish. If empty, read from stdin until the first new line", "" },
-        { LISTEN_FOR_PMS, "Accept private messages (can be encrypted if sokRecvKey is set)", "true" },
+        { LISTEN_FOR_PMS, "Accept private messages (can be encrypted if sokRecvKey is set)", "false" },
         { SEND_PM_TO, "Send -publishMessage as private to the specified user (encrypted if sokSendKey is set)", "" },
         { "help or h", "Prints usage info", "" },
     };
