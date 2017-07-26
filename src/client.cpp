@@ -332,7 +332,7 @@ namespace iot
                     GetEventListener().OnIdentityChanged(authResult.newIdentity);
                 }
 
-                m_client.SetPsk(authResult.sharedSecret, authResult.clientId);
+                m_client.SetPsk(authResult.sharedSecret, HexEncode(authResult.clientId));
                 GetEventListener().OnAuthenticated();
                 return true;
             }
