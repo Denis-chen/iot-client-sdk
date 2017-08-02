@@ -3,6 +3,7 @@
 
 #include <iot/client.h>
 #include "crypto.h"
+#include "utils.h"
 
 namespace json
 {
@@ -11,8 +12,6 @@ namespace json
 
 namespace iot
 {
-    class HttpError;
-
     class AuthResult
     {
     public:
@@ -35,6 +34,7 @@ namespace iot
         Identity RenewExpiredIdentity(const json::Object& renewSecret, const Identity & expiredId);
 
         Crypto& m_crypto;
+        JsonHttpClient m_httpClient;
     };
 }
 

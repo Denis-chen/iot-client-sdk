@@ -1,7 +1,7 @@
 #ifndef _IOT_EXCEPTION_H_
 #define _IOT_EXCEPTION_H_
 
-#include "http.h"
+#include <net/http_client.h>
 #include <stdexcept>
 
 namespace iot
@@ -21,12 +21,12 @@ namespace iot
     class HttpError : public Exception
     {
     public:
-        HttpError(http::Method method, const std::string& url, const http::Response& response);
+        HttpError(net::http::Method method, const std::string& url, const net::http::Response& response);
         ~HttpError() throw() {}
-        const http::Response& GetResponse() const;
+        const net::http::Response& GetResponse() const;
 
     private:
-        http::Response m_response;
+        net::http::Response m_response;
     };
 
     class CryptoError : public Exception

@@ -122,7 +122,7 @@ namespace iot
                 m_privateMessagesTopic = GetPrivateMessageTopic(m_userId);
 
                 m_client.SetId(m_userId);
-                m_client.SetBrokerAddress(Addr(m_conf.mqttTlsBrokerAddr, DEFAULT_MQTT_TLS_PORT));
+                m_client.SetBrokerAddress(net::Addr(m_conf.mqttTlsBrokerAddr, DEFAULT_MQTT_TLS_PORT));
                 if (m_conf.mqttCommandTimeoutMillisec > 0)
                 {
                     m_client.SetCommandTimeout(m_conf.mqttCommandTimeoutMillisec);

@@ -8,11 +8,11 @@ namespace iot
     NetworkError::NetworkError(const std::string& url, const std::string & error) :
         Exception(fmt::sprintf("Request to %s failed: %s", url, error)) {}
 
-    HttpError::HttpError(http::Method method, const std::string & url, const http::Response& response) :
-        Exception(fmt::sprintf("%s request to %s returned http status code %d", http::MethodToString(method), url, response.status)),
+    HttpError::HttpError(net::http::Method method, const std::string & url, const net::http::Response& response) :
+        Exception(fmt::sprintf("%s request to %s returned http status code %d", net::http::MethodToString(method), url, response.httpStatus)),
         m_response(response) {}
 
-    const http::Response & HttpError::GetResponse() const
+    const net::http::Response & HttpError::GetResponse() const
     {
         return m_response;
     }

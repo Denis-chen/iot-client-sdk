@@ -1,15 +1,9 @@
 #include "utils.h"
-#include "http.h"
 #include "exception.h"
 #include <stdint.h>
 
 namespace iot
 {
-    const unsigned char * ToUnsignedChar(const std::string& str)
-    {
-        return reinterpret_cast<const unsigned char *>(str.c_str());
-    }
-
     namespace
     {
         const char* hexChars = "0123456789abcdef";
@@ -85,62 +79,51 @@ namespace iot
         return result;
     }
 
-    namespace
+    JsonHttpClient::JsonHttpClient() : m_client(m_network)
     {
-        json::Object MakeRequest(http::Method method, const std::string & url, const json::Object & data)
+        m_caChain.LoadDefaultData();
+        m_network.SetX509CaChain(m_caChain);
+        m_client.SetTimeout(10000);
+    }
+
+    json::Object JsonHttpClient::MakeRequest(net::http::Method method, const std::string & url, const json::Object & data)
+    {
+        net::http::Request request(method, url);
+        if (method == net::http::POST || method == net::http::PUT)
         {
-            http::Request request(method, url);
-            request.SetTimeout(10);
-            if (method != http::GET)
-            {
-                request.SetData(json::ToString(data));
-                request.SetHeader("Content-Type", "application/json");
-                request.SetHeader("Accept", "application/json");
-                request.SetHeader("Charsets", "utf-8");
-            }
-
-            if (!request.Execute())
-            {
-                throw NetworkError(url, request.GetLastError());
-            }
-
-            const http::Response& response = request.GetResponse();
-            if (response.status != http::OK)
-            {
-                throw HttpError(method, url, response);
-            }
-
-            json::Object responseJson;
-            if (response.data.length() > 0)
-            {
-                responseJson = json::Parse(response.data);
-            }
-
-            return responseJson;
+            request.SetData(json::ToString(data));
+            request.SetHeader("Content-Type", "application/json");
+            request.SetHeader("Accept", "application/json");
+            request.SetHeader("Charsets", "utf-8");
         }
+
+        const net::http::Response& response = m_client.Execute(request);
+        if (!response.IsExecuteOk())
+        {
+            throw NetworkError(url, ToString(m_client.GetLastError()));
+        }
+
+        if (response.httpStatus != net::http::OK)
+        {
+            throw HttpError(method, url, response);
+        }
+
+        json::Object responseJson;
+        if (response.data.length() > 0)
+        {
+            responseJson = json::Parse(response.data);
+        }
+
+        return responseJson;
     }
 
-    json::Object MakePostRequest(const std::string & url, const json::Object & data)
+    json::Object JsonHttpClient::MakePostRequest(const std::string& url, const json::Object& data)
     {
-        return MakeRequest(http::POST, url, data);
+        return MakeRequest(net::http::POST, url, data);
     }
 
-    json::Object MakeGetRequest(const std::string & url)
+    json::Object JsonHttpClient::MakeGetRequest(const std::string& url)
     {
-        return MakeRequest(http::GET, url, json::Object());
-    }
-
-    Addr::Addr() {}
-
-    Addr::Addr(const std::string & addr, const std::string & defaultPort)
-    {
-        size_t pos = addr.find_first_of(':');
-        host = addr.substr(0, pos);
-        port = (pos != std::string::npos) ? addr.substr(pos + 1) : defaultPort;
-    }
-
-    std::ostream& operator<<(std::ostream& o, const Addr& addr)
-    {
-        return o << addr.host << ":" << addr.port;
+        return MakeRequest(net::http::GET, url, json::Object());
     }
 }

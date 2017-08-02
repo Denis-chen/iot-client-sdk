@@ -2,28 +2,38 @@
 #define _IOT_UTILS_H_
 
 #include <json.h>
+#include <net/http_client.h>
 #include <string>
 #include <ostream>
+#include <sstream>
 
 namespace iot
 {
-    const unsigned char * ToUnsignedChar(const std::string& str);
+    template <typename T>
+    std::string ToString(const T& value)
+    {
+        std::ostringstream out;
+        out << value;
+        return out.str();
+    }
 
     std::string HexEncode(const std::string& str);
     std::string HexDecode(const std::string & data);
 
-    class Addr
+    class JsonHttpClient
     {
     public:
-        Addr();
-        Addr(const std::string& addr, const std::string& defaultPort);
-        friend std::ostream& operator<<(std::ostream& o, const Addr& addr);
-        std::string host;
-        std::string port;
-    };
+        JsonHttpClient();
+        json::Object MakePostRequest(const std::string& url, const json::Object& data);
+        json::Object MakeGetRequest(const std::string& url);
 
-    json::Object MakePostRequest(const std::string& url, const json::Object& data);
-    json::Object MakeGetRequest(const std::string& url);
+    private:
+        json::Object MakeRequest(net::http::Method method, const std::string & url, const json::Object & data);
+
+        net::http::Client m_client;
+        net::http::NetworkImpl m_network;
+        net::x509::CaChain m_caChain;
+    };
 }
 
 #endif // _IOT_UTILS_H_

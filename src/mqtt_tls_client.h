@@ -6,7 +6,7 @@
 #include <string.h>
 #include <MQTTClient.h>
 #include <linux/linux.cpp>
-#include "tls.h"
+#include <net/tls_connection.h>
 #include <string>
 
 namespace iot
@@ -14,13 +14,20 @@ namespace iot
     class MqttTlsClient
     {
     public:
+        class TlsConnection : public net::TlsConnection
+        {
+        public:
+            int read(unsigned char* buffer, int len, int timeoutMillisec);
+            int write(const unsigned char* buffer, int len, int timeoutMillisec);
+        };
+
         typedef MQTT::Client<TlsConnection, Countdown, 1024, 0> MqttClient;
         typedef MqttClient::messageHandler Handler;
 
         MqttTlsClient();
         void SetId(const std::string& clientId);
         const std::string& GetId() const;
-        void SetBrokerAddress(const Addr& addr);
+        void SetBrokerAddress(const net::Addr& addr);
         void SetPsk(const std::string& psk, const std::string& pskId);
         void SetMessageHandler(const Handler & handler);
         void SetCommandTimeout(unsigned long timeoutMillisec);

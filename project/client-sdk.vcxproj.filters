@@ -19,15 +19,6 @@
     <Filter Include="lib\fmt">
       <UniqueIdentifier>{072cd41b-feb4-4fd5-a55a-859faae52c38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lib\mbedtls">
-      <UniqueIdentifier>{15aaa847-4396-4e4e-b366-f7b97cc019d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\mbedtls\include">
-      <UniqueIdentifier>{39d38052-0545-452b-b9ea-2018f61f3f38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\mbedtls\src">
-      <UniqueIdentifier>{153d87d4-7eb9-4b74-a9c5-7fc06f17133c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="lib\milagro-crypto-c">
       <UniqueIdentifier>{60140866-26f8-412b-9d6a-fd8ae707a180}</UniqueIdentifier>
     </Filter>
@@ -64,6 +55,30 @@
     <Filter Include="tools\sok_keygen">
       <UniqueIdentifier>{6684e9a6-b412-4208-87d2-8a611ed1892b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib\netlib">
+      <UniqueIdentifier>{434edf13-56eb-4201-809b-7993a379e67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\include">
+      <UniqueIdentifier>{a704f204-1578-4b79-8bec-25f2d0c0917c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\src">
+      <UniqueIdentifier>{8707a873-558c-4a60-8ee5-df2a6fc1cb90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\lib">
+      <UniqueIdentifier>{d79e2983-2573-4b72-bcb4-ee3a54aa4dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\lib\http_parser">
+      <UniqueIdentifier>{c04453d1-5ba4-4aaf-989b-43badb8b538c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\lib\mbedtls">
+      <UniqueIdentifier>{d6b0439d-7dde-460c-b021-82c9bb6c05bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\lib\mbedtls\include">
+      <UniqueIdentifier>{9fd413a6-eb2f-4e97-a616-c91df7449f6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\lib\mbedtls\src">
+      <UniqueIdentifier>{3f4818ed-1d5a-430c-b794-3933c04fdb34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\fmt-3.0.1\fmt\format.cc">
@@ -71,219 +86,6 @@
     </ClCompile>
     <ClCompile Include="..\lib\fmt-3.0.1\fmt\ostream.cc">
       <Filter>lib\fmt</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\aes.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\aesni.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\arc4.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\asn1parse.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\asn1write.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\base64.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\bignum.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\blowfish.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\camellia.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ccm.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\certs.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\cipher.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\cipher_wrap.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\cmac.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ctr_drbg.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\debug.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\des.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\dhm.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecdh.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecdsa.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecjpake.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecp.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ecp_curves.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\entropy.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\entropy_poll.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\error.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\gcm.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\havege.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\hmac_drbg.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md_wrap.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md2.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md4.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\md5.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\memory_buffer_alloc.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\net_sockets.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\oid.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\padlock.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pem.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pk.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pk_wrap.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkcs5.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkcs11.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkcs12.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkparse.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\pkwrite.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\platform.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ripemd160.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\rsa.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\sha1.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\sha256.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\sha512.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_cache.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_ciphersuites.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_cli.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_cookie.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_srv.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_ticket.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\ssl_tls.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\threading.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\timing.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\version.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\version_features.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_create.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_crl.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_crt.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509_csr.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509write_crt.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\x509write_csr.c">
-      <Filter>lib\mbedtls\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\mbedtls-2.4.2\library\xtea.c">
-      <Filter>lib\mbedtls\src</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\milagro-crypto-c\src\aes.c">
       <Filter>lib\milagro-crypto-c\src</Filter>
@@ -390,9 +192,6 @@
     <ClCompile Include="..\src\mqtt_tls_client.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\tls.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\utils.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -400,9 +199,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\exception.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\http.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\mpin_full.cpp">
@@ -422,6 +218,243 @@
     </ClCompile>
     <ClCompile Include="..\tools\sok_keygen\main.cpp">
       <Filter>tools\sok_keygen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\src\common.cpp">
+      <Filter>lib\netlib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\src\http_client.cpp">
+      <Filter>lib\netlib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\src\http_response_parser.cpp">
+      <Filter>lib\netlib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\src\tcp_connection.cpp">
+      <Filter>lib\netlib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\src\tls_connection.cpp">
+      <Filter>lib\netlib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\src\utils.cpp">
+      <Filter>lib\netlib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\src\x509.cpp">
+      <Filter>lib\netlib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\http-parser-2.7.1\http_parser.c">
+      <Filter>lib\netlib\lib\http_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\aes.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\aesni.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\arc4.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\asn1parse.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\asn1write.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\base64.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\bignum.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\blowfish.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\camellia.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ccm.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\certs.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\cipher.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\cipher_wrap.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\cmac.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ctr_drbg.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\debug.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\des.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\dhm.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ecdh.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ecdsa.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ecjpake.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ecp.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ecp_curves.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\entropy.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\entropy_poll.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\error.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\gcm.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\havege.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\hmac_drbg.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\md.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\md_wrap.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\md2.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\md4.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\md5.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\memory_buffer_alloc.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\net_sockets.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\oid.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\padlock.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pem.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pk.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pk_wrap.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pkcs5.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pkcs11.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pkcs12.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pkparse.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\pkwrite.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\platform.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ripemd160.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\rsa.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\sha1.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\sha256.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\sha512.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ssl_cache.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ssl_ciphersuites.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ssl_cli.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ssl_cookie.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ssl_srv.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ssl_ticket.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\ssl_tls.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\threading.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\timing.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\version.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\version_features.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\x509.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\x509_create.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\x509_crl.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\x509_crt.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\x509_csr.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\x509write_crt.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\x509write_csr.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\xtea.c">
+      <Filter>lib\netlib\lib\mbedtls\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -454,213 +487,6 @@
     </ClInclude>
     <ClInclude Include="..\lib\fmt-3.0.1\fmt\ostream.h">
       <Filter>lib\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\aes.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\aesni.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\arc4.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\asn1.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\asn1write.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\base64.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\bignum.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\blowfish.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\bn_mul.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\camellia.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ccm.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\certs.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\check_config.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\cipher.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\cipher_internal.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\cmac.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\compat-1.3.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\config.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ctr_drbg.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\debug.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\des.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\dhm.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecdh.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecdsa.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecjpake.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ecp.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\entropy.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\entropy_poll.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\error.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\gcm.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\havege.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\hmac_drbg.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md_internal.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md2.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md4.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\md5.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\memory_buffer_alloc.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\net.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\net_sockets.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\oid.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\padlock.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pem.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pk.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pk_internal.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pkcs5.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pkcs11.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\pkcs12.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\platform.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\platform_time.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ripemd160.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\rsa.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\sha1.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\sha256.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\sha512.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_cache.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_ciphersuites.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_cookie.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_internal.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\ssl_ticket.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\threading.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\timing.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\version.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509_crl.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509_crt.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\x509_csr.h">
-      <Filter>lib\mbedtls\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\mbedtls-2.4.2\include\mbedtls\xtea.h">
-      <Filter>lib\mbedtls\include</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\milagro-crypto-c\include\amcl.h">
       <Filter>lib\milagro-crypto-c\include</Filter>
@@ -728,9 +554,6 @@
     <ClInclude Include="..\src\mqtt_tls_client.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\tls.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\utils.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -738,9 +561,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\src\exception.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\http.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\src\mpin_full.h">
@@ -757,6 +577,237 @@
     </ClInclude>
     <ClInclude Include="..\lib\milagro-crypto-c\include\sok.h">
       <Filter>lib\milagro-crypto-c\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\include\net\common.h">
+      <Filter>lib\netlib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\include\net\http_client.h">
+      <Filter>lib\netlib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\include\net\tcp_connection.h">
+      <Filter>lib\netlib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\include\net\tls_connection.h">
+      <Filter>lib\netlib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\include\net\x509.h">
+      <Filter>lib\netlib\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\src\http_response_parser.h">
+      <Filter>lib\netlib\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\src\utils.h">
+      <Filter>lib\netlib\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\http-parser-2.7.1\http_parser.h">
+      <Filter>lib\netlib\lib\http_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\aes.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\aesni.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\arc4.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\asn1.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\asn1write.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\base64.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\bignum.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\blowfish.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\bn_mul.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\camellia.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ccm.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\certs.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\check_config.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\cipher.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\cipher_internal.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\cmac.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\compat-1.3.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\config.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ctr_drbg.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\debug.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\des.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\dhm.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ecdh.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ecdsa.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ecjpake.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ecp.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\entropy.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\entropy_poll.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\error.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\gcm.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\havege.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\hmac_drbg.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\md.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\md_internal.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\md2.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\md4.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\md5.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\memory_buffer_alloc.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\net.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\net_sockets.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\oid.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\padlock.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\pem.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\pk.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\pk_internal.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\pkcs5.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\pkcs11.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\pkcs12.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\platform.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\platform_time.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ripemd160.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\rsa.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\sha1.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\sha256.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\sha512.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ssl.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ssl_cache.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ssl_ciphersuites.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ssl_cookie.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ssl_internal.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\ssl_ticket.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\threading.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\timing.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\version.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\x509.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\x509_crl.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\x509_crt.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\x509_csr.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\xtea.h">
+      <Filter>lib\netlib\lib\mbedtls\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,61 +1,15 @@
-#include "tls.h"
-#include "mbedtls/error.h"
+#include "net/tls_connection.h"
+#include "utils.h"
+#ifdef _WIN32
+#include "winsock2.h"
+#else
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <errno.h>
-#include <ostream>
+#endif
 
-namespace iot
+namespace net
 {
-    TlsConnection::Status::Status()
-    {
-        code = 0;
-    }
-
-    TlsConnection::Status::Status(int _code, const std::string& func)
-    {
-        code = _code;
-        failedFunc = func;
-        if (_code)
-        {
-            char buf[128];
-            mbedtls_strerror(_code, buf, sizeof(buf));
-            error = buf;
-        }
-        else
-        {
-            error = "EOF received (connection closed)";
-        }
-    }
-
-    TlsConnection::Status::Status(const std::string & _error, const std::string & func)
-    {
-        code = -1;
-        failedFunc = func;
-        error = _error;
-    }
-
-    std::ostream& operator<<(std::ostream& out, const TlsConnection::Status& s)
-    {
-        if (s.code == 0 && s.failedFunc.empty() && s.error.empty())
-        {
-            out << "OK";
-        }
-        else
-        {
-            out << s.failedFunc << " failed with error (" << s.code << "): " << s.error;
-        }
-        return out;
-    }
-
-    void TlsConnection::Status::Clear()
-    {
-        code = 0;
-        failedFunc.clear();
-        error.clear();
-    }
-
-    TlsConnection::TlsConnection() : m_connected(false), m_rngSeeded(false), m_timedOut(false)
+    TlsConnection::TlsConnection() : m_rngSeeded(false)
     {
         mbedtls_entropy_init(&m_entropy);
         mbedtls_ctr_drbg_init(&m_rng);
@@ -78,38 +32,18 @@ namespace iot
     {
         m_psk = psk;
         m_pskId = pskId;
+        mbedtls_ssl_conf_psk(&m_conf, ToUnsignedChar(m_psk), m_psk.length(), ToUnsignedChar(m_pskId), m_pskId.length());
+    }
+
+    void TlsConnection::SetX509CaChain(x509::CaChain & caChain)
+    {
+        mbedtls_ssl_conf_ca_chain(&m_conf, &caChain.certificates, NULL);
+        mbedtls_ssl_conf_authmode(&m_conf, MBEDTLS_SSL_VERIFY_REQUIRED);
     }
 
     void TlsConnection::SetPersonalizationData(const std::string & data)
     {
         m_persData = data;
-    }
-
-    void TlsConnection::SetAddress(const Addr & addr)
-    {
-        m_addr = addr;
-    }
-
-    const Addr& TlsConnection::GetAddress() const
-    {
-        return m_addr;
-    }
-
-    int TlsConnection::OnError(int code, const std::string & func)
-    {
-        m_lastError = Status(code, func);
-        return code;
-    }
-
-    int TlsConnection::OnError(const std::string & error, const std::string & func)
-    {
-        m_lastError = Status(error, func);
-        return m_lastError.code;
-    }
-
-    const TlsConnection::Status & TlsConnection::GetLastError() const
-    {
-        return m_lastError;
     }
 
     int TlsConnection::Connect()
@@ -126,19 +60,26 @@ namespace iot
             ret = mbedtls_ctr_drbg_seed(&m_rng, mbedtls_entropy_func, &m_entropy, ToUnsignedChar(m_persData), m_persData.length());
             if (ret)
             {
-                return OnError(ret, "mbedtls_ctr_drbg_seed");
+                return m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_ctr_drbg_seed");
             }
             m_rngSeeded = true;
         }
-
-        mbedtls_ssl_conf_psk(&m_conf, ToUnsignedChar(m_psk), m_psk.length(), ToUnsignedChar(m_pskId), m_pskId.length());
 
         mbedtls_ssl_init(&m_ssl);
         ret = mbedtls_ssl_setup(&m_ssl, &m_conf);
         if (ret)
         {
             mbedtls_ssl_free(&m_ssl);
-            return OnError(ret, "mbedtls_ssl_setup");
+            return m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_ssl_setup");
+        }
+
+        if(m_conf.ca_chain)
+        {
+            ret = mbedtls_ssl_set_hostname(&m_ssl, m_addr.host.c_str());
+            if (ret)
+            {
+                return m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_ssl_set_hostname");
+            }
         }
 
         mbedtls_net_init(&m_socket);
@@ -147,7 +88,7 @@ namespace iot
         {
             mbedtls_net_free(&m_socket);
             mbedtls_ssl_free(&m_ssl);
-            return OnError(ret, "mbedtls_net_connect");
+            return m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_net_connect");
         }
 
         mbedtls_ssl_set_bio(&m_ssl, &m_socket, mbedtls_net_send, NULL, mbedtls_net_recv_timeout);
@@ -157,7 +98,7 @@ namespace iot
         {
             mbedtls_net_free(&m_socket);
             mbedtls_ssl_free(&m_ssl);
-            return OnError(ret, "mbedtls_ssl_handshake");
+            return m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_ssl_handshake");
         }
 
         m_connected = true;
@@ -180,16 +121,6 @@ namespace iot
         m_connected = false;
     }
 
-    bool TlsConnection::IsConnected() const
-    {
-        return m_connected;
-    }
-
-    bool TlsConnection::IsTimedOut() const
-    {
-        return m_timedOut;
-    }
-
     std::string TlsConnection::GetCiphersuite() const
     {
         if (!m_connected)
@@ -200,11 +131,54 @@ namespace iot
         return mbedtls_ssl_get_ciphersuite(&m_ssl);
     }
 
-    int TlsConnection::read(unsigned char * buffer, int len, int timeoutMillisec)
+    int TlsConnection::Read(unsigned char * buffer, int len)
+    {
+        return Read(buffer, len, 0);
+    }
+
+    int TlsConnection::Read(unsigned char * buffer, int len, int timeoutMillisec)
     {
         if (!m_connected)
         {
-            return OnError("Network disconnected", "TlsConnection::read");
+            return m_lastError.Set(-1, "Network disconnected", "TlsConnection::read");
+        }
+
+        m_timedOut = false;
+
+        mbedtls_ssl_conf_read_timeout(&m_conf, timeoutMillisec);
+
+        int ret = mbedtls_ssl_read(&m_ssl, buffer, len);
+        if (ret <= 0)
+        {
+            if (ret == MBEDTLS_ERR_SSL_TIMEOUT)
+            {
+                m_timedOut = true;
+            }
+            //else if (ret == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY)
+            //{
+            //    ret = 0;
+            //}
+            else
+            {
+                m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_ssl_read");
+                Close();
+            }
+        }
+
+        mbedtls_ssl_conf_read_timeout(&m_conf, 0);
+        return ret;
+    }
+
+    int TlsConnection::ReadAll(unsigned char * buffer, int len)
+    {
+        return ReadAll(buffer, len, 0);
+    }
+
+    int TlsConnection::ReadAll(unsigned char * buffer, int len, int timeoutMillisec)
+    {
+        if (!m_connected)
+        {
+            return m_lastError.Set(-1, "Network disconnected", "TlsConnection::read");
         }
 
         m_timedOut = false;
@@ -223,7 +197,7 @@ namespace iot
                 }
                 else
                 {
-                    OnError(ret, "mbedtls_ssl_read");
+                    m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_ssl_read");
                     Close();
                 }
 
@@ -237,11 +211,16 @@ namespace iot
         return received;
     }
 
-    int TlsConnection::write(const unsigned char * buffer, int len, int timeoutMillisec)
+    int TlsConnection::Write(const unsigned char * buffer, int len)
+    {
+        return Write(buffer, len, 0);
+    }
+
+    int TlsConnection::Write(const unsigned char * buffer, int len, int timeoutMillisec)
     {
         if (!m_connected)
         {
-            return OnError("Network disconnected", "TlsConnection::write");
+            return m_lastError.Set(-1, "Network disconnected", "TlsConnection::write");
         }
 
         if (len <= 0)
@@ -250,19 +229,19 @@ namespace iot
         }
 
         timeval tv = { timeoutMillisec / 1000, (timeoutMillisec % 1000) * 1000 };
-        setsockopt(m_socket.fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(struct timeval));
+        setsockopt(m_socket.fd, SOL_SOCKET, SO_SNDTIMEO, reinterpret_cast<char*>(&tv), sizeof(struct timeval));
 
         int ret = mbedtls_ssl_write(&m_ssl, buffer, len);
         if (ret <= 0)
         {
-            OnError(ret, "mbedtls_ssl_write");
+            m_lastError.Set(ret, mbedtls::strerror(ret), "mbedtls_ssl_write");
             Close();
             return ret;
         }
 
         tv.tv_sec = 0;
         tv.tv_usec = 0;
-        setsockopt(m_socket.fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(struct timeval));
+        setsockopt(m_socket.fd, SOL_SOCKET, SO_SNDTIMEO, reinterpret_cast<char*>(&tv), sizeof(struct timeval));
 
         return ret;
     }

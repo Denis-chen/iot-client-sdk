@@ -14,7 +14,9 @@ OUTPUT_FILE = $(OUTPUT_DIR)/lib$(OUTPUT_LIB_NAME).a
 # Library paths
 LIB_CAJUN = lib/cajun-2.0.2
 LIB_FMT = lib/fmt-3.0.1
-LIB_MBEDTLS = lib/mbedtls-2.4.2
+LIB_NETLIB = lib/netlib
+LIB_MBEDTLS = $(LIB_NETLIB)/lib/mbedtls-2.4.2
+LIB_HTTP_PARSER = $(LIB_NETLIB)/lib/http-parser-2.7.1
 LIB_CRYPTO = lib/milagro-crypto-c
 LIB_PAHO = lib/paho.mqtt.embedded-c-master
 
@@ -23,7 +25,9 @@ INCLUDE_DIRS = \
 	-I$(ROOT_DIR)/include \
 	-I$(ROOT_DIR)/$(LIB_CAJUN) \
 	-I$(ROOT_DIR)/$(LIB_FMT) \
+	-I$(ROOT_DIR)/$(LIB_NETLIB)/include \
 	-I$(ROOT_DIR)/$(LIB_MBEDTLS)/include \
+	-I$(ROOT_DIR)/$(LIB_HTTP_PARSER) \
 	-I$(ROOT_DIR)/$(LIB_CRYPTO)/include \
 	-I$(ROOT_DIR)/$(LIB_PAHO)/MQTTClient/src -I$(ROOT_DIR)/$(LIB_PAHO)/MQTTPacket/src
 
@@ -32,7 +36,7 @@ INCLUDE_DIRS = \
 #LDSTRIP = -Wl,--gc-sections
 
 # C and C++ flags
-CPPFLAGS = -g -MMD -MP $(INCLUDE_DIRS) -DFMT_HEADER_ONLY -DC99 $(CPPSTRIP) # -DMBEDTLS_CONFIG_FILE='<mbedtls_config.h>'
+CPPFLAGS = -g -MMD -MP $(INCLUDE_DIRS) -DFMT_HEADER_ONLY -DC99 $(CPPSTRIP)
 CXXFLAGS += -std=c++98
 #CFLAGS += -std=c99
 
@@ -106,7 +110,9 @@ endef
 # $(call add_src_dir_including, <a directory>, <include file list>)
 # All directories are specified relatively to $(ROOT_DIR).
 SRC = $(call add_src_dir, src)
+SRC += $(call add_src_dir, $(LIB_NETLIB)/src)
 SRC += $(call add_src_dir, $(LIB_MBEDTLS)/library)
+SRC += $(call add_src_dir_including, $(LIB_HTTP_PARSER), http_parser.c)
 CRYPTO_SRC = aes.c big.c ecp.c ecp2.c ff.c fp.c fp2.c fp4.c fp12.c gcm.c hash.c mpin.c oct.c pair.c rand.c randapi.c rom.c sok.c
 SRC += $(call add_src_dir_including, $(LIB_CRYPTO)/src, $(CRYPTO_SRC))
 SRC += $(call add_src_dir, $(LIB_PAHO)/MQTTPacket/src)

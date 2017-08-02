@@ -37,7 +37,7 @@ namespace iot
         request["U"] = json::String(HexEncode(pass1.u));
         request["UT"] = json::String(HexEncode(pass1.ut));
 
-        response = MakePostRequest(fmt::sprintf("%s/auth/pass1", server), request);
+        response = m_httpClient.MakePostRequest(fmt::sprintf("%s/auth/pass1", server), request);
 
         Pass2Data pass2;
         pass2.y = HexDecode((const json::String&) response["y"]);
@@ -51,12 +51,12 @@ namespace iot
         request["V"] = json::String(HexEncode(pass2.v));
         request["Z"] = json::String(HexEncode(pass2.z));
 
-        response = MakePostRequest(fmt::sprintf("%s/auth/pass2", server), request);
+        response = m_httpClient.MakePostRequest(fmt::sprintf("%s/auth/pass2", server), request);
 
         request.Clear();
         request["mpinResponse"]["authOTT"] = response["authOTT"];
 
-        response = MakePostRequest(fmt::sprintf("%s/auth/authenticate", server), request);
+        response = m_httpClient.MakePostRequest(fmt::sprintf("%s/auth/authenticate", server), request);
 
         AuthData auth;
         auth.t = HexDecode((const json::String&) response["T"]);
@@ -90,7 +90,7 @@ namespace iot
         std::string cs1 = HexDecode((const json::String&) renewSecret["clientSecretShare"]);
         std::string cs2Url = (const json::String&) renewSecret["cs2url"];
 
-        json::ConstElement response = MakeGetRequest(cs2Url);
+        json::ConstElement response = m_httpClient.MakeGetRequest(cs2Url);
         std::string cs2 = HexDecode((const json::String&) response["clientSecret"]);
 
         newId.clientSecret = m_crypto.RecombineClientSecret(cs1, cs2);

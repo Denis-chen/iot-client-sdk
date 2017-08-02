@@ -4,6 +4,16 @@
 
 namespace iot
 {
+    int MqttTlsClient::TlsConnection::read(unsigned char * buffer, int len, int timeoutMillisec)
+    {
+        return ReadAll(buffer, len, timeoutMillisec);
+    }
+
+    int MqttTlsClient::TlsConnection::write(const unsigned char * buffer, int len, int timeoutMillisec)
+    {
+        return Write(buffer, len, timeoutMillisec);
+    }
+
     MqttTlsClient::MqttTlsClient()
         : m_client(m_connection), m_qos(MQTT::QOS2), m_usePersistentSession(true), m_sessionPresent(false) {}
 
@@ -18,7 +28,7 @@ namespace iot
         return m_clientId;
     }
 
-    void MqttTlsClient::SetBrokerAddress(const Addr & addr)
+    void MqttTlsClient::SetBrokerAddress(const net::Addr & addr)
     {
         m_connection.SetAddress(addr);
     }
