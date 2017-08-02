@@ -44,7 +44,7 @@ CXXFLAGS += -std=c++98
 LIB_DIRS =
 
 # Additional libraries
-LDLIBS = -lcurl
+LDLIBS =
 
 # Linker flags
 LDFLAGS = $(LIB_DIRS) $(LDSTRIP)
