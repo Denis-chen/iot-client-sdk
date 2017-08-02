@@ -1,11 +1,7 @@
-# Standard variables
-CC = gcc
-CXX = g++
-
 # Directories: ROOT_DIR - root of all sources, TMP_DIR - temporary build files, OUTPUT_DIR - final binaries dir
 ROOT_DIR = .
-TMP_DIR = $(ROOT_DIR)/output/obj
-OUTPUT_DIR = $(ROOT_DIR)/output
+TMP_DIR = $(ROOT_DIR)/output$(ARCH)/obj
+OUTPUT_DIR = $(ROOT_DIR)/output$(ARCH)
 
 # Output file
 OUTPUT_LIB_NAME = iotclient
@@ -36,7 +32,7 @@ INCLUDE_DIRS = \
 #LDSTRIP = -Wl,--gc-sections
 
 # C and C++ flags
-CPPFLAGS = -g -MMD -MP $(INCLUDE_DIRS) -DFMT_HEADER_ONLY -DC99 $(CPPSTRIP)
+CPPFLAGS += $(ARCH_FLAGS) -g -MMD -MP $(INCLUDE_DIRS) -DFMT_HEADER_ONLY -DC99 $(CPPSTRIP)
 CXXFLAGS += -std=c++98
 #CFLAGS += -std=c99
 
@@ -143,6 +139,18 @@ iot_client: $(OUTPUT_DIR)/iot_client
 
 $(OUTPUT_DIR)/iot_client: $(OUTPUT_FILE) $(ROOT_DIR)/tests/iot_client/main.cpp $(ROOT_DIR)/tests/iot_client/flags.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(ROOT_DIR)/tests/iot_client/*.cpp -L$(OUTPUT_DIR) $(LDFLAGS) -l$(OUTPUT_LIB_NAME) $(LDLIBS)
+
+i386:
+	$(MAKE) ARCH=/i386 ARCH_FLAGS=-m32
+
+x64:
+	$(MAKE) ARCH=/x64 ARCH_FLAGS=-m64
+
+arm:
+	$(MAKE) ARCH=/arm CC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ AR=arm-linux-gnueabi-ar
+
+armhf:
+	$(MAKE) ARCH=/armhf CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++ AR=arm-linux-gnueabihf-ar
 
 # Generate rules for each object file that depends on the corresponding .c file
 $(foreach cfile, $(C_SRC), $(eval $(call generate_c_rule, $(cfile), $(call c_to_obj, $(cfile)))))
