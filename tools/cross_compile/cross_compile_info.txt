@@ -1,0 +1,34 @@
+1. Install arm gcc:
+
+        sudo apt-get install gcc-arm-linux-gnueabi
+        sudo apt-get install g++-arm-linux-gnueabi
+
+    Compile with arm-linux-gnueabi-g++ instead of g++ (and statically link with arm-linux-gnueabi-ar)
+    
+2. Install armhf (hardpf) gcc:
+
+        sudo apt-get install gcc-arm-linux-gnueabihf
+        sudo apt-get install g++-arm-linux-gnueabihf
+
+    Compile with arm-linux-gnueabihf-g++ instead of g++
+
+3. For arm 64 (TODO):
+    aarch64 (gcc-aarch64-linux-gnu and g++-aarch64-linux-gnu packages for ubuntu (gcc-aarch64-linux-gnu-gcc))
+    https://stackoverflow.com/questions/21716800/does-gcc-arm-linux-gnueabi-build-for-a-64-bit-target
+    https://stackoverflow.com/questions/21556051/how-to-use-aarch64-linux-gnu-objdump-to-disassemble-v7-mode-instructions-a32-t3
+    
+4. Linux 32 and 64 bit builds (i386 vs x86-64):
+    For 32 bit version:
+        gcc -m32 -o output32 hello.c
+    For 64 bit version:
+        gcc -m64 -o output64 hello.c
+
+    For 32 bit build on 64 bit system install:
+        sudo apt-get install gcc-4.8-multilib g++-4.8-multilib
+        
+    If /usr/include/asm is missing (possibly), run:
+        sudo ln -s /usr/include/asm-generic /usr/include/asm
+        
+X. Other misc info:
+    For g++ compile statically linked executable add flags:
+        -static -static-libgcc -static-libstdc++
