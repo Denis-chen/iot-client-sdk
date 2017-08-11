@@ -172,7 +172,7 @@ namespace net
                 {
                     const char *data = m_dataStart + field_data[fieldIndex].off;
                     size_t len = field_data[fieldIndex].len;
-                    return ToLower(std::string(data, len));
+                    return std::string(data, len);
                 }
                 else
                 {
@@ -198,8 +198,8 @@ namespace net
             return false;
         }
 
-        scheme = fields.Get(UF_SCHEMA, "http");
-        addr.host = fields.Get(UF_HOST);
+        scheme = ToLower(fields.Get(UF_SCHEMA, "http"));
+        addr.host = ToLower(fields.Get(UF_HOST));
 
         const char *defaultPort = "";
         if (scheme == "http")
