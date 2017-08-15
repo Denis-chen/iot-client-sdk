@@ -29,6 +29,7 @@ namespace net
         int Set(const Code& _code, const std::string& _error, const std::string& func);
         int Set(const Code& _code, const std::string& _error, const std::string& func, const std::string& ctx);
         void Clear();
+        bool IsOK() const;
         friend std::ostream& operator<<(std::ostream& out, const Status& s);
 
         Code code;

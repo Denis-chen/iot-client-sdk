@@ -52,6 +52,11 @@ namespace net
 
     int Status::Set(const Code& _code, const std::string& _error, const std::string& func, const std::string& ctx)
     {
+        if (!IsOK())
+        {
+            return _code;
+        }
+
         code = _code;
         error = _error;
         failedFunc = func;
@@ -67,6 +72,11 @@ namespace net
         context.clear();
     }
 
+    bool Status::IsOK() const
+    {
+        return code == 0 && failedFunc.empty() && error.empty();
+    }
+
     std::ostream& operator<<(std::ostream& out, const Status::Code& c)
     {
         out << c.m_name;
@@ -75,7 +85,7 @@ namespace net
 
     std::ostream& operator<<(std::ostream& out, const Status& s)
     {
-        if (s.code == 0 && s.failedFunc.empty() && s.error.empty())
+        if (s.IsOK())
         {
             out << "OK";
         }

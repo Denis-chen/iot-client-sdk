@@ -6,12 +6,12 @@ namespace iot
 {
     int MqttTlsClient::TlsConnection::read(unsigned char * buffer, int len, int timeoutMillisec)
     {
-        return ReadAll(buffer, len, timeoutMillisec);
+        return ReadAll(buffer, len, timeoutMillisec > 0 ? timeoutMillisec : 1);
     }
 
     int MqttTlsClient::TlsConnection::write(const unsigned char * buffer, int len, int timeoutMillisec)
     {
-        return Write(buffer, len, timeoutMillisec);
+        return Write(buffer, len, timeoutMillisec > 0 ? timeoutMillisec : 1);
     }
 
     MqttTlsClient::MqttTlsClient()
