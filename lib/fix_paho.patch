@@ -1,6 +1,36 @@
+diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/linux/linux.cpp paho.mqtt.embedded-c-master_patched/MQTTClient/src/linux/linux.cpp
+--- paho.mqtt.embedded-c-master/MQTTClient/src/linux/linux.cpp	2016-09-12 21:15:18.000000000 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/linux/linux.cpp	2017-03-30 17:16:24.402578400 +0300
+@@ -44,14 +44,14 @@
+ 	int Socket_error(const char* aString)
+ 	{
+ 		int rc = 0;
+-		//if (errno != EINTR && errno != EAGAIN && errno != EINPROGRESS && errno != EWOULDBLOCK)
+-		//{
++		if (errno != EINTR && errno != EAGAIN && errno != EINPROGRESS && errno != EWOULDBLOCK)
++		{
+ 			if (strcmp(aString, "shutdown") != 0 || (errno != ENOTCONN && errno != ECONNRESET))
+ 			{
+ 				printf("Socket error %s in %s for socket %d\n", strerror(errno), aString, mysock);
+ 				rc = errno;
+ 			}
+-		//}
++		}
+ 		return errno;
+ 	}
+ 
 diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTClient.h paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h
 --- paho.mqtt.embedded-c-master/MQTTClient/src/MQTTClient.h	2016-09-12 21:15:18.000000000 +0300
-+++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h	2017-05-19 17:14:25.210572600 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h	2017-08-16 15:15:21.378103300 +0300
+@@ -52,7 +52,7 @@
+     bool dup;
+     unsigned short id;
+     void *payload;
+-    size_t payloadlen;
++    int payloadlen;
+ };
+ 
+ 
 @@ -100,7 +100,7 @@
  
  public:
@@ -38,6 +68,24 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTCl
      /** MQTT Publish - send an MQTT publish packet and wait for all acks to complete for all QoSs
       *  @param topic - the topic to publish to
       *  @param message - the message to send
+@@ -146,7 +153,7 @@
+      *  @param retained - whether the message should be retained
+      *  @return success code -
+      */
+-    int publish(const char* topicName, void* payload, size_t payloadlen, enum QoS qos = QOS0, bool retained = false);
++    int publish(const char* topicName, void* payload, int payloadlen, enum QoS qos = QOS0, bool retained = false);
+     
+     /** MQTT Publish - send an MQTT publish packet and wait for all acks to complete for all QoSs
+      *  @param topic - the topic to publish to
+@@ -157,7 +164,7 @@
+      *  @param retained - whether the message should be retained
+      *  @return success code -
+      */
+-    int publish(const char* topicName, void* payload, size_t payloadlen, unsigned short& id, enum QoS qos = QOS1, bool retained = false);
++    int publish(const char* topicName, void* payload, int payloadlen, unsigned short& id, enum QoS qos = QOS1, bool retained = false);
+ 
+     /** MQTT Subscribe - send an MQTT subscribe packet and wait for the suback
+      *  @param topicFilter - a topic pattern which can include wildcards
 @@ -224,10 +231,10 @@
      struct MessageHandlers
      {
@@ -51,6 +99,15 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTCl
  
      bool isconnected;
  
+@@ -547,7 +554,7 @@
+             Message msg;
+             int intQoS;
+             if (MQTTDeserialize_publish((unsigned char*)&msg.dup, &intQoS, (unsigned char*)&msg.retained, (unsigned short*)&msg.id, &topicName,
+-                                 (unsigned char**)&msg.payload, (int*)&msg.payloadlen, readbuf, MAX_MQTT_PACKET_SIZE) != 1)
++                                 (unsigned char**)&msg.payload, &msg.payloadlen, readbuf, MAX_MQTT_PACKET_SIZE) != 1)
+                 goto exit;
+             msg.qos = (enum QoS)intQoS;
+ #if MQTTCLIENT_QOS2
 @@ -658,7 +665,7 @@
  
  
@@ -103,6 +160,24 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTCl
                      rc = 0;
                      break;
                  }
+@@ -863,7 +883,7 @@
+ 
+ 
+ template<class Network, class Timer, int MAX_MQTT_PACKET_SIZE, int b>
+-int MQTT::Client<Network, Timer, MAX_MQTT_PACKET_SIZE, b>::publish(const char* topicName, void* payload, size_t payloadlen, unsigned short& id, enum QoS qos, bool retained)
++int MQTT::Client<Network, Timer, MAX_MQTT_PACKET_SIZE, b>::publish(const char* topicName, void* payload, int payloadlen, unsigned short& id, enum QoS qos, bool retained)
+ {
+     int rc = FAILURE;
+     Timer timer(command_timeout_ms);
+@@ -905,7 +925,7 @@
+ 
+ 
+ template<class Network, class Timer, int MAX_MQTT_PACKET_SIZE, int b>
+-int MQTT::Client<Network, Timer, MAX_MQTT_PACKET_SIZE, b>::publish(const char* topicName, void* payload, size_t payloadlen, enum QoS qos, bool retained)
++int MQTT::Client<Network, Timer, MAX_MQTT_PACKET_SIZE, b>::publish(const char* topicName, void* payload, int payloadlen, enum QoS qos, bool retained)
+ {
+     unsigned short id = 0;  // dummy - not used for anything
+     return publish(topicName, payload, payloadlen, id, qos, retained);
 @@ -928,10 +948,16 @@
      if (len > 0)
          rc = sendPacket(len, timer);            // send the disconnect packet
@@ -124,6 +199,18 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTCl
      return rc;
  }
  
+diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTDeserializePublish.c paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTDeserializePublish.c
+--- paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTDeserializePublish.c	2016-09-12 21:15:18.000000000 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTDeserializePublish.c	2017-08-16 15:17:46.201914800 +0300
+@@ -50,7 +50,7 @@
+ 	*qos = header.bits.qos;
+ 	*retained = header.bits.retain;
+ 
+-	curdata += (rc = MQTTPacket_decodeBuf(curdata, &mylen)); /* read remaining length */
++	curdata += MQTTPacket_decodeBuf(curdata, &mylen); /* read remaining length */
+ 	enddata = curdata + mylen;
+ 
+ 	if (!readMQTTLenString(topicName, &curdata, enddata) ||
 diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTFormat.c paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTFormat.c
 --- paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTFormat.c	2016-09-12 21:15:18.000000000 +0300
 +++ paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTFormat.c	2017-05-16 17:09:38.310817600 +0300
