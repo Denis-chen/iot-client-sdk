@@ -1,11 +1,11 @@
-#MIRACL IoT Client SDK
+# MIRACL IoT Client SDK
 
 The MIRACL IoT Client SDK is a library, which implements the MQTT protocol over secure TLS-PSK connection.
 It uses the M-Pin Full protocol to authenticate to an M-Pin Full server and to negotiate Shared Session Key
 on both client and server side. This key is used to establish a secure TLS-PSK connection to a TLS MQTT
 broker. The library also implements private (end-to-end) messaging with additional SOK encryption.
 
-##API
+## API
 
 The interface of the client library is located in `include/iot/client.h`. It consists from the following
 types:
