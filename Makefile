@@ -1,12 +1,16 @@
-# Directories: ROOT_DIR - root of all sources, TMP_DIR - temporary build files, OUTPUT_DIR - final binaries dir
-ROOT_DIR = .
-ARCH = default
-TMP_DIR = $(ROOT_DIR)/output/$(ARCH)/obj
-OUTPUT_DIR = $(ROOT_DIR)/output/$(ARCH)
+include lib/make_utils/base.makefile
 
-# Output file
+# Build/Temp and Architecture dirs
+ARCH = default
+TMP_DIR = output/tmp/$(ARCH)
+BUILD_DIR = output/build/$(ARCH)
+
+# Library output file
 OUTPUT_LIB_NAME = iotclient
-OUTPUT_FILE = $(OUTPUT_DIR)/lib$(OUTPUT_LIB_NAME).a
+OUTPUT_LIB = $(BUILD_DIR)/lib$(OUTPUT_LIB_NAME).a
+
+# Test (executable) output file
+OUTPUT_TEST = $(BUILD_DIR)/iot_client
 
 # Library paths
 LIB_CAJUN = lib/cajun-2.0.2
@@ -19,21 +23,21 @@ LIB_PAHO = lib/paho.mqtt.embedded-c-master
 
 # Includes
 INCLUDE_DIRS = \
-	-I$(ROOT_DIR)/include \
-	-I$(ROOT_DIR)/$(LIB_CAJUN) \
-	-I$(ROOT_DIR)/$(LIB_FMT) \
-	-I$(ROOT_DIR)/$(LIB_NETLIB)/include \
-	-I$(ROOT_DIR)/$(LIB_MBEDTLS)/include \
-	-I$(ROOT_DIR)/$(LIB_HTTP_PARSER) \
-	-I$(ROOT_DIR)/$(LIB_CRYPTO)/include \
-	-I$(ROOT_DIR)/$(LIB_PAHO)/MQTTClient/src -I$(ROOT_DIR)/$(LIB_PAHO)/MQTTPacket/src
+	-Iinclude \
+	-I$(LIB_CAJUN) \
+	-I$(LIB_FMT) \
+	-I$(LIB_NETLIB)/include \
+	-I$(LIB_MBEDTLS)/include \
+	-I$(LIB_HTTP_PARSER) \
+	-I$(LIB_CRYPTO)/include \
+	-I$(LIB_PAHO)/MQTTClient/src -I$(LIB_PAHO)/MQTTPacket/src
 
 # Uncomment following two lines to enable unused symbols stripping
 #CPPSTRIP = -fdata-sections -ffunction-sections
 #LDSTRIP = -Wl,--gc-sections
 
 # C and C++ flags
-CPPFLAGS += $(ARCH_CPPFLAGS) -g -O0 -MMD -MP $(INCLUDE_DIRS) -DFMT_HEADER_ONLY -DC99 $(CPPSTRIP)
+CPPFLAGS += $(ARCH_CPPFLAGS) -g -O0 $(INCLUDE_DIRS) -DFMT_HEADER_ONLY -DC99 $(CPPSTRIP)
 CXXFLAGS += -std=c++98
 #CFLAGS += -std=c99
 
@@ -43,114 +47,57 @@ LIB_DIRS =
 # Additional libraries
 LDLIBS =
 
+# Uncomment the following line to enable executable static linking against system libraries
 #ARCH_LDFLAGS = -static -static-libgcc -static-libstdc++
 
 # Linker flags
-LDFLAGS = $(LIB_DIRS) $(LDSTRIP) $(ARCH_LDFLAGS)
+LDFLAGS = $(ARCH_CPPFLAGS) -g -O0 $(LIB_DIRS) $(LDSTRIP) $(ARCH_LDFLAGS)
 
-# Utility functions, used later in build
-# rfind
-define rfind
-$(shell find $(1) -name '$(2)')
-endef
-# add_src_dir
-define add_src_dir
-$(sort $(call rfind,$(ROOT_DIR)/$(strip $(1)),*.c) $(call rfind,$(ROOT_DIR)/$(strip $(1)),*.cpp) $(call rfind,$(ROOT_DIR)/$(strip $(1)),*.cc))
-endef
-# filter_src
-define filter_src
-$(call $(1),$(addprefix %,$(3)),$(call add_src_dir,$(2)))
-endef
-# add_src_dir_excluding
-define add_src_dir_excluding
-$(call filter_src,filter-out,$(1),$(2))
-endef
-# add_src_dir_including
-define add_src_dir_including
-$(call filter_src,filter,$(1),$(2))
-endef
-# c_to_obj
-define c_to_obj
-$(patsubst $(ROOT_DIR)/%.c, $(TMP_DIR)/%.o, $(1))
-endef
-# cpp_to_obj
-define cpp_to_obj
-$(patsubst $(ROOT_DIR)/%.cpp, $(TMP_DIR)/%.o, $(1))
-endef
-# cc_to_obj
-define cc_to_obj
-$(patsubst $(ROOT_DIR)/%.cc, $(TMP_DIR)/%.o, $(1))
-endef
-# generate_c_rule
-define generate_c_rule
-$(2): $(1)
-	$$(shell mkdir -p $(dir $(2)))
-	$$(CC) $$(CPPFLAGS) $$(CFLAGS) -c $$< -o $$@
-endef
-# generate_cpp_rule
-define generate_cpp_rule
-$(2): $(1)
-	$$(shell mkdir -p $(dir $(2)))
-	$$(CXX) $$(CPPFLAGS) $$(CXXFLAGS) -c $$< -o $$@
-endef
-# generate_cc_rule
-define generate_cc_rule
-$(2): $(1)
-	$$(shell mkdir -p $(dir $(2)))
-	$$(CXX) $$(CPPFLAGS) $$(CXXFLAGS) -c $$< -o $$@
-endef
-
-# Source files - modify this part if you want to add new source files (*.c *.cpp).
+# Source files - modify this part if you want to add new source files (*.c *.cpp *.cc).
+# Use make_utils to collect source files
 # To recursively add all files in a directory, use:
-# $(call add_src_dir, <a directory>)
+# $(call mku_add_src_dir, <a directory>)
 # To recursively add all files in a directory, except some files, use:
-# $(call add_src_dir_excluding, <a directory>, <exclude file list>)
+# $(call mku_add_src_dir_excluding, <a directory>, <exclude file list>)
 # To recursively add only some files in a directory, use:
-# $(call add_src_dir_including, <a directory>, <include file list>)
-# All directories are specified relatively to $(ROOT_DIR).
-SRC = $(call add_src_dir, src)
-SRC += $(call add_src_dir, $(LIB_NETLIB)/src)
-SRC += $(call add_src_dir, $(LIB_MBEDTLS)/library)
-SRC += $(call add_src_dir_including, $(LIB_HTTP_PARSER), http_parser.c)
+# $(call mku_add_src_dir_including, <a directory>, <include file list>)
+# All directories are specified relatively to this Makefile working dir (project root).
+
+# Library sources
+LIB_SRC = $(call mku_add_src_dir, src)
+LIB_SRC += $(call mku_add_src_dir, $(LIB_NETLIB)/src)
+LIB_SRC += $(call mku_add_src_dir, $(LIB_MBEDTLS)/library)
+LIB_SRC += $(call mku_add_src_dir_including, $(LIB_HTTP_PARSER), http_parser.c)
 CRYPTO_SRC = aes.c big.c ecp.c ecp2.c ff.c fp.c fp2.c fp4.c fp12.c gcm.c hash.c mpin.c oct.c pair.c rand.c randapi.c rom.c sok.c
-SRC += $(call add_src_dir_including, $(LIB_CRYPTO)/src, $(CRYPTO_SRC))
-SRC += $(call add_src_dir, $(LIB_PAHO)/MQTTPacket/src)
+LIB_SRC += $(call mku_add_src_dir_including, $(LIB_CRYPTO)/src, $(CRYPTO_SRC))
+LIB_SRC += $(call mku_add_src_dir, $(LIB_PAHO)/MQTTPacket/src)
 
-# Generate a list of object files
-OBJ = $(call cc_to_obj, $(call cpp_to_obj, $(call c_to_obj, $(SRC))))
-
-# Separate .c and .cpp files
-C_SRC = $(filter %.c, $(SRC))
-CPP_SRC = $(filter %.cpp, $(SRC))
-CC_SRC = $(filter %.cc, $(SRC))
+# Test sources
+TEST_SRC = $(call mku_add_src_dir, tests/iot_client)
 
 # The default target
 all: staticlib tests
 
-staticlib: $(OUTPUT_FILE)
-
-# Rule for building the output file - depends on all object files
-$(OUTPUT_FILE): $(OBJ)
-	$(shell mkdir -p $(OUTPUT_DIR))
-	$(AR) rcs $@ $^
+staticlib: $(OUTPUT_LIB)
 
 # Rule for building all tests
-tests: iot_client
+tests: $(OUTPUT_TEST)
 
-# Rules for building iot_client test
-iot_client: $(OUTPUT_DIR)/iot_client
+# Use make_utils to generate everything needed to build the static lib
+$(call mku_add_static_lib, $(OUTPUT_LIB), $(LIB_SRC), $(TMP_DIR))
 
-$(OUTPUT_DIR)/iot_client: $(OUTPUT_FILE) $(ROOT_DIR)/tests/iot_client/main.cpp $(ROOT_DIR)/tests/iot_client/flags.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(ROOT_DIR)/tests/iot_client/*.cpp -L$(OUTPUT_DIR) $(LDFLAGS) -l$(OUTPUT_LIB_NAME) $(LDLIBS)
+# Use make_utils to generate everything needed to build the test executable
+$(call mku_add_executable, $(OUTPUT_TEST), $(TEST_SRC), $(TMP_DIR), $(OUTPUT_LIB))
 
+# Default crosscompile variables (can be set from the env)
 ARM_CC = arm-linux-gnueabi-gcc
 ARM_CXX = arm-linux-gnueabi-g++
 ARM_AR = arm-linux-gnueabi-ar
-
 ARMHF_CC = arm-linux-gnueabihf-gcc
 ARMHF_CXX = arm-linux-gnueabihf-g++
 ARMHF_AR = arm-linux-gnueabihf-ar
 
+# Targets for crosscompiling
 i386:
 	$(MAKE) ARCH=i386 ARCH_CPPFLAGS=-m32
 
@@ -165,20 +112,6 @@ armhf:
 
 crosscompile: i386 x64 arm armhf
 
-# Generate rules for each object file that depends on the corresponding .c file
-$(foreach cfile, $(C_SRC), $(eval $(call generate_c_rule, $(cfile), $(call c_to_obj, $(cfile)))))
-
-# Generate rules for each object file that depends on the corresponding .cpp file
-$(foreach cppfile, $(CPP_SRC), $(eval $(call generate_cpp_rule, $(cppfile), $(call cpp_to_obj, $(cppfile)))))
-
-# Generate rules for each object file that depends on the corresponding .cc file
-$(foreach ccfile, $(CC_SRC), $(eval $(call generate_cc_rule, $(ccfile), $(call cc_to_obj, $(ccfile)))))
-
 # Clean target
-#	rm -f -R $(TMP_DIR)/** $(OUTPUT_FILE) $(TEST_FILES)
 clean:
 	rm -f -R output/**
-
-# Include all the .d files (generated by the -MMD -MP option) corresponding to each of the object files
-# This adds to each object target a dependency on all the header files, included in the corresponding c/cpp/cc file
--include $(OBJ:%.o=%.d)
