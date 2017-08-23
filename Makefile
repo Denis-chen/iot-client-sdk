@@ -1,9 +1,13 @@
 include lib/make_utils/base.makefile
 
 # Build/Temp and Architecture dirs
-ARCH = default
-TMP_DIR = output/tmp/$(ARCH)
-BUILD_DIR = output/build/$(ARCH)
+ifndef ARCH
+TMP_DIR = build/tmp/default
+BUILD_DIR = build
+else
+TMP_DIR = build/tmp/$(ARCH)
+BUILD_DIR = build/$(ARCH)
+endif
 
 # Library output file
 OUTPUT_LIB_NAME = iotclient
@@ -47,11 +51,8 @@ LIB_DIRS =
 # Additional libraries
 LDLIBS =
 
-# Uncomment the following line to enable executable static linking against system libraries
-#ARCH_LDFLAGS = -static -static-libgcc -static-libstdc++
-
 # Linker flags
-LDFLAGS = $(ARCH_CPPFLAGS) -g -O0 $(LIB_DIRS) $(LDSTRIP) $(ARCH_LDFLAGS)
+LDFLAGS = $(ARCH_CPPFLAGS) -g -O0 $(LIB_DIRS) $(LDSTRIP)
 
 # Source files - modify this part if you want to add new source files (*.c *.cpp *.cc).
 # Use make_utils to collect source files
@@ -114,4 +115,4 @@ crosscompile: i386 x64 arm armhf
 
 # Clean target
 clean:
-	rm -f -R output/**
+	rm -f -R build/**
