@@ -1,0 +1,42 @@
+language: cpp
+
+sudo: true
+services:
+  - docker
+
+jobs:
+  include:
+
+    - stage: test
+      script: make
+
+    - stage: GitHub releases
+      install: skip
+      script: skip
+      before_deploy:
+        - docker build -t builder . 
+        - docker run -v $(pwd):/src/ builder make crosscompile ARM_CC=arm-linux-gnueabi-gcc-5 ARM_CXX=arm-linux-gnueabi-g++-5 ARMHF_CC=arm-linux-gnueabihf-gcc-5 ARMHF_CXX=arm-linux-gnueabihf-g++-5
+        - sudo chown -R travis:travis build
+        - cp include/iot/client.h build/arm
+        - tar -czf build/iot-client-sdk.arm.tar.gz -C build arm/client.h arm/iot_client arm/libiotclient.a
+        - cp include/iot/client.h build/armhf
+        - tar -czf build/iot-client-sdk.armhf.tar.gz -C build armhf/client.h armhf/iot_client armhf/libiotclient.a
+        - cp include/iot/client.h build/i386
+        - tar -czf build/iot-client-sdk.i386.tar.gz -C build i386/client.h i386/iot_client i386/libiotclient.a
+        - cp include/iot/client.h build/x64
+        - tar -czf build/iot-client-sdk.x64.tar.gz -C build x64/client.h x64/iot_client x64/libiotclient.a
+        - cd build
+        - sha256sum *.tar.gz > sha256sum.txt
+        - cd ..
+      deploy:
+        provider: releases
+        api_key: $GITHUB_TOKEN_KEY
+        file:
+          - "build/iot-client-sdk.arm.tar.gz"
+          - "build/iot-client-sdk.armhf.tar.gz"
+          - "build/iot-client-sdk.i386.tar.gz"
+          - "build/iot-client-sdk.x64.tar.gz"
+          - "build/sha256sum.txt"
+        skip_cleanup: true
+        on:
+          tags: true

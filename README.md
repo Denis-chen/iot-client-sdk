@@ -1,5 +1,7 @@
 # MIRACL IoT Client SDK
 
+[![Build Status](https://secure.travis-ci.org/miracl/iot-client-sdk.png?branch=master)](https://travis-ci.org/miracl/iot-client-sdk?branch=master)
+
 The MIRACL IoT Client SDK is a library, which implements the MQTT protocol over secure TLS-PSK connection.
 It uses the M-Pin Full protocol to authenticate to an M-Pin Full server and to negotiate Shared Session Key
 on both client and server side. This key is used to establish a secure TLS-PSK connection to a TLS MQTT
@@ -80,3 +82,21 @@ reestablish the connection or caused by connectivity issues during the underlyin
 through `EventListener::OnError` callback.
 
 A complete example usage of the library and a test client can be found in the `tests\iot_client` directory.
+
+## Build
+
+```
+make
+```
+
+### Build inside container
+
+#### Build builder container
+```
+docker build -t iot-client-sdk-builder .
+```
+
+#### Build the library inside the builder container
+```
+docker run -v $(pwd):/src/ iot-client-sdk-builder make
+``` 
