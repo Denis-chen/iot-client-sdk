@@ -2,85 +2,100 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{505a7548-c944-488e-ae26-2e80970e3cd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib">
-      <UniqueIdentifier>{e353a1af-d26f-436b-a127-3920ec38c0f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\cajun">
-      <UniqueIdentifier>{84595286-32fc-44a2-9b3b-b7eee51b24f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\cajun\json">
-      <UniqueIdentifier>{c9537d85-6b07-4d39-a1ed-09acf02e7736}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\cajun\utf8">
-      <UniqueIdentifier>{343828b5-190a-4365-9ef6-614ca313ba01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\fmt">
-      <UniqueIdentifier>{072cd41b-feb4-4fd5-a55a-859faae52c38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\milagro-crypto-c">
-      <UniqueIdentifier>{60140866-26f8-412b-9d6a-fd8ae707a180}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\milagro-crypto-c\include">
-      <UniqueIdentifier>{5704b722-c85d-49f6-89bc-d62654da6fbe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\milagro-crypto-c\src">
-      <UniqueIdentifier>{b5965bfb-0cb2-4284-b4bc-080830cece8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\paho.mqtt.embedded">
-      <UniqueIdentifier>{bf642683-4ca3-49ff-8581-7c34466959b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\paho.mqtt.embedded\MQTTClient">
-      <UniqueIdentifier>{98c78818-f399-4d00-b9b3-3f2bda8499ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lib\paho.mqtt.embedded\MQTTPacket">
-      <UniqueIdentifier>{823a06b5-6c3d-4f48-87ac-87e41947db56}</UniqueIdentifier>
+      <UniqueIdentifier>{89e2bc17-9840-40e4-9e30-a8978e4c888b}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{ce05fb47-67f0-478d-8d6b-b07e645d794c}</UniqueIdentifier>
+      <UniqueIdentifier>{87008d04-ae95-4221-9145-96c8d6e564ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\iot">
-      <UniqueIdentifier>{9658a668-25d4-49d6-a472-5183c930d6ee}</UniqueIdentifier>
+      <UniqueIdentifier>{bb6066e7-1bb9-4514-afbb-ba692c2db19b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tests">
-      <UniqueIdentifier>{cd9e717b-7215-4da1-a9c2-5cc2bc6648c7}</UniqueIdentifier>
+    <Filter Include="lib">
+      <UniqueIdentifier>{40d57827-48f8-425d-9b17-15a0f3243f85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tests\iot_client">
-      <UniqueIdentifier>{c213e8cd-db07-4b2e-9717-021b1e503d97}</UniqueIdentifier>
+    <Filter Include="lib\cajun">
+      <UniqueIdentifier>{96a32eef-b5f8-4e4a-90db-7d888edaeca1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools">
-      <UniqueIdentifier>{44eb5b7f-30fc-403a-8798-5240b21a9e2c}</UniqueIdentifier>
+    <Filter Include="lib\cajun\json">
+      <UniqueIdentifier>{6a12f500-d1fc-4d4b-b08d-c0bac923895f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\sok_keygen">
-      <UniqueIdentifier>{6684e9a6-b412-4208-87d2-8a611ed1892b}</UniqueIdentifier>
+    <Filter Include="lib\cajun\utf8">
+      <UniqueIdentifier>{d944a487-a135-4a74-8864-d61414299336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\fmt">
+      <UniqueIdentifier>{5f0abbaf-d176-4735-a659-1bbab250eea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\milagro-crypto-c">
+      <UniqueIdentifier>{405c2cf0-d055-4234-adb7-a73333b4c753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\milagro-crypto-c\include">
+      <UniqueIdentifier>{c7bffcac-0ca6-4913-9beb-a606de0642ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\milagro-crypto-c\src">
+      <UniqueIdentifier>{627b6fd1-f8e4-44dd-985a-6908703dad2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\make_utils">
+      <UniqueIdentifier>{2bb4128e-084a-4cfd-a35e-bc75bbeca749}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib">
-      <UniqueIdentifier>{434edf13-56eb-4201-809b-7993a379e67c}</UniqueIdentifier>
+      <UniqueIdentifier>{ae91609d-1df2-4221-8c22-4be38b818606}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib\include">
-      <UniqueIdentifier>{a704f204-1578-4b79-8bec-25f2d0c0917c}</UniqueIdentifier>
+      <UniqueIdentifier>{e12f9fe4-f335-4440-9ca7-77dda299c197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\netlib\include\net">
+      <UniqueIdentifier>{7caae2fa-0eb2-411e-960c-fc372c13b6b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib\src">
-      <UniqueIdentifier>{8707a873-558c-4a60-8ee5-df2a6fc1cb90}</UniqueIdentifier>
+      <UniqueIdentifier>{3cfe0325-49b7-4994-ad1e-99b77877d564}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib\lib">
-      <UniqueIdentifier>{d79e2983-2573-4b72-bcb4-ee3a54aa4dd4}</UniqueIdentifier>
+      <UniqueIdentifier>{66813c80-a6ab-4c6a-a7cb-7a412f16c669}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib\lib\http_parser">
-      <UniqueIdentifier>{c04453d1-5ba4-4aaf-989b-43badb8b538c}</UniqueIdentifier>
+      <UniqueIdentifier>{de9030ab-db8a-4b06-9b24-fd619b501298}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib\lib\mbedtls">
-      <UniqueIdentifier>{d6b0439d-7dde-460c-b021-82c9bb6c05bd}</UniqueIdentifier>
+      <UniqueIdentifier>{a42a6376-5389-46ee-864c-68eec2fcd2dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib\lib\mbedtls\include">
-      <UniqueIdentifier>{9fd413a6-eb2f-4e97-a616-c91df7449f6c}</UniqueIdentifier>
+      <UniqueIdentifier>{2f00595d-217b-4ac3-9eed-981c2c2b738c}</UniqueIdentifier>
     </Filter>
     <Filter Include="lib\netlib\lib\mbedtls\src">
-      <UniqueIdentifier>{3f4818ed-1d5a-430c-b794-3933c04fdb34}</UniqueIdentifier>
+      <UniqueIdentifier>{f14f718f-d990-48a0-9dbd-92a78a625e91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\paho.mqtt.embedded">
+      <UniqueIdentifier>{c80ff0be-c98b-4f0a-9ffb-0188804c15a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\paho.mqtt.embedded\MQTTClient">
+      <UniqueIdentifier>{48a28663-aeb7-4938-9997-7724689c8364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\paho.mqtt.embedded\MQTTPacket">
+      <UniqueIdentifier>{30399d94-efc7-433b-9715-da86b388395c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\client.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\exception.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mpin_full.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mqtt_tls_client.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\timer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\lib\fmt-3.0.1\fmt\format.cc">
       <Filter>lib\fmt</Filter>
     </ClCompile>
@@ -91,9 +106,6 @@
       <Filter>lib\milagro-crypto-c\src</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\milagro-crypto-c\src\big.c">
-      <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\milagro-crypto-c\src\ecdh.c">
       <Filter>lib\milagro-crypto-c\src</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\milagro-crypto-c\src\ecp.c">
@@ -126,9 +138,6 @@
     <ClCompile Include="..\lib\milagro-crypto-c\src\mpin.c">
       <Filter>lib\milagro-crypto-c\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\milagro-crypto-c\src\oct.c">
-      <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\lib\milagro-crypto-c\src\pair.c">
       <Filter>lib\milagro-crypto-c\src</Filter>
     </ClCompile>
@@ -141,83 +150,8 @@
     <ClCompile Include="..\lib\milagro-crypto-c\src\rom.c">
       <Filter>lib\milagro-crypto-c\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\milagro-crypto-c\src\rsa.c">
-      <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\milagro-crypto-c\src\utils.c">
-      <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\milagro-crypto-c\src\version.c">
-      <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\milagro-crypto-c\src\wcc.c">
-      <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\milagro-crypto-c\src\x509.c">
-      <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\linux\linux.cpp">
-      <Filter>lib\paho.mqtt.embedded\MQTTClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectClient.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectServer.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTDeserializePublish.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTFormat.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSerializePublish.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeClient.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeServer.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeClient.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeServer.c">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\mqtt_tls_client.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\utils.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\crypto.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\exception.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\mpin_full.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\client.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tests\iot_client\flags.cpp">
-      <Filter>tests\iot_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tests\iot_client\main.cpp">
-      <Filter>tests\iot_client</Filter>
-    </ClCompile>
     <ClCompile Include="..\lib\milagro-crypto-c\src\sok.c">
       <Filter>lib\milagro-crypto-c\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tools\sok_keygen\main.cpp">
-      <Filter>tools\sok_keygen</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\netlib\src\common.cpp">
       <Filter>lib\netlib\src</Filter>
@@ -456,8 +390,68 @@
     <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\xtea.c">
       <Filter>lib\netlib\lib\mbedtls\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectClient.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectServer.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTDeserializePublish.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTFormat.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSerializePublish.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeClient.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeServer.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeClient.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeServer.c">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\milagro-crypto-c\src\oct.c">
+      <Filter>lib\milagro-crypto-c\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\crypto.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\exception.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mpin_full.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mqtt_tls_client.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\timer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\utils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\iot\client.h">
+      <Filter>include\iot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\cajun-2.0.2\json.h">
+      <Filter>lib\cajun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\cajun-2.0.2\utf8.h">
+      <Filter>lib\cajun</Filter>
+    </ClInclude>
     <ClInclude Include="..\lib\cajun-2.0.2\json\elements.h">
       <Filter>lib\cajun\json</Filter>
     </ClInclude>
@@ -478,9 +472,6 @@
     </ClInclude>
     <ClInclude Include="..\lib\cajun-2.0.2\utf8\unchecked.h">
       <Filter>lib\cajun\utf8</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\cajun-2.0.2\utf8.h">
-      <Filter>lib\cajun</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\fmt-3.0.1\fmt\format.h">
       <Filter>lib\fmt</Filter>
@@ -509,6 +500,9 @@
     <ClInclude Include="..\lib\milagro-crypto-c\include\rsa.h">
       <Filter>lib\milagro-crypto-c\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\lib\milagro-crypto-c\include\sok.h">
+      <Filter>lib\milagro-crypto-c\include</Filter>
+    </ClInclude>
     <ClInclude Include="..\lib\milagro-crypto-c\include\utils.h">
       <Filter>lib\milagro-crypto-c\include</Filter>
     </ClInclude>
@@ -521,77 +515,20 @@
     <ClInclude Include="..\lib\milagro-crypto-c\include\x509.h">
       <Filter>lib\milagro-crypto-c\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\FP.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\MQTTClient.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\MQTTLogging.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnect.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTFormat.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPublish.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribe.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribe.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\StackTrace.h">
-      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\mqtt_tls_client.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\utils.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crypto.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\exception.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\mpin_full.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\iot\client.h">
-      <Filter>include\iot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\tests\iot_client\flags.h">
-      <Filter>tests\iot_client</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\cajun-2.0.2\json.h">
-      <Filter>lib\cajun</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lib\milagro-crypto-c\include\sok.h">
-      <Filter>lib\milagro-crypto-c\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\lib\netlib\include\net\common.h">
-      <Filter>lib\netlib\include</Filter>
+      <Filter>lib\netlib\include\net</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\netlib\include\net\http_client.h">
-      <Filter>lib\netlib\include</Filter>
+      <Filter>lib\netlib\include\net</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\netlib\include\net\tcp_connection.h">
-      <Filter>lib\netlib\include</Filter>
+      <Filter>lib\netlib\include\net</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\netlib\include\net\tls_connection.h">
-      <Filter>lib\netlib\include</Filter>
+      <Filter>lib\netlib\include\net</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\netlib\include\net\x509.h">
-      <Filter>lib\netlib\include</Filter>
+      <Filter>lib\netlib\include\net</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\netlib\src\http_response_parser.h">
       <Filter>lib\netlib\src</Filter>
@@ -809,8 +746,39 @@
     <ClInclude Include="..\lib\netlib\lib\mbedtls-2.4.2\include\mbedtls\xtea.h">
       <Filter>lib\netlib\lib\mbedtls\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\FP.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\MQTTClient.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\MQTTLogging.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnect.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTFormat.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPublish.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribe.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribe.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\StackTrace.h">
+      <Filter>lib\paho.mqtt.embedded\MQTTPacket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Makefile" />
     <None Include="..\lib\cajun-2.0.2\json\elements.inl">
       <Filter>lib\cajun\json</Filter>
     </None>
@@ -820,9 +788,8 @@
     <None Include="..\lib\cajun-2.0.2\json\writer.inl">
       <Filter>lib\cajun\json</Filter>
     </None>
-    <None Include="..\Makefile" />
-    <None Include="..\tools\sok_keygen\Makefile">
-      <Filter>tools\sok_keygen</Filter>
+    <None Include="..\lib\make_utils\base.makefile">
+      <Filter>lib\make_utils</Filter>
     </None>
   </ItemGroup>
 </Project>

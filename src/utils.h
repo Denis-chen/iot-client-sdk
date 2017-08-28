@@ -34,6 +34,8 @@ namespace iot
         net::http::NetworkImpl m_network;
         net::x509::CaChain m_caChain;
     };
+
+    void Sleep(unsigned long milliSeconds);
 }
 
 #endif // _IOT_UTILS_H_

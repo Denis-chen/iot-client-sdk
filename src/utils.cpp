@@ -126,4 +126,9 @@ namespace iot
     {
         return MakeRequest(net::http::GET, url, json::Object());
     }
+
+    void Sleep(unsigned long milliSeconds)
+    {
+        mbedtls_net_usleep(milliSeconds * 1000);
+    }
 }

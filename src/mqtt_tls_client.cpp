@@ -4,14 +4,38 @@
 
 namespace iot
 {
-    int MqttTlsClient::TlsConnection::read(unsigned char * buffer, int len, int timeoutMillisec)
+    int MqttTlsClient::ConnectionAdapter::read(unsigned char * buffer, int len, int timeoutMillisec)
     {
         return ReadAll(buffer, len, timeoutMillisec > 0 ? timeoutMillisec : 1);
     }
 
-    int MqttTlsClient::TlsConnection::write(const unsigned char * buffer, int len, int timeoutMillisec)
+    int MqttTlsClient::ConnectionAdapter::write(const unsigned char * buffer, int len, int timeoutMillisec)
     {
         return Write(buffer, len, timeoutMillisec > 0 ? timeoutMillisec : 1);
+    }
+
+    MqttTlsClient::TimerAdapter::TimerAdapter() : Timer() {}
+
+    MqttTlsClient::TimerAdapter::TimerAdapter(int ms) : Timer(ms) {}
+
+    void MqttTlsClient::TimerAdapter::countdown_ms(int ms)
+    {
+        StartCountdownMs(ms);
+    }
+
+    void MqttTlsClient::TimerAdapter::countdown(int seconds)
+    {
+        StartCountdown(seconds);
+    }
+
+    int MqttTlsClient::TimerAdapter::left_ms()
+    {
+        return GetLeftMilliseconds();
+    }
+
+    bool MqttTlsClient::TimerAdapter::expired()
+    {
+        return IsExpired();
     }
 
     MqttTlsClient::MqttTlsClient()
@@ -110,7 +134,7 @@ namespace iot
     {
         MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
         data.MQTTVersion = 4;
-        data.clientID.lenstring.len = m_clientId.length();
+        data.clientID.lenstring.len = static_cast<int>(m_clientId.length());
         data.clientID.lenstring.data = const_cast<char *>(m_clientId.c_str());
         data.cleansession = cleanSession;
         if (m_client.connect(data, m_sessionPresent) != 0)
@@ -187,7 +211,7 @@ namespace iot
         m.retained = false;
         m.dup = false;
         m.payload = const_cast<char *>(message.c_str());
-        m.payloadlen = message.length();
+        m.payloadlen = static_cast<int>(message.length());
 
         if (m_client.publish(topic.c_str(), m) != 0)
         {

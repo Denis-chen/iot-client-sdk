@@ -1,21 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|ARM">
+    <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
-      <Platform>ARM</Platform>
+      <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM">
+    <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x86">
-      <Configuration>Debug</Configuration>
-      <Platform>x86</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x86">
-      <Configuration>Release</Configuration>
-      <Platform>x86</Platform>
+      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -27,45 +19,139 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{f5671831-24a9-4111-9edd-c5104f35a4ac}</ProjectGuid>
-    <Keyword>Linux</Keyword>
-    <RootNamespace>client-sdk</RootNamespace>
-    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
-    <ApplicationType>Linux</ApplicationType>
-    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
-    <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
-    <LinuxProjectType>{2238F9CD-F817-4ECC-BD14-2524D2669B35}</LinuxProjectType>
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{06268874-02ED-4EC1-A339-0346ED418878}</ProjectGuid>
+    <RootNamespace>iotclientsdk</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Label="Shared" />
-  <ImportGroup Label="PropertySheets" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)..\build\windows\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\build\tmp\windows\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)..\build\windows\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\build\tmp\windows\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectDir)..\build\windows\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\build\tmp\windows\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)..\build\windows\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\build\tmp\windows\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\netlib\lib\http-parser-2.7.1;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)dummy\%(RelativeDir)\</ObjectFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\netlib\lib\http-parser-2.7.1;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)dummy\%(RelativeDir)\</ObjectFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\netlib\lib\http-parser-2.7.1;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)dummy\%(RelativeDir)\</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\netlib\lib\http-parser-2.7.1;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)dummy\%(RelativeDir)\</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\lib\fmt-3.0.1\fmt\format.cc" />
-    <ClCompile Include="..\lib\fmt-3.0.1\fmt\ostream.cc" />
+    <ClCompile Include="..\lib\fmt-3.0.1\fmt\format.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\lib\fmt-3.0.1\fmt\ostream.cc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\lib\milagro-crypto-c\src\aes.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\big.c" />
-    <ClCompile Include="..\lib\milagro-crypto-c\src\ecdh.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\ecp.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\ecp2.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\ff.c" />
@@ -76,18 +162,23 @@
     <ClCompile Include="..\lib\milagro-crypto-c\src\gcm.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\hash.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\mpin.c" />
-    <ClCompile Include="..\lib\milagro-crypto-c\src\oct.c" />
+    <ClCompile Include="..\lib\milagro-crypto-c\src\oct.c">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
     <ClCompile Include="..\lib\milagro-crypto-c\src\pair.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\rand.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\randapi.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\rom.c" />
-    <ClCompile Include="..\lib\milagro-crypto-c\src\rsa.c" />
     <ClCompile Include="..\lib\milagro-crypto-c\src\sok.c" />
-    <ClCompile Include="..\lib\milagro-crypto-c\src\utils.c" />
-    <ClCompile Include="..\lib\milagro-crypto-c\src\version.c" />
-    <ClCompile Include="..\lib\milagro-crypto-c\src\wcc.c" />
-    <ClCompile Include="..\lib\milagro-crypto-c\src\x509.c" />
-    <ClCompile Include="..\lib\netlib\lib\http-parser-2.7.1\http_parser.c" />
+    <ClCompile Include="..\lib\netlib\lib\http-parser-2.7.1\http_parser.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244</DisableSpecificWarnings>
+    </ClCompile>
     <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\aes.c" />
     <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\aesni.c" />
     <ClCompile Include="..\lib\netlib\lib\mbedtls-2.4.2\library\arc4.c" />
@@ -166,26 +257,73 @@
     <ClCompile Include="..\lib\netlib\src\tls_connection.cpp" />
     <ClCompile Include="..\lib\netlib\src\utils.cpp" />
     <ClCompile Include="..\lib\netlib\src\x509.cpp" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTClient\src\linux\linux.cpp" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectClient.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectServer.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTDeserializePublish.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectClient.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTConnectServer.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTDeserializePublish.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
     <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTFormat.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSerializePublish.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeClient.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeServer.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeClient.c" />
-    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeServer.c" />
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTPacket.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSerializePublish.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeClient.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTSubscribeServer.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeClient.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src\MQTTUnsubscribeServer.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4244;4267</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4244;4267</DisableSpecificWarnings>
+    </ClCompile>
     <ClCompile Include="..\src\client.cpp" />
-    <ClCompile Include="..\src\crypto.cpp" />
+    <ClCompile Include="..\src\crypto.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">_UNICODE;UNICODE;%(PreprocessorDefinitions);FMT_HEADER_ONLY;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
     <ClCompile Include="..\src\exception.cpp" />
     <ClCompile Include="..\src\mpin_full.cpp" />
     <ClCompile Include="..\src\mqtt_tls_client.cpp" />
+    <ClCompile Include="..\src\timer.cpp" />
     <ClCompile Include="..\src\utils.cpp" />
-    <ClCompile Include="..\tests\iot_client\flags.cpp" />
-    <ClCompile Include="..\tests\iot_client\main.cpp" />
-    <ClCompile Include="..\tools\sok_keygen\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\iot\client.h" />
@@ -303,46 +441,17 @@
     <ClInclude Include="..\src\exception.h" />
     <ClInclude Include="..\src\mpin_full.h" />
     <ClInclude Include="..\src\mqtt_tls_client.h" />
+    <ClInclude Include="..\src\timer.h" />
     <ClInclude Include="..\src\utils.h" />
-    <ClInclude Include="..\tests\iot_client\flags.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\lib\cajun-2.0.2\json\elements.inl" />
     <None Include="..\lib\cajun-2.0.2\json\reader.inl" />
     <None Include="..\lib\cajun-2.0.2\json\writer.inl" />
+    <None Include="..\lib\make_utils\base.makefile" />
     <None Include="..\Makefile" />
-    <None Include="..\tools\sok_keygen\Makefile" />
   </ItemGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(StlIncludeDirectories);..\include;..\lib\cajun-2.0.2;..\lib\fmt-3.0.1;..\lib\netlib\include;..\lib\netlib\lib\mbedtls-2.4.2\include;..\lib\milagro-crypto-c\include;..\lib\paho.mqtt.embedded-c-master\MQTTClient\src;..\lib\paho.mqtt.embedded-c-master\MQTTPacket\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
 </Project>

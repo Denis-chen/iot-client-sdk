@@ -1,27 +1,18 @@
-diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/linux/linux.cpp paho.mqtt.embedded-c-master_patched/MQTTClient/src/linux/linux.cpp
---- paho.mqtt.embedded-c-master/MQTTClient/src/linux/linux.cpp	2016-09-12 21:15:18.000000000 +0300
-+++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/linux/linux.cpp	2017-03-30 17:16:24.402578400 +0300
-@@ -44,14 +44,14 @@
- 	int Socket_error(const char* aString)
- 	{
- 		int rc = 0;
--		//if (errno != EINTR && errno != EAGAIN && errno != EINPROGRESS && errno != EWOULDBLOCK)
--		//{
-+		if (errno != EINTR && errno != EAGAIN && errno != EINPROGRESS && errno != EWOULDBLOCK)
-+		{
- 			if (strcmp(aString, "shutdown") != 0 || (errno != ENOTCONN && errno != ECONNRESET))
- 			{
- 				printf("Socket error %s in %s for socket %d\n", strerror(errno), aString, mysock);
- 				rc = errno;
- 			}
--		//}
-+		}
- 		return errno;
- 	}
+diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/FP.h paho.mqtt.embedded-c-master_patched/MQTTClient/src/FP.h
+--- paho.mqtt.embedded-c-master/MQTTClient/src/FP.h	2016-09-12 21:15:18.000000000 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/FP.h	2017-08-25 17:17:33.558554600 +0300
+@@ -191,7 +191,7 @@
+ private:
+ 
+     // empty type used for casting
+-    class FPtrDummy;
++    class FPtrDummy {};
+ 
+     FPtrDummy *obj_callback;
  
 diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTClient.h paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h
 --- paho.mqtt.embedded-c-master/MQTTClient/src/MQTTClient.h	2016-09-12 21:15:18.000000000 +0300
-+++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h	2017-08-16 15:15:21.378103300 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTClient/src/MQTTClient.h	2017-08-28 11:46:10.700942200 +0300
 @@ -52,7 +52,7 @@
      bool dup;
      unsigned short id;
@@ -91,8 +82,9 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTCl
      {
          const char* topicFilter;
 -        FP<void, MessageData&> fp;
+-    } messageHandlers[MAX_MESSAGE_HANDLERS];      // Message handlers are indexed by subscription topic
 +        messageHandler fp;
-     } messageHandlers[MAX_MESSAGE_HANDLERS];      // Message handlers are indexed by subscription topic
++    } messageHandlers[MAX_MESSAGE_HANDLERS + 1];      // Message handlers are indexed by subscription topic
  
 -    FP<void, MessageData&> defaultMessageHandler;
 +    messageHandler defaultMessageHandler;
@@ -201,7 +193,7 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTClient/src/MQTTCl
  
 diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTDeserializePublish.c paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTDeserializePublish.c
 --- paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTDeserializePublish.c	2016-09-12 21:15:18.000000000 +0300
-+++ paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTDeserializePublish.c	2017-08-16 15:17:46.201914800 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTDeserializePublish.c	2017-08-23 11:16:46.693197600 +0300
 @@ -50,7 +50,7 @@
  	*qos = header.bits.qos;
  	*retained = header.bits.retain;
@@ -213,7 +205,7 @@ diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTDe
  	if (!readMQTTLenString(topicName, &curdata, enddata) ||
 diff -Naur --strip-trailing-cr paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTFormat.c paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTFormat.c
 --- paho.mqtt.embedded-c-master/MQTTPacket/src/MQTTFormat.c	2016-09-12 21:15:18.000000000 +0300
-+++ paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTFormat.c	2017-05-16 17:09:38.310817600 +0300
++++ paho.mqtt.embedded-c-master_patched/MQTTPacket/src/MQTTFormat.c	2017-08-23 11:16:46.693197600 +0300
 @@ -196,7 +196,7 @@
  	{
  	case CONNECT:

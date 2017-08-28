@@ -1,7 +1,7 @@
-#include "crypto.h"
 #include "exception.h"
 #include <fmt/format.h>
 #include <string.h>
+#include "crypto.h"
 
 namespace iot
 {
@@ -12,7 +12,7 @@ namespace iot
         public:
             Octet(const std::string& input) : m_freeStorage(false)
             {
-                this->len = input.length();
+                this->len = static_cast<int>(input.length());
                 this->max = this->len;
                 this->val = const_cast<char *>(input.data());
             }
@@ -20,7 +20,7 @@ namespace iot
             Octet(size_t size) : m_freeStorage(true)
             {
                 this->len = 0;
-                this->max = size;
+                this->max = static_cast<int>(size);
                 this->val = reinterpret_cast<char *>(calloc(size, 1));
             }
 
@@ -55,6 +55,7 @@ namespace iot
                 return;
             }
 
+#ifndef _WIN32
             size_t rc = 0;
             FILE *fp = fopen("/dev/urandom", "rb");
             if (fp != NULL)
@@ -67,6 +68,14 @@ namespace iot
             {
                 throw CryptoError("GenerateRandomSeed() failed");
             }
+#else
+            srand(static_cast<unsigned int>(time(NULL)));
+            for (size_t i = 0; i < len; ++i)
+            {
+                int r = (rand() * 256) / RAND_MAX;
+                buf[i] = r;
+            }
+#endif
         }
 
         void FillWithRandomData(Octet& dest, csprng& rng)

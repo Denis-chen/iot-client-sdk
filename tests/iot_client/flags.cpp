@@ -1,6 +1,7 @@
 #include "flags.h"
 #include <iostream>
 #include <string.h>
+#include <algorithm>
 
 using std::cout;
 using std::endl;
@@ -99,7 +100,7 @@ void Flags::ApplyDefaults()
 
 static std::string Align(const std::string& s, size_t len)
 {
-    int diff = len - s.length();
+    int diff = static_cast<int>(len - s.length());
     if (diff <= 0)
     {
         return s;

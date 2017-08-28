@@ -191,7 +191,7 @@ public:
 private:
 
     // empty type used for casting
-    class FPtrDummy;
+    class FPtrDummy {};
 
     FPtrDummy *obj_callback;
 

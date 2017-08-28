@@ -44,14 +44,14 @@ public:
 	int Socket_error(const char* aString)
 	{
 		int rc = 0;
-		if (errno != EINTR && errno != EAGAIN && errno != EINPROGRESS && errno != EWOULDBLOCK)
-		{
+		//if (errno != EINTR && errno != EAGAIN && errno != EINPROGRESS && errno != EWOULDBLOCK)
+		//{
 			if (strcmp(aString, "shutdown") != 0 || (errno != ENOTCONN && errno != ECONNRESET))
 			{
 				printf("Socket error %s in %s for socket %d\n", strerror(errno), aString, mysock);
 				rc = errno;
 			}
-		}
+		//}
 		return errno;
 	}
 

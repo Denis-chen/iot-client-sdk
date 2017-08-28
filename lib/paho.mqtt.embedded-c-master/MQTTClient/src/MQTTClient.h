@@ -232,7 +232,7 @@ private:
     {
         const char* topicFilter;
         messageHandler fp;
-    } messageHandlers[MAX_MESSAGE_HANDLERS];      // Message handlers are indexed by subscription topic
+    } messageHandlers[MAX_MESSAGE_HANDLERS + 1];      // Message handlers are indexed by subscription topic
 
     messageHandler defaultMessageHandler;
 

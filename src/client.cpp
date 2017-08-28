@@ -5,6 +5,7 @@
 #include "utils.h"
 #include <fmt/format.h>
 #include <set>
+#include <cassert>
 
 namespace iot
 {
@@ -225,14 +226,13 @@ namespace iot
 
         bool RunMessageLoop(unsigned long timeout)
         {
-            Countdown timer(timeout);
+            Timer timer(timeout);
             if (!CheckState())
             {
-                if (!timer.expired())
+                if (!timer.IsExpired())
                 {
-                    timeout = timer.left_ms();
-                    timespec t = { timeout / 1000, (timeout % 1000) * 1000000 };
-                    nanosleep(&t, NULL);
+                    timeout = timer.GetLeftMilliseconds();
+                    Sleep(timeout);
                 }
                 return false;
             }
@@ -312,6 +312,10 @@ namespace iot
                     }
                 }
                 return m_state == CONNECTED;
+            default:
+                assert(false);
+                GetEventListener().OnError(fmt::sprintf("Invalid client state: %d", m_state));
+                return false;
             }
         }
 
