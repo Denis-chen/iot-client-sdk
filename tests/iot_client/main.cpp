@@ -30,7 +30,7 @@ namespace
         { IDENTITY_FILE, "M-Pin Full identity JSON file", "tests/iot_client/identity.json" },
         { MQTT_BROCKER_ADDR, "Address of the MQTT TLS brocker", "127.0.0.1:8443" },
         { MQTT_COMMAND_TIMEOUT, "MQTT command timeout in milliseconds", "10000" },
-        { USE_MQTT_QOS2, "If true, MQTT publish/subscribe will be made with QoS2, else with QoS1", "true" },
+        { USE_MQTT_QOS2, "If true, MQTT publish/subscribe will be made with QoS2, else with QoS1", "false" },
         { USE_MQTT_PERSISTENT_SESSION, "If true, persistent MQTT session will be requested when connecting", "true" },
         { AWS_IOT_COMPLIANCE, "Force useMqttQoS2=false and useMqttPersistentSession=false if true", "false" },
         { SUBSCRIBE_TO_TOPIC, "MQTT topic name to subscribe and continuously listen to, if specified", "" },
